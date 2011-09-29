@@ -113,10 +113,15 @@ Array.prototype.remove = function(from, to) {
 		},
 		animate: function() {
 			this.x += parseInt(this.speed/fps);
-			this.draw();
-			if(this.x < 0 || this.x + this.w > boardWidth) {
+			if(this.x <= 0) {
 				this.speed = -this.speed;
+				this.x = 0;
 			}
+			else if(this.x >= boardWidth-this.w) {
+				this.speed = -this.speed;
+				this.x = boardWidth-this.w;
+			}
+			this.draw();
 		},
 		up: function() {
 			if(this.y >= this.h) {
