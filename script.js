@@ -5,9 +5,14 @@ Array.prototype.remove = function(from, to) {
 };
 
 //(function(){
-	var fps = 30; // frames per second
+	// The container dom element. It can have the following classes:
+	//  - ready: game is initialized correctly, start message is displayed, waiting for spacebar pressed
+	//  - crash: when collision with wall (red background)
 	var container = document.getElementById("container");
+
 	var board = document.getElementById("board");
+
+	var fps = 30; // frames per second
 	var wallNumber = 15;
 	var gumNumber = 15;
 	var boardWidth = 800;
@@ -20,8 +25,11 @@ Array.prototype.remove = function(from, to) {
 	
 	var gums = [];
 	var walls = [];
-	var timer;
+	var timer; // game animation timer
 
+	/*
+	 * The 3 images used in the game (they could also be loaded as dom elements). Walls and gums are cloned at game initialization.
+	 */
 	var ballImg = new Image();
 	var wallImg = new Image();
 	var gumImg = new Image();
@@ -32,14 +40,22 @@ Array.prototype.remove = function(from, to) {
 	wallImg.style.position = "absolute";
 	wallImg.className = "wall";
 	
+	/*
+	 * Set level value and update the ball speed
+	 */
 	var setLevel = function(l) {
 		level = l;
 		boule.speed = 500 + l*50;
 		document.getElementById("level").innerHTML = level+1;
 	}
 
+	/*
+	 * Start game
+	 */
 	var start = function() { 
 		container.className = "";
+
+		// Start stopwatch
 		watch.start();
 		if(!timer) {
 			timer = setInterval(function() {
@@ -49,6 +65,9 @@ Array.prototype.remove = function(from, to) {
 		}
 	};
 
+	/*
+	 * Change the display css property for elements matching a class name
+	 */
 	var setDisplay = function(className, display) {
 		var elts = document.getElementsByClassName(className);
 		for(i = 0; i < elts.length; i++) {
@@ -56,37 +75,64 @@ Array.prototype.remove = function(from, to) {
 		}
 	};
 	
+	/*
+	 * Show the dialog box with the given ID
+	 */
 	var showDialog = function(dialog) {
 		setDisplay("dialog", "none");
 		setDisplay("modal", "block");
 		document.getElementById(dialog).style.display = "inline-block";
 	};
 	
+	/*
+	 * Player wins
+	 */
 	var win = function() {
+		// Stop game
 		stop();
+		// Truncate elapsed time (2 digits)
 		var score = Math.round(watch.elapsed / 10) / 100;
+		// Update high score
 		highScore = Math.min(highScore, score);
+		// Update scores displayed in dom
 		document.getElementById("score").innerHTML = score;
 		document.getElementById("high_score").innerHTML = highScore;
+		// Show victory dialog
 		showDialog("win");
+		// Increment level
 		setLevel(level+1);
 	};
 	
+	/*
+	 * Player loses
+	 */
 	var lose = function() {
+		// Stop game
 		stop();
+		// Crash animation
 		container.className = "crash";
+		// Display 'game over' dialog after a while
 		setTimeout(function() { showDialog("lose"); }, 1500);
+		// Reset level
 		setLevel(0);
 	};
 	
+	/*
+	 * Stop the game
+	 */
 	var stop = function() {
+		// Stop the watch
 		watch.stop();
+		// Stop animation timer
 		if(timer) {							
 			clearInterval(timer);
 			timer = null;
 		}
 	};
 	
+	/*
+	 * Stop watch implementation
+	 */
 	var watch = {
 		start_time: 0,
 		elapsed: 0,
@@ -99,7 +145,9 @@ Array.prototype.remove = function(from, to) {
 		}
 	};
 	
-	/* Ball animation */
+	/* 
+	 * Ball implementation 
+	 */
 	var boule = {
 		x: 0,
 		y: 0,
@@ -111,6 +159,9 @@ Array.prototype.remove = function(from, to) {
 			style.top = this.y + "px";
 			style.left = this.x + "px";
 		},
+		/*
+		 * Update the position and direction of the ball based on its current speed and the fps
+		 */
 		animate: function() {
 			this.x += parseInt(this.speed/fps);
 			if(this.x <= 0) {
@@ -123,11 +174,17 @@ Array.prototype.remove = function(from, to) {
 			}
 			this.draw();
 		},
+		/*
+		 * Ball goes up
+		 */
 		up: function() {
 			if(this.y >= this.h) {
 				this.y = this.y - this.h;
 			}
 		},
+		/*
+		 * Ball goes down
+		 */
 		down: function() {
 			if(this.y <= boardHeight - this.h) {
 				this.y = this.y + this.h;
@@ -135,6 +192,9 @@ Array.prototype.remove = function(from, to) {
 		}
 	};
 	
+	/*
+	 * Check if there is any collision between the ball and anything (wall or gum)
+	 */
 	var checkCollisions = function() {
 		// Wall collision
 		if(findCollision(boule.x, boule.y, boule.w, boule.h, walls) !== null) {
@@ -158,6 +218,9 @@ Array.prototype.remove = function(from, to) {
 		}
 	};
 
+	/*
+	 * Check if there is a collision between an area and a set of items
+	 */
 	var findCollision = function(x, y, w, h, items) {
 		for(var i = 0; i < items.length; i++) {
 			var item = items[i];
@@ -170,11 +233,16 @@ Array.prototype.remove = function(from, to) {
 		return null;
 	};
 	
+	/*
+	 * Called when game is ready to start
+	 */
 	var ready = function() {
 		container.className = "ready";
 	};
 	
-	// Display walls incrementally
+	/*
+	 * Display walls one after another
+	 */
 	var drawWall = function(i) {
 		var wallEl = wallImg.cloneNode(true);
 		wallEl.style.left = walls[i].x + "px";
@@ -189,7 +257,9 @@ Array.prototype.remove = function(from, to) {
 		}
 	}
 
-	// Display gums incrementally
+	/*
+	 * Display gums one after another
+	 */
 	var drawGum = function(i) {
 		var gumEl = gumImg.cloneNode(true);
 		gumEl.style.left = gums[i].x + "px";
@@ -204,6 +274,9 @@ Array.prototype.remove = function(from, to) {
 		}
 	}
 
+	/*
+	 * Start the process of drawing the game items one after another
+	 */
 	var startDrawing = function() {
 		drawWall(0);
 	};
@@ -215,6 +288,9 @@ Array.prototype.remove = function(from, to) {
 		return Math.floor(Math.random()*((boardHeight-unitHeight)/unitHeight)) * unitHeight;
 	}
 	
+	/*
+	 * Called before starting a new game
+	 */
 	var reset = function() {
 		container.className = "";
 		
@@ -268,7 +344,7 @@ Array.prototype.remove = function(from, to) {
 		setTimeout(startDrawing, 1000);
 	};
 	
-	/**
+	/*
 	 * Start loading all the images and execute the provided callback function when they're all loaded
 	 */
 	var loadImages = function(callback) {
@@ -287,6 +363,9 @@ Array.prototype.remove = function(from, to) {
 		gumImg.src = "smiley.png";
 	};
 
+	/*
+	 * Called once to initialize key/dom listeners and load images
+	 */
 	var init = function() {
 		setLevel(0);
 
@@ -322,5 +401,6 @@ Array.prototype.remove = function(from, to) {
 		loadImages(reset);
 	};
 
+	// Auto-initialize game when page loads
 	init();
 //})();
