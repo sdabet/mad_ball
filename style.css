@@ -6,9 +6,6 @@ body {
 	background: -moz-linear-gradient(top, #b3dced 0%, #29b8e5 50%, #bce0ee 100%); /* FF3.6+ */
 	background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#b3dced), color-stop(50%,#29b8e5), color-stop(100%,#bce0ee)); /* Chrome,Safari4+ */
 	background: -webkit-linear-gradient(top, #b3dced 0%,#29b8e5 50%,#bce0ee 100%); /* Chrome10+,Safari5.1+ */
-	background: -o-linear-gradient(top, #b3dced 0%,#29b8e5 50%,#bce0ee 100%); /* Opera11.10+ */
-	background: -ms-linear-gradient(top, #b3dced 0%,#29b8e5 50%,#bce0ee 100%); /* IE10+ */
-	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#b3dced', endColorstr='#bce0ee',GradientType=0 ); /* IE6-9 */
 	background: linear-gradient(top, #b3dced 0%,#29b8e5 50%,#bce0ee 100%); /* W3C */
 }
 h1 {
@@ -43,6 +40,10 @@ h1 {
 #container.crash {
 	background: #F00;
 }
+#container.ready #start_message {
+	display: block
+}
+
 #board {
 	border: 3px solid #CCC;
 	border-radius: 10px;
@@ -52,6 +53,10 @@ h1 {
 	width: 800px;
 	height: 580px;
 }
+
+/*
+ * Start message
+ */
 @keyframes bounce {
     from, to {
 		animation-timing-function: ease-out;
@@ -79,7 +84,6 @@ h1 {
 		-moz-animation-timing-function: ease-in;
     }
 }
-
 #start_message {
 	display: none;
 	position: absolute;
@@ -94,16 +98,10 @@ h1 {
 	-moz-animation: bounce 0.7s infinite;
 	z-index: 100;
 }
-#container.ready #start_message {
-	display: block
-}
-#stopwatch {
-	float: left;
-	color: #D60D0D;
-	font-size: 50px;
-	margin-right: 30px;
-}
 
+/*
+ * Modal dialogs
+ */
 .modal {
 	display: none;
 	position: fixed;
@@ -174,6 +172,9 @@ h1 {
 	background: -moz-linear-gradient(top, #207cca 0%,#7db9e8 100%);
 }
 
+/*
+ * Game items animations
+ */
 @keyframes falling {
     from {
 		margin-top: -300px;
