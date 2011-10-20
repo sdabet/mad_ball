@@ -186,7 +186,7 @@ Array.prototype.remove = function(from, to) {
 		 * Ball goes down
 		 */
 		down: function() {
-			if(this.y <= boardHeight - this.h) {
+			if(this.y <= boardHeight - 2*this.h) {
 				this.y = this.y + this.h;
 			}
 		}
