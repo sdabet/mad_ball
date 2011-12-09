@@ -4,6 +4,18 @@ Array.prototype.remove = function(from, to) {
 	return this.push.apply(this, rest);
 };
 
+window.requestAnimFrame = (function(){
+    return  window.requestAnimationFrame       || 
+            window.webkitRequestAnimationFrame || 
+            window.mozRequestAnimationFrame    || 
+            window.oRequestAnimationFrame      || 
+            window.msRequestAnimationFrame     || 
+            function(/* function */ callback, /* DOMElement */ element){
+              window.setTimeout(callback, 1000 / 60);
+            };
+  })();
+
+
 //(function(){
 	// The container dom element. It can have the following classes:
 	//  - ready: game is initialized correctly, start message is displayed, waiting for spacebar pressed
@@ -12,17 +24,17 @@ Array.prototype.remove = function(from, to) {
 
 	var board = document.getElementById("board");
 
-	var fps = 30; // frames per second
+	var initSpeed = 500; // pixel per second
 	var wallNumber = 15;
 	var gumNumber = 15;
 	var boardWidth = 800;
 	var boardHeight = 580;
 	var level = 1;
 	var highScore = 99.99;
-	
+
 	/* Base height unit */
 	var unitHeight = 30;
-	
+
 	var gums = [];
 	var walls = [];
 	var timer; // game animation timer
@@ -39,16 +51,20 @@ Array.prototype.remove = function(from, to) {
 	gumImg.className = "gum";
 	wallImg.style.position = "absolute";
 	wallImg.className = "wall";
-	
+
 	/*
 	 * Set level value and update the ball speed
 	 */
 	var setLevel = function(l) {
 		level = l;
-		boule.speed = 500 + l*50;
+		boule.speed = initSpeed + l*50;
 		document.getElementById("level").innerHTML = level+1;
 	}
 
+	var stopAnimation = false; // flag to stop animation
+	
+	var lastUpdateTime;
+	
 	/*
 	 * Start game
 	 */
@@ -57,13 +73,21 @@ Array.prototype.remove = function(from, to) {
 
 		// Start stopwatch
 		watch.start();
-		if(!timer) {
-			timer = setInterval(function() {
-				boule.animate();
-				checkCollisions();
-			}, 1000/fps);
-		}
+		
+		lastUpdateTime = new Date().getTime();
+		stopAnimation = false;
+		loop(lastUpdateTime);
 	};
+	
+	var loop = function(time) {
+		time = time || new Date().getTime();
+		if(!stopAnimation) {
+			requestAnimFrame(loop);
+		}
+		boule.animate(time-lastUpdateTime);
+		checkCollisions();
+		lastUpdateTime = time;
+	}
 
 	/*
 	 * Change the display css property for elements matching a class name
@@ -74,7 +98,7 @@ Array.prototype.remove = function(from, to) {
 			elts[i].style.display = display;
 		}
 	};
-	
+
 	/*
 	 * Show the dialog box with the given ID
 	 */
@@ -83,7 +107,7 @@ Array.prototype.remove = function(from, to) {
 		setDisplay("modal", "block");
 		document.getElementById(dialog).style.display = "inline-block";
 	};
-	
+
 	/*
 	 * Player wins
 	 */
@@ -102,7 +126,7 @@ Array.prototype.remove = function(from, to) {
 		// Increment level
 		setLevel(level+1);
 	};
-	
+
 	/*
 	 * Player loses
 	 */
@@ -116,7 +140,7 @@ Array.prototype.remove = function(from, to) {
 		// Reset level
 		setLevel(0);
 	};
-	
+
 	/*
 	 * Stop the game
 	 */
@@ -124,19 +148,16 @@ Array.prototype.remove = function(from, to) {
 		// Stop the watch
 		watch.stop();
 		// Stop animation timer
-		if(timer) {							
-			clearInterval(timer);
-			timer = null;
-		}
+		stopAnimation = true;
 	};
-	
+
 	/*
 	 * Stop watch implementation
 	 */
 	var watch = {
 		start_time: 0,
 		elapsed: 0,
-		
+
 		start: function() {
 			this.start_time = new Date().getTime();
 		},
@@ -144,7 +165,7 @@ Array.prototype.remove = function(from, to) {
 			this.elapsed = new Date().getTime() - this.start_time;
 		}
 	};
-	
+
 	/* 
 	 * Ball implementation 
 	 */
@@ -160,10 +181,11 @@ Array.prototype.remove = function(from, to) {
 			style.left = this.x + "px";
 		},
 		/*
-		 * Update the position and direction of the ball based on its current speed and the fps
+		 * Update the position and direction of the ball based on its current speed and the delay since last update
 		 */
-		animate: function() {
-			this.x += parseInt(this.speed/fps);
+		animate: function(delay) {
+			var delta = parseInt(this.speed * delay / 1000);
+			this.x += delta;
 			if(this.x <= 0) {
 				this.speed = -this.speed;
 				this.x = 0;
@@ -191,7 +213,7 @@ Array.prototype.remove = function(from, to) {
 			}
 		}
 	};
-	
+
 	/*
 	 * Check if there is any collision between the ball and anything (wall or gum)
 	 */
@@ -232,14 +254,14 @@ Array.prototype.remove = function(from, to) {
 		}
 		return null;
 	};
-	
+
 	/*
 	 * Called when game is ready to start
 	 */
 	var ready = function() {
 		container.className = "ready";
 	};
-	
+
 	/*
 	 * Display walls one after another
 	 */
@@ -280,25 +302,25 @@ Array.prototype.remove = function(from, to) {
 	var startDrawing = function() {
 		drawWall(0);
 	};
-	
+
 	var randomX = function() {
 		return Math.floor(Math.random()*(boardWidth-unitHeight));
 	}
 	var randomY = function() {
 		return Math.floor(Math.random()*((boardHeight-unitHeight)/unitHeight)) * unitHeight;
 	}
-	
+
 	/*
 	 * Called before starting a new game
 	 */
 	var reset = function() {
 		container.className = "";
-		
+
 		// Clear board
 		board.innerHTML = "";
 
 		var margin = 2 * unitHeight;
-	
+
 		/* Init ball position */
 		boule.x = randomX();
 		boule.y = 0; // on the first line
@@ -321,7 +343,7 @@ Array.prototype.remove = function(from, to) {
 			} while(findCollision(gum.x - margin, gum.y - margin, gum.w + 2*margin, gum.h + 2*margin, gums) !== null);
 			gums[i] = gum;
 		}
-	
+
 		/* Init walls */
 		walls = [];
 		for(var i=0; i < wallNumber; i++) {
@@ -343,7 +365,7 @@ Array.prototype.remove = function(from, to) {
 
 		setTimeout(startDrawing, 1000);
 	};
-	
+
 	/*
 	 * Start loading all the images and execute the provided callback function when they're all loaded
 	 */
@@ -374,20 +396,23 @@ Array.prototype.remove = function(from, to) {
 			// Key up
 			if (e.keyCode == 38) {
 				boule.up();
+				e.preventDefault();
 				return false;
 			}
 			// Key down
 			if (e.keyCode == 40) {
 				boule.down();
+				e.preventDefault();
 				return false;
 			}
 			// Spacebar down
 			if (e.keyCode == 32 && container.className == "ready") {
 				start();
+				e.preventDefault();
 				return false;
 			}
 		}, false);
-		
+
 		var tryAgainButtons = document.getElementsByClassName("try_again");
 		for(i = 0; i < tryAgainButtons.length; i++) {
 			tryAgainButtons[i].addEventListener("click", function() {
