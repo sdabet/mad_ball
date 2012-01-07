@@ -1,0 +1,25 @@
+#editor_panel {
+    text-align: left;
+    float: right;
+}
+.editor {
+    padding-top: 5px;
+    padding-bottom: 5px;
+}
+.url_label {
+    display: inline-block;
+    width: 50px;
+}
+.url_field {
+    width: 200px;
+}
+.preview {
+    vertical-align: middle;
+    width: 30px;
+    height: 30px;
+    border: 1px solid black;
+}
+.editor_button {
+    display: block;
+    width: 100%
+}

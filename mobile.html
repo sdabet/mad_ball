@@ -1,20 +1,22 @@
 <!doctype HTML>
 <html>
-	<head>
+    <head>
 		<link rel="stylesheet" href="style.css"></link>
+    	<link rel="stylesheet" href="mobile.css"></link>
 		<link rel="shortcut icon" type="image/png" href="ball.png" />
 		<title>The mad ball</title>
+        <meta name="viewport" content="width=800" />
 	</head>
 	<body>
-		<h1>The mad ball</h1>
-
 		<div id="container">
 			<div id="start_message">
 				Level <span id="level"></span><br/><br/>
-				Press &lt;space&gt; to start,<br/>
-				&uarr; and &darr; to control the ball
+                Touch here to start
 			</div>
+            <div id="left_button" class="button"></div>
 			<div id="board" style="position:relative"></div>
+            <div id="right_button" class="button"></div>
+        <div id="fps" style="clear:both"></div>
 		</div>
 		
 		<div id="modal_bg" class="modal"></div>
@@ -34,11 +36,6 @@
 		</div>
 			
 		<script src="script.js"></script>
-        
-        <script>
-        	// Load images
-    		loadImages(reset);
-
-        </script>
+    	<script src="mobile.js"></script>
 	</body>
 </html>

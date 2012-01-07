@@ -1,0 +1,68 @@
+<!doctype HTML>
+<html>
+    <head>
+		<link rel="stylesheet" href="style.css"></link>
+    	<link rel="stylesheet" href="editor.css"></link>
+		<link rel="shortcut icon" type="image/png" href="ball.png" />
+		<title>The mad ball editor</title>
+	</head>
+	<body>
+		<h1>Editor</h1>
+
+		<div id="container">
+			<div id="start_message">
+				Level <span id="level"></span><br/><br/>
+				Press &lt;space&gt; to start,<br/>
+				&uarr; and &darr; to control the ball
+			</div>
+			<div id="board" style="position:relative">
+                <img id="cursor" style="position:absolute"/>
+            </div>
+            
+            <div id="editor_panel" style="float:right; text-align: left">
+                <button class="editor_button" onclick="generate()">Random generation</button>
+                <button class="editor_button" onclick="initBall();ready()">Play</button>
+                <div id="ball_editor" class="editor">
+                    <input id="ball_radio" type="radio" name="selection" value="ball" />
+                    <label for="ball_radio"><img id="ball_preview" class="preview" /></label>
+                    <label class="url_label" for="ball_url_field">Ball</label>
+                    <input id="ball_url_field" type="url" name="ball_url" value="" style="width: 300px"/>
+                </div>
+                <div id="wall_editor" class="editor">
+                    <input id="wall_radio" type="radio" name="selection" value="wall" />
+                    <label for="wall_radio"><img id="wall_preview" class="preview" /></label>
+                    <label class="url_label" for="wall_url_field">Wall</label>
+                    <input id="wall_url_field" type="url" name="wall_url" value="" style="width: 300px"/>
+                </div>
+                <div id="gum_editor" class="editor">
+                    <input id="gum_radio" type="radio" name="selection" value="gum" />
+                    <label for="gum_radio"><img id="gum_preview" class="preview" /></label>
+                    <label class="url_label" for="gum_url_field">Wall</label>
+                    <input id="gum_url_field" type="url" name="gum_url" value="" style="width: 300px"/>
+                </div>
+            </div>
+		</div>
+		
+		<div id="modal_bg" class="modal"></div>
+		<div class="modal">
+			<div id="win" class="dialog"> 
+				<h1>Congratulations</h1>
+				<div>You succeeded in</div>
+				<div id="score_container"><span id="score"></span>s</div>
+				<div>Your best score is: <span id="high_score"></span>s</div>
+				<br/>
+				<a href="#" class="try_again">Next level</a>
+			</div>
+			<div id="lose" class="dialog">
+				<h1>Game over!</h1>
+				<a href="#" class="try_again">Try again</a>
+			</div>
+		</div>
+			
+		<script src="script.js"></script>
+    	<script src="editor.js"></script>
+        
+        <script>
+        </script>
+	</body>
+</html>

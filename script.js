@@ -11,7 +11,7 @@ window.requestAnimFrame = (function(){
             window.oRequestAnimationFrame      || 
             window.msRequestAnimationFrame     || 
             function(/* function */ callback, /* DOMElement */ element){
-              window.setTimeout(callback, 1000 / 60);
+              window.setTimeout(callback, 1000 / 25);
             };
   })();
 
@@ -20,15 +20,19 @@ window.requestAnimFrame = (function(){
 	// The container dom element. It can have the following classes:
 	//  - ready: game is initialized correctly, start message is displayed, waiting for spacebar pressed
 	//  - crash: when collision with wall (red background)
+    var ballUrl = "ball.png";
+    var wallUrl = "wall.png";
+    var gumUrl = "smiley.png";
+    
 	var container = document.getElementById("container");
 
 	var board = document.getElementById("board");
 
 	var initSpeed = 500; // pixel per second
-	var wallNumber = 15;
-	var gumNumber = 15;
-	var boardWidth = 800;
-	var boardHeight = 580;
+	var wallNumber = 10;
+	var gumNumber = 10;
+	var boardWidth = board.offsetWidth;
+	var boardHeight = board.offsetHeight;
 	var level = 1;
 	var highScore = 99.99;
 
@@ -69,14 +73,16 @@ window.requestAnimFrame = (function(){
 	 * Start game
 	 */
 	var start = function() { 
-		container.className = "";
-
-		// Start stopwatch
-		watch.start();
-		
-		lastUpdateTime = new Date().getTime();
-		stopAnimation = false;
-		loop(lastUpdateTime);
+        if(container.className == "ready") {
+    		container.className = "";
+    
+    		// Start stopwatch
+    		watch.start();
+    		
+    		lastUpdateTime = new Date().getTime();
+    		stopAnimation = false;
+    		loop(lastUpdateTime);
+        }
 	};
 	
 	var loop = function(time) {
@@ -261,47 +267,47 @@ window.requestAnimFrame = (function(){
 	var ready = function() {
 		container.className = "ready";
 	};
+    
+    var addWall = function(wall) {
+        var i = walls.length;
+        walls[i] = wall;
+        drawWall(i);
+    }
 
-	/*
-	 * Display walls one after another
-	 */
-	var drawWall = function(i) {
-		var wallEl = wallImg.cloneNode(true);
+    var addGum = function(gum) {
+        var i = gums.length;
+        gums[i] = gum;
+        drawGum(i);
+    }
+
+    var drawWall = function(i) {
+    	var wallEl = wallImg.cloneNode(true);
 		wallEl.style.left = walls[i].x + "px";
 		wallEl.style.top = walls[i].y + "px";
 		board.appendChild(wallEl);
 		walls[i].dom = wallEl;
-		if(i < walls.length - 1) {
-			setTimeout(function() { drawWall(i+1); }, 50);
-		}
-		else {
-			setTimeout(function() { drawGum(0); }, 50);
-		}
-	}
+    }        
 
-	/*
-	 * Display gums one after another
-	 */
-	var drawGum = function(i) {
-		var gumEl = gumImg.cloneNode(true);
+    var drawGum = function(i) {
+        var gumEl = gumImg.cloneNode(true);
 		gumEl.style.left = gums[i].x + "px";
 		gumEl.style.top = gums[i].y + "px";
 		board.appendChild(gumEl);
 		gums[i].dom = gumEl;
-		if(i < gums.length - 1) {
-			setTimeout(function() { drawGum(i+1); }, 50);
+    }
+    
+	/*
+	 * Display walls one after another
+	 */
+	var drawWallsFrom = function(i) {
+        drawWall(i);
+		if(i < walls.length - 1) {
+			setTimeout(function() { drawWallsFrom(i+1); }, 50);
 		}
 		else {
-			ready();
+			setTimeout(function() { drawGumsFrom(0); }, 50);
 		}
 	}
-
-	/*
-	 * Start the process of drawing the game items one after another
-	 */
-	var startDrawing = function() {
-		drawWall(0);
-	};
 
 	var randomX = function() {
 		return Math.floor(Math.random()*(boardWidth-unitHeight));
@@ -310,29 +316,15 @@ window.requestAnimFrame = (function(){
 		return Math.floor(Math.random()*((boardHeight-unitHeight)/unitHeight)) * unitHeight;
 	}
 
-	/*
-	 * Called before starting a new game
-	 */
-	var reset = function() {
-		container.className = "";
-
-		// Clear board
+    var generate = function() {
+        // Clear board
 		board.innerHTML = "";
 
-		var margin = 2 * unitHeight;
-
-		/* Init ball position */
-		boule.x = randomX();
-		boule.y = 0; // on the first line
-		boule.targetY = boule.y;
-		boule.dom = ballImg.cloneNode(true);
-		board.appendChild(boule.dom);
-		boule.draw();
+    	var margin = 2 * unitHeight;
 
 		/* Init gums */
 		gums = [];
 		for(var i=0; i < gumNumber; i++) {
-			var gum;
 			do {
 				gum = {
 					x: randomX(),
@@ -341,7 +333,7 @@ window.requestAnimFrame = (function(){
 					h: unitHeight
 				};
 			} while(findCollision(gum.x - margin, gum.y - margin, gum.w + 2*margin, gum.h + 2*margin, gums) !== null);
-			gums[i] = gum;
+			addGum(gum);
 		}
 
 		/* Init walls */
@@ -360,11 +352,35 @@ window.requestAnimFrame = (function(){
 				|| findCollision(wall.x - margin, wall.y - margin, wall.w + 2*margin, wall.h + 2*margin, walls) !== null
 				|| (wall.y <= boule.y+boule.h && wall.y+wall.h >= boule.y) // no wall on the initial ball row
 			);
-			walls[i] = wall;
+            addWall(wall);
 		}
-
-		setTimeout(startDrawing, 1000);
-	};
+    }
+    
+    var initBall = function() {
+        // Remove current ball
+        var balls = board.getElementsByClassName("ball");
+        if(balls.length > 0) {
+            board.removeChild(balls[0]);
+        }
+        
+    	/* Init ball position */
+		boule.x = randomX();
+		boule.y = 0; // on the first line
+		boule.targetY = boule.y;
+		boule.dom = ballImg.cloneNode(true);
+		board.appendChild(boule.dom);
+		boule.draw();
+    }        
+    
+	/*
+	 * Called before starting a new game
+	 */
+	var reset = function() {
+    	container.className = "";
+        generate();
+        initBall();
+        ready();
+    };
 
 	/*
 	 * Start loading all the images and execute the provided callback function when they're all loaded
@@ -380,9 +396,9 @@ window.requestAnimFrame = (function(){
 		ballImg.addEventListener("load", loadCallback, false);
 		wallImg.addEventListener("load", loadCallback, false);
 		gumImg.addEventListener("load", loadCallback, false);
-		ballImg.src = "ball.png";
-		wallImg.src = "wall.png";
-		gumImg.src = "smiley.png";
+		ballImg.src = ballUrl;
+		wallImg.src = wallUrl;
+		gumImg.src = gumUrl;
 	};
 
 	/*
@@ -421,11 +437,7 @@ window.requestAnimFrame = (function(){
 				return false;
 			}, false);
 		}
-
-		// Load images
-		loadImages(reset);
 	};
-
-	// Auto-initialize game when page loads
-	init();
+    
+    init();
 //})();
