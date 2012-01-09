@@ -28,8 +28,14 @@
 #ball_radio {
     visibility: hidden;
 }
-#images_editor {
+.editor_group {
     border-bottom: 1px solid black;
     padding-bottom: 20px;
     margin-bottom: 20px;
+}
+#serialized {
+    display: block;
+    clear: both;
+    width: 100%;
+    height: 10em;
 }

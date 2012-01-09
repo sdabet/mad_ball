@@ -10,6 +10,10 @@ function absPath(url){
 	return Loc + '/' + url;
 }
 
+function updateSerialization() {
+    document.getElementById("serialized").innerHTML = Level.serialize();
+}
+
 var cursor = document.getElementById("cursor");
 var selection;
 var radioChangeCallback = function() {
@@ -100,4 +104,5 @@ board.addEventListener("click", function(e) {
 			});
             break;
     }
+    updateSerialization();
 });
