@@ -23,3 +23,6 @@
     display: block;
     width: 100%
 }
+#ball_radio {
+    visibility: hidden;
+}

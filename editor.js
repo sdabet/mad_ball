@@ -64,11 +64,12 @@ board.addEventListener("mousemove", function(e){
     cursor.style.top = (e.offsetY - (e.offsetY % unitHeight)) + "px";
 });
 board.addEventListener("click", function(e) {
+    var offsetY = e.offsetY - (e.offsetY % unitHeight);
     switch(selection) {
         case "wall":
             addWall({
 				x: e.offsetX,
-				y: e.offsetY,
+				y: offsetY,
 				w: unitHeight,
 				h: unitHeight
 			});
@@ -76,7 +77,7 @@ board.addEventListener("click", function(e) {
         case "gum":
             addGum({
     			x: e.offsetX,
-				y: e.offsetY,
+				y: offsetY,
 				w: unitHeight,
 				h: unitHeight
 			});
