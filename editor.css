@@ -1,12 +1,13 @@
 #editor_panel {
-    text-align: left;
     float: right;
+    padding: 10px;
 }
 .editor {
     padding-top: 5px;
     padding-bottom: 5px;
 }
 .url_label {
+    text-align: left;
     display: inline-block;
     width: 50px;
 }
@@ -20,9 +21,14 @@
     border: 1px solid black;
 }
 .editor_button {
-    display: block;
-    width: 100%
+    width: 100%;
+    font-size: 1.3em;
 }
 #ball_radio {
     visibility: hidden;
+}
+#images_editor {
+    border-bottom: 1px solid black;
+    padding-bottom: 20px;
+    margin-bottom: 20px;
 }

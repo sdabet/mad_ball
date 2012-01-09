@@ -1,5 +1,15 @@
 loadImages(function() {});
 
+function absPath(url){
+    var Loc = location.href;	
+	Loc = Loc.substring(0, Loc.lastIndexOf('/'));
+	while (/^\.\./.test(url)){		 
+		Loc = Loc.substring(0, Loc.lastIndexOf('/'));
+		url= url.substring(3);
+	}
+	return Loc + '/' + url;
+}
+
 var cursor = document.getElementById("cursor");
 var selection;
 var radioChangeCallback = function() {
@@ -21,10 +31,11 @@ var ballPreview = document.getElementById("ball_preview");
 var ballUrlField = document.getElementById("ball_url_field");
 var updateBallPreview = function() {
     ballUrl = ballUrlField.value;
+    ballImg.src = ballUrl;
     ballPreview.src = ballUrl
 };
 ballUrlField.addEventListener("change", updateBallPreview);
-ballUrlField.value = ballUrl;
+ballUrlField.value = absPath(ballUrl);
 updateBallPreview();
 document.getElementById("ball_radio").addEventListener("change", radioChangeCallback);
 
@@ -33,10 +44,11 @@ var wallPreview = document.getElementById("wall_preview");
 var wallUrlField = document.getElementById("wall_url_field");
 var updateWallPreview = function() {
     wallUrl = wallUrlField.value;
+    wallImg.src = wallUrl;
     wallPreview.src = wallUrl;
 };
 wallUrlField.addEventListener("change", updateWallPreview);
-wallUrlField.value = wallUrl;
+wallUrlField.value = absPath(wallUrl);
 updateWallPreview();
 document.getElementById("wall_radio").addEventListener("change", radioChangeCallback);
 
@@ -45,10 +57,11 @@ var gumPreview = document.getElementById("gum_preview");
 var gumUrlField = document.getElementById("gum_url_field");
 var updateGumPreview = function() {
     gumUrl = gumUrlField.value;
+    gumImg.src = gumUrl;
     gumPreview.src = gumUrl;
 };
 gumUrlField.addEventListener("change", updateGumPreview);
-gumUrlField.value = gumUrl;
+gumUrlField.value = absPath(gumUrl);
 updateGumPreview();
 document.getElementById("gum_radio").addEventListener("change", radioChangeCallback);
 
@@ -60,24 +73,28 @@ board.addEventListener("mouseout", function(e){
     cursor.style.display = "none";
 });
 board.addEventListener("mousemove", function(e){
-    cursor.style.left = e.offsetX + "px";
-    cursor.style.top = (e.offsetY - (e.offsetY % unitHeight)) + "px";
+    var x = e.offsetX + board.offsetLeft;
+    var y = e.offsetY + board.offsetTop;
+    y = y - (y % unitHeight);
+    cursor.style.left = x + "px";
+    cursor.style.top = y + "px";
 });
 board.addEventListener("click", function(e) {
-    var offsetY = e.offsetY - (e.offsetY % unitHeight);
+    var x = e.offsetX;
+    var y = e.offsetY - (e.offsetY % unitHeight);
     switch(selection) {
         case "wall":
             addWall({
-				x: e.offsetX,
-				y: offsetY,
+				x: x,
+				y: y,
 				w: unitHeight,
 				h: unitHeight
 			});
             break;
         case "gum":
             addGum({
-    			x: e.offsetX,
-				y: offsetY,
+    			x: x,
+				y: y,
 				w: unitHeight,
 				h: unitHeight
 			});

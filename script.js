@@ -316,14 +316,19 @@ window.requestAnimFrame = (function(){
 		return Math.floor(Math.random()*((boardHeight-unitHeight)/unitHeight)) * unitHeight;
 	}
 
-    var generate = function() {
-        // Clear board
-		board.innerHTML = "";
+    // Clear board
+    var clearBoard = function() {
+    	board.innerHTML = "";
+    	gums = [];
+    	walls = [];
+    }        
 
+    var generate = function() {
+        clearBoard();
+        
     	var margin = 2 * unitHeight;
 
 		/* Init gums */
-		gums = [];
 		for(var i=0; i < gumNumber; i++) {
 			do {
 				gum = {
@@ -337,7 +342,6 @@ window.requestAnimFrame = (function(){
 		}
 
 		/* Init walls */
-		walls = [];
 		for(var i=0; i < wallNumber; i++) {
 			var wall;
 			do {

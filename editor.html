@@ -15,31 +15,32 @@
 				Press &lt;space&gt; to start,<br/>
 				&uarr; and &darr; to control the ball
 			</div>
-			<div id="board" style="position:relative">
-                <img id="cursor" style="position:absolute"/>
-            </div>
+            <img id="cursor" style="position:absolute"/>
+			<div id="board" style="position:relative"></div>
             
-            <div id="editor_panel" style="float:right; text-align: left">
-                <button class="editor_button" onclick="generate()">Random generation</button>
-                <button class="editor_button" onclick="initBall();ready()">Play</button>
-                <div id="ball_editor" class="editor">
-                    <input id="ball_radio" type="radio" name="selection" value="ball" />
-                    <label for="ball_radio"><img id="ball_preview" class="preview" /></label>
-                    <label class="url_label" for="ball_url_field">Ball</label>
-                    <input id="ball_url_field" type="url" name="ball_url" value="" style="width: 300px"/>
+            <div id="editor_panel">
+                <div id="images_editor">
+                    <div id="ball_editor" class="editor">
+                        <input id="ball_radio" type="radio" name="selection" value="ball" />
+                        <label for="ball_radio"><img id="ball_preview" class="preview" /></label>
+                        <label class="url_label" for="ball_url_field">Ball</label>
+                        <input id="ball_url_field" type="url" name="ball_url" value="" style="width: 300px"/>
+                    </div>
+                    <div id="wall_editor" class="editor">
+                        <input id="wall_radio" type="radio" name="selection" value="wall" />
+                        <label for="wall_radio"><img id="wall_preview" class="preview" /></label>
+                        <label class="url_label" for="wall_url_field">Wall</label>
+                        <input id="wall_url_field" type="url" name="wall_url" value="" style="width: 300px"/>
+                    </div>
+                    <div id="gum_editor" class="editor">
+                        <input id="gum_radio" type="radio" name="selection" value="gum" />
+                        <label for="gum_radio"><img id="gum_preview" class="preview" /></label>
+                        <label class="url_label" for="gum_url_field">Wall</label>
+                        <input id="gum_url_field" type="url" name="gum_url" value="" style="width: 300px"/>
+                    </div>
                 </div>
-                <div id="wall_editor" class="editor">
-                    <input id="wall_radio" type="radio" name="selection" value="wall" />
-                    <label for="wall_radio"><img id="wall_preview" class="preview" /></label>
-                    <label class="url_label" for="wall_url_field">Wall</label>
-                    <input id="wall_url_field" type="url" name="wall_url" value="" style="width: 300px"/>
-                </div>
-                <div id="gum_editor" class="editor">
-                    <input id="gum_radio" type="radio" name="selection" value="gum" />
-                    <label for="gum_radio"><img id="gum_preview" class="preview" /></label>
-                    <label class="url_label" for="gum_url_field">Wall</label>
-                    <input id="gum_url_field" type="url" name="gum_url" value="" style="width: 300px"/>
-                </div>
+                <button class="editor_button" onclick="clearBoard();" title="Clear the board">Clear</button>
+                <button class="editor_button" onclick="generate();" title="Generate a random level">Random generation</button>
             </div>
 		</div>
 		
