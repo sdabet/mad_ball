@@ -5,6 +5,7 @@
 .editor {
     padding-top: 5px;
     padding-bottom: 5px;
+    text-align: left;
 }
 .url_label {
     text-align: left;
@@ -12,7 +13,7 @@
     width: 50px;
 }
 .url_field {
-    width: 200px;
+    /*width: 200px;*/
 }
 .preview {
     vertical-align: middle;

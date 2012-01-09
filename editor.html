@@ -7,8 +7,6 @@
 		<title>The mad ball editor</title>
 	</head>
 	<body>
-		<h1>Editor</h1>
-
 		<div id="container">
 			<div id="start_message">
 				Level <span id="level"></span><br/><br/>
@@ -24,19 +22,19 @@
                         <input id="ball_radio" type="radio" name="selection" value="ball" />
                         <label for="ball_radio"><img id="ball_preview" class="preview" /></label>
                         <label class="url_label" for="ball_url_field">Ball</label>
-                        <input id="ball_url_field" type="url" name="ball_url" value="" style="width: 300px"/>
+                        <input id="ball_url_field" type="url" name="ball_url" value="" />
                     </div>
                     <div id="wall_editor" class="editor">
                         <input id="wall_radio" type="radio" name="selection" value="wall" />
                         <label for="wall_radio"><img id="wall_preview" class="preview" /></label>
                         <label class="url_label" for="wall_url_field">Wall</label>
-                        <input id="wall_url_field" type="url" name="wall_url" value="" style="width: 300px"/>
+                        <input id="wall_url_field" type="url" name="wall_url" value="" />
                     </div>
                     <div id="gum_editor" class="editor">
                         <input id="gum_radio" type="radio" name="selection" value="gum" />
                         <label for="gum_radio"><img id="gum_preview" class="preview" /></label>
-                        <label class="url_label" for="gum_url_field">Wall</label>
-                        <input id="gum_url_field" type="url" name="gum_url" value="" style="width: 300px"/>
+                        <label class="url_label" for="gum_url_field">Gum</label>
+                        <input id="gum_url_field" type="url" name="gum_url" value="" />
                     </div>
                 </div>
                 <button class="editor_button" onclick="clearBoard();" title="Clear the board">Clear</button>
