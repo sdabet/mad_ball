@@ -323,43 +323,6 @@ window.requestAnimFrame = (function(){
     	walls = [];
     }        
 
-    var generate = function() {
-        clearBoard();
-        
-    	var margin = 2 * unitHeight;
-
-		/* Init gums */
-		for(var i=0; i < gumNumber; i++) {
-			do {
-				gum = {
-					x: randomX(),
-					y: randomY(),
-					w: unitHeight,
-					h: unitHeight
-				};
-			} while(findCollision(gum.x - margin, gum.y - margin, gum.w + 2*margin, gum.h + 2*margin, gums) !== null);
-			addGum(gum);
-		}
-
-		/* Init walls */
-		for(var i=0; i < wallNumber; i++) {
-			var wall;
-			do {
-				wall = {
-					x: randomX(),
-					y: randomY(),
-					w: unitHeight,
-					h: unitHeight
-				};
-			} while(
-				findCollision(wall.x - margin, wall.y - margin, wall.w + 2*margin, wall.h + 2*margin, gums) !== null
-				|| findCollision(wall.x - margin, wall.y - margin, wall.w + 2*margin, wall.h + 2*margin, walls) !== null
-				|| (wall.y <= boule.y+boule.h && wall.y+wall.h >= boule.y) // no wall on the initial ball row
-			);
-            addWall(wall);
-		}
-    }
-    
     var initBall = function() {
         // Remove current ball
         var balls = board.getElementsByClassName("ball");
@@ -386,7 +349,7 @@ window.requestAnimFrame = (function(){
             Level.unserialize(queryString);
         }
         else {
-            generate();
+            Level.generate();
         }
         initBall();
         ready();
