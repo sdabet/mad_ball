@@ -1,4 +1,7 @@
-loadImages(function() {});
+loadImages(function() {
+    Level.unserialize(window.location.search.substring(1));
+    updateSerialization();
+});
 
 function absPath(url){
     var Loc = location.href;	
@@ -11,7 +14,12 @@ function absPath(url){
 }
 
 function updateSerialization() {
-    document.getElementById("serialized").innerHTML = Level.serialize();
+    document.getElementById("serialized").innerHTML = absPath("editor.html?" + Level.serialize());
+}
+
+function openPlayUrl() {
+    var url = "index.html?" + Level.serialize();
+    window.open(url, "_blank");
 }
 
 var cursor = document.getElementById("cursor");

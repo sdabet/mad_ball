@@ -381,7 +381,13 @@ window.requestAnimFrame = (function(){
 	 */
 	var reset = function() {
     	container.className = "";
-        generate();
+        var queryString = window.location.search.substring(1);
+        if(queryString) {
+            Level.unserialize(queryString);
+        }
+        else {
+            generate();
+        }
         initBall();
         ready();
     };
