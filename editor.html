@@ -18,11 +18,11 @@
             
             <div id="editor_panel">
                 <div class="editor_group">
-                    <button class="editor_button" onclick="Level.clear();updateSerialization();" title="Clear the board">
+                    <button class="editor_button" onclick="level.clear();updateSerialization();" title="Clear the board">
                         <img width="50px" src="editor_clear.png"/>
                         <div>Clear</div>
                     </button>
-                    <button class="editor_button" onclick="Level.generate();updateSerialization();" title="Generate a random level">
+                    <button class="editor_button" onclick="level.generate();updateSerialization();" title="Generate a random level">
                         <img width="50px" src="editor_generate.png"/>
                         <div>Random</div>
                     </button>
@@ -54,7 +54,6 @@
                 <label for="serialized">Share URL:</label>
                 <textarea id="serialized"></textarea>
             </div>
-            
 		</div>
 		
 		<div id="modal_bg" class="modal"></div>
@@ -74,10 +73,6 @@
 		</div>
 			
     	<script src="level.js"></script>
-		<script src="script.js"></script>
     	<script src="editor.js"></script>
-        
-        <script>
-        </script>
 	</body>
 </html>

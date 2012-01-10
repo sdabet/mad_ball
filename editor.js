@@ -1,7 +1,7 @@
-loadImages(function() {
-    Level.unserialize(window.location.search.substring(1));
-    updateSerialization();
-});
+var board = document.getElementById("board");
+var level = new Level(board);
+level.unserialize(window.location.search.substring(1));
+updateSerialization();
 
 function absPath(url){
     var Loc = location.href;	
@@ -14,11 +14,11 @@ function absPath(url){
 }
 
 function updateSerialization() {
-    document.getElementById("serialized").innerHTML = absPath("editor.html?" + Level.serialize());
+    document.getElementById("serialized").innerHTML = absPath("editor.html?" + level.serialize());
 }
 
 function openPlayUrl() {
-    var url = "index.html?" + Level.serialize();
+    var url = "index.html?" + level.serialize();
     window.open(url, "_blank");
 }
 
@@ -42,9 +42,9 @@ var radioChangeCallback = function() {
 var ballPreview = document.getElementById("ball_preview");
 var ballUrlField = document.getElementById("ball_url_field");
 var updateBallPreview = function() {
-    ballUrl = ballUrlField.value;
-    ballImg.src = ballUrl;
-    ballPreview.src = ballUrl
+    var url = ballUrlField.value;
+    level.setBallUrl(url);
+    ballPreview.src = url;
 };
 ballUrlField.addEventListener("change", updateBallPreview);
 ballUrlField.value = absPath(ballUrl);
@@ -55,9 +55,9 @@ document.getElementById("ball_radio").addEventListener("change", radioChangeCall
 var wallPreview = document.getElementById("wall_preview");
 var wallUrlField = document.getElementById("wall_url_field");
 var updateWallPreview = function() {
-    wallUrl = wallUrlField.value;
-    wallImg.src = wallUrl;
-    wallPreview.src = wallUrl;
+    var url = wallUrlField.value;
+    level.setWallUrl(url);
+    wallPreview.src = url;
 };
 wallUrlField.addEventListener("change", updateWallPreview);
 wallUrlField.value = absPath(wallUrl);
@@ -68,9 +68,9 @@ document.getElementById("wall_radio").addEventListener("change", radioChangeCall
 var gumPreview = document.getElementById("gum_preview");
 var gumUrlField = document.getElementById("gum_url_field");
 var updateGumPreview = function() {
-    gumUrl = gumUrlField.value;
-    gumImg.src = gumUrl;
-    gumPreview.src = gumUrl;
+    var url = gumUrlField.value;
+    level.setGumUrl(url);
+    gumPreview.src = url;
 };
 gumUrlField.addEventListener("change", updateGumPreview);
 gumUrlField.value = absPath(gumUrl);
@@ -96,7 +96,7 @@ board.addEventListener("click", function(e) {
     var y = e.offsetY - (e.offsetY % unitHeight);
     switch(selection) {
         case "wall":
-            Level.addWall({
+            level.addWall({
 				x: x,
 				y: y,
 				w: unitHeight,
@@ -104,7 +104,7 @@ board.addEventListener("click", function(e) {
 			}, 0);
             break;
         case "gum":
-            Level.addGum({
+            level.addGum({
     			x: x,
 				y: y,
 				w: unitHeight,
