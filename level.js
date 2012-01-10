@@ -33,8 +33,8 @@ var Level = function() {
         var wallEl = wallImg.cloneNode(true);
     	wallEl.style.left = walls[i].x + "px";
 		wallEl.style.top = walls[i].y + "px";
-        wallEl.style.width = walls[i].width + "px";
-        wallEl.style.height = walls[i].height + "px";
+        wallEl.style.width = walls[i].w + "px";
+        wallEl.style.height = walls[i].h + "px";
 		board.appendChild(wallEl);
 		walls[i].dom = wallEl;
     };       
@@ -43,8 +43,8 @@ var Level = function() {
         var gumEl = gumImg.cloneNode(true);
 		gumEl.style.left = gums[i].x + "px";
 		gumEl.style.top = gums[i].y + "px";
-        gumEl.style.width = gums[i].width + "px";
-        gumEl.style.height = gums[i].height + "px";
+        gumEl.style.width = gums[i].w + "px";
+        gumEl.style.height = gums[i].h + "px";
 		board.appendChild(gumEl);
 		gums[i].dom = gumEl;
     };
@@ -181,14 +181,17 @@ var Level = function() {
         },   
         
         setBallUrl: function(src) {
+            ballUrl = src;
             ballImg.src = src;
         },
         
         setWallUrl: function(src) {
+            wallUrl = src;
             wallImg.src = src;
         },
         
         setGumUrl: function(src) {
+            gumUrl = src;
             gumImg.src = src;
         },
         
@@ -256,6 +259,15 @@ var Level = function() {
                 str += gum.x + coord_sep + gum.y;
             }
             
+            // Serialize ball url
+            str += "&ballUrl=" + escape(ballUrl);
+            
+            // Serialize wall url
+            str += "&wallUrl=" + escape(wallUrl);
+            
+            // Serialize ball url
+            str += "&gumUrl=" + escape(gumUrl);
+            
             return str;
         },
         
@@ -300,6 +312,24 @@ var Level = function() {
                         h: unitHeight
                     }, 100*i);
                 }
+            }
+            
+            // Unserialize ball url
+            var ballUrlString = getQueryVariable(query, "ballUrl");
+            if(ballUrlString) {
+                this.setBallUrl(ballUrlString);
+            }
+
+            // Unserialize wall url
+            var wallUrlString = getQueryVariable(query, "wallUrl");
+            if(wallUrlString) {
+                this.setWallUrl(wallUrlString);
+            }
+            
+            // Unserialize gum url
+            var gumUrlString = getQueryVariable(query, "gumUrl");
+            if(gumUrlString) {
+                this.setGumUrl(gumUrlString);
             }
         },
     
