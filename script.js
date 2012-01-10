@@ -268,51 +268,12 @@ window.requestAnimFrame = (function(){
 		container.className = "ready";
 	};
     
-    var addWall = function(wall) {
-        var i = walls.length;
-        walls[i] = wall;
-        drawWall(i);
-    }
-
-    var addGum = function(gum) {
-        var i = gums.length;
-        gums[i] = gum;
-        drawGum(i);
-    }
-
-    var drawWall = function(i) {
-    	var wallEl = wallImg.cloneNode(true);
-		wallEl.style.left = walls[i].x + "px";
-		wallEl.style.top = walls[i].y + "px";
-        wallEl.style.width = walls[i].width + "px";
-        wallEl.style.height = walls[i].height + "px";
-		board.appendChild(wallEl);
-		walls[i].dom = wallEl;
-    }        
-
-    var drawGum = function(i) {
-        var gumEl = gumImg.cloneNode(true);
-		gumEl.style.left = gums[i].x + "px";
-		gumEl.style.top = gums[i].y + "px";
-        gumEl.style.width = gums[i].width + "px";
-        gumEl.style.height = gums[i].height + "px";
-		board.appendChild(gumEl);
-		gums[i].dom = gumEl;
-    }
-    
 	var randomX = function() {
 		return Math.floor(Math.random()*(boardWidth-unitHeight));
 	}
 	var randomY = function() {
 		return Math.floor(Math.random()*((boardHeight-unitHeight)/unitHeight)) * unitHeight;
 	}
-
-    // Clear board
-    var clearBoard = function() {
-    	board.innerHTML = "";
-    	gums = [];
-    	walls = [];
-    }        
 
     var initBall = function() {
         // Remove current ball

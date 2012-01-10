@@ -18,29 +18,38 @@
             
             <div id="editor_panel">
                 <div class="editor_group">
+                    <button class="editor_button" onclick="Level.clear();updateSerialization();" title="Clear the board">
+                        <img width="50px" src="editor_clear.png"/>
+                        <div>Clear</div>
+                    </button>
+                    <button class="editor_button" onclick="Level.generate();updateSerialization();" title="Generate a random level">
+                        <img width="50px" src="editor_generate.png"/>
+                        <div>Random</div>
+                    </button>
+                    <button class="editor_button" onclick="openPlayUrl();" title="Play this level">
+                        <img width="50px" src="editor_play.png"/>
+                        <div>Play it</div>
+                    </button>
+                </div>
+                <div class="editor_group">
                     <div id="ball_editor" class="editor">
                         <input id="ball_radio" type="radio" name="selection" value="ball" />
                         <label for="ball_radio"><img id="ball_preview" class="preview" /></label>
                         <label class="url_label" for="ball_url_field">Ball</label>
-                        <input id="ball_url_field" type="url" name="ball_url" value="" />
+                        <input id="ball_url_field" class="url_field" type="url" name="ball_url" value="" />
                     </div>
                     <div id="wall_editor" class="editor">
                         <input id="wall_radio" type="radio" name="selection" value="wall" />
                         <label for="wall_radio"><img id="wall_preview" class="preview" /></label>
                         <label class="url_label" for="wall_url_field">Wall</label>
-                        <input id="wall_url_field" type="url" name="wall_url" value="" />
+                        <input id="wall_url_field" class="url_field" type="url" name="wall_url" value="" />
                     </div>
                     <div id="gum_editor" class="editor">
                         <input id="gum_radio" type="radio" name="selection" value="gum" />
                         <label for="gum_radio"><img id="gum_preview" class="preview" /></label>
                         <label class="url_label" for="gum_url_field">Gum</label>
-                        <input id="gum_url_field" type="url" name="gum_url" value="" />
+                        <input id="gum_url_field" class="url_field" type="url" name="gum_url" value="" />
                     </div>
-                </div>
-                <div class="editor_group">
-                    <button class="editor_button" onclick="clearBoard();updateSerialization();" title="Clear the board">Clear</button>
-                    <button class="editor_button" onclick="Level.generate();updateSerialization();" title="Generate a random level">Random generation</button>
-                    <button class="editor_button" onclick="openPlayUrl();" title="Play this level">Play</button>
                 </div>
                 <label for="serialized">Share URL:</label>
                 <textarea id="serialized"></textarea>

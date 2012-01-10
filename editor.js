@@ -96,20 +96,20 @@ board.addEventListener("click", function(e) {
     var y = e.offsetY - (e.offsetY % unitHeight);
     switch(selection) {
         case "wall":
-            addWall({
+            Level.addWall({
 				x: x,
 				y: y,
 				w: unitHeight,
 				h: unitHeight
-			});
+			}, 0);
             break;
         case "gum":
-            addGum({
+            Level.addGum({
     			x: x,
 				y: y,
 				w: unitHeight,
 				h: unitHeight
-			});
+			}, 0);
             break;
     }
     updateSerialization();

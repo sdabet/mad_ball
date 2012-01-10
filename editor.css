@@ -1,9 +1,13 @@
+#container {
+    width: 1200px;
+}
 #board {
     cursor: crosshair;
 }
 #editor_panel {
-    float: right;
+    float: left;
     padding: 10px;
+    width: 350px;
 }
 .editor {
     padding-top: 5px;
@@ -16,7 +20,7 @@
     width: 50px;
 }
 .url_field {
-    /*width: 200px;*/
+    width: 200px;
 }
 .preview {
     vertical-align: middle;
@@ -25,7 +29,9 @@
     border: 1px solid black;
 }
 .editor_button {
-    width: 100%;
+    padding-top: 10px;
+    width: 100px;
+    height: 96px;
     font-size: 1.3em;
 }
 #ball_radio {
