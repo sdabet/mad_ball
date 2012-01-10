@@ -284,6 +284,8 @@ window.requestAnimFrame = (function(){
     	var wallEl = wallImg.cloneNode(true);
 		wallEl.style.left = walls[i].x + "px";
 		wallEl.style.top = walls[i].y + "px";
+        wallEl.style.width = walls[i].width + "px";
+        wallEl.style.height = walls[i].height + "px";
 		board.appendChild(wallEl);
 		walls[i].dom = wallEl;
     }        
@@ -292,23 +294,12 @@ window.requestAnimFrame = (function(){
         var gumEl = gumImg.cloneNode(true);
 		gumEl.style.left = gums[i].x + "px";
 		gumEl.style.top = gums[i].y + "px";
+        gumEl.style.width = gums[i].width + "px";
+        gumEl.style.height = gums[i].height + "px";
 		board.appendChild(gumEl);
 		gums[i].dom = gumEl;
     }
     
-	/*
-	 * Display walls one after another
-	 */
-	var drawWallsFrom = function(i) {
-        drawWall(i);
-		if(i < walls.length - 1) {
-			setTimeout(function() { drawWallsFrom(i+1); }, 50);
-		}
-		else {
-			setTimeout(function() { drawGumsFrom(0); }, 50);
-		}
-	}
-
 	var randomX = function() {
 		return Math.floor(Math.random()*(boardWidth-unitHeight));
 	}
