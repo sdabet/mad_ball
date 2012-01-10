@@ -352,6 +352,7 @@ var Level = function() {
     
         generate: function() {
             this.clear();
+            initBall();
             
             var margin = 2 * unitHeight;
     
