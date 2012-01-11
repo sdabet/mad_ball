@@ -1,0 +1,53 @@
+#container {
+    width: 1200px;
+}
+#board {
+    cursor: crosshair;
+}
+#editor_panel {
+    float: left;
+    padding: 10px;
+    width: 350px;
+}
+.editor {
+    padding-top: 5px;
+    padding-bottom: 5px;
+    text-align: left;
+}
+.url_label {
+    text-align: left;
+    display: inline-block;
+    width: 50px;
+}
+.url_field {
+    width: 200px;
+}
+.preview {
+    vertical-align: middle;
+    width: 30px;
+    height: 30px;
+    border: 1px solid black;
+}
+.editor_button {
+    padding-top: 10px;
+    width: 100px;
+    height: 96px;
+    font-size: 1.3em;
+}
+#ball_radio {
+    visibility: hidden;
+}
+.editor_group {
+    border-bottom: 1px solid black;
+    padding-bottom: 20px;
+    margin-bottom: 20px;
+}
+#serialized {
+    display: block;
+    clear: both;
+    width: 100%;
+    height: 10em;
+}
+#cursor {
+    opacity: 0.5; 
+}
