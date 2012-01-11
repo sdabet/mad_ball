@@ -15,7 +15,7 @@ var gumUrl = "smiley.png";
 /* Base height unit */
 var unitHeight = 30;
 
-var Level = function() {
+var Level = function(board) {
     
     var item_sep = ";";
     var coord_sep = ",";
@@ -154,6 +154,13 @@ var Level = function() {
 			}
 		}
 	};
+    
+    var setClassUrl = function(className, url) {
+        var elements = document.getElementsByClassName(className);
+        for(var i=0; i<elements.length; i++) {
+            elements[i].src = url;
+        }
+    };
 
 	var ballImg = new Image();
 	var wallImg = new Image();
@@ -183,16 +190,19 @@ var Level = function() {
         setBallUrl: function(src) {
             ballUrl = src;
             ballImg.src = src;
+            setClassUrl("ball", src);
         },
         
         setWallUrl: function(src) {
             wallUrl = src;
             wallImg.src = src;
+            setClassUrl("wall", src);
         },
         
         setGumUrl: function(src) {
             gumUrl = src;
             gumImg.src = src;
+            setClassUrl("gum", src);
         },
         
         setSpeed: function(speed) {
