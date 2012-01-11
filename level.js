@@ -248,8 +248,16 @@ var Level = function(board) {
     			boule.speed = -boule.speed;
     		}
     	},
+        
+        backgroundUrl: function() {
+            var backgroundAttr = window.getComputedStyle(board)["background-image"];
+            if(backgroundAttr !== "none") {
+                return backgroundAttr.substring(4, backgroundAttr.length-1);
+            }
+            return null;
+        },
     
-       serialize: function() {
+        serialize: function() {
             var str = "";
             
             // Serialize ball position
@@ -279,6 +287,12 @@ var Level = function(board) {
             
             // Serialize ball url
             str += "&gumUrl=" + encodeURIComponent(gumUrl);
+            
+            // Serialize background image (remove the url('...'))
+            var url = this.backgroundUrl();
+            if(url) {
+                str += "&backgroundImage=" + url;
+            }
             
             return str;
         },
@@ -342,6 +356,12 @@ var Level = function(board) {
             var gumUrlString = getQueryVariable(query, "gumUrl");
             if(gumUrlString) {
                 this.setGumUrl(gumUrlString);
+            }
+            
+            // Unserialize background image
+            var backgroundImage = getQueryVariable(query, "backgroundImage");
+            if(backgroundImage) {
+                board.style.backgroundImage = "url('" + backgroundImage + "')";
             }
         },
     

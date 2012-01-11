@@ -1,6 +1,9 @@
+// Example: http://c9.io/sdabet/mad_ball/workspace/editor.html?ball=661,0&walls=224,240;361,390;11,480;755,450;60,120;623,540;699,90;393,480;26,240;359,240&gums=407,0;605,360;563,270;203,420;301,480;728,180;210,90;41,360;497,150;503,480&ballUrl=http%3A%2F%2Fcdn1.iconfinder.com%2Fdata%2Ficons%2Filb%2FCute%2520Ball%2520-%2520Games.png&wallUrl=http%3A%2F%2Fwww.veryicon.com%2Ficon%2Fpng%2FHoliday%2FHelloween%25202%2FGhost%2520invisible.png&gumUrl=http%3A%2F%2Fimages-4.findicons.com%2Ffiles%2Ficons%2F1242%2Fsomatic_rebirth_extras%2F128%2Fsandwich.png#ball=661,0&walls=224,240;361,390;11,480;755,450;60,120;623,540;699,90;393,480;26,240;359,240&gums=407,0;605,360;563,270;203,420;301,480;728,180;210,90;41,360;497,150;503,480&ballUrl=http%3A%2F%2Fcdn1.iconfinder.com%2Fdata%2Ficons%2Filb%2FCute%2520Ball%2520-%2520Games.png&wallUrl=http%3A%2F%2Fwww.veryicon.com%2Ficon%2Fpng%2FHoliday%2FHelloween%25202%2FGhost%2520invisible.png&gumUrl=http%3A%2F%2Fimages-4.findicons.com%2Ffiles%2Ficons%2F1242%2Fsomatic_rebirth_extras%2F128%2Fsandwich.png
+
 if(location.hash) {
     // Redirect to use hash as query string
     location.href = location.origin + location.pathname + "?" + location.hash.substring(1);
+    exit();
 }
 
 var board = document.getElementById("board");
@@ -86,6 +89,14 @@ gumUrlField.addEventListener("change", updateGumPreview);
 gumUrlField.value = gumUrl;
 updateGumPreview();
 document.getElementById("gum_radio").addEventListener("change", radioChangeCallback);
+
+/* Background editor */
+var backgroundField = document.getElementById("background_field");
+backgroundField.value = level.backgroundUrl();
+backgroundField.addEventListener("change", function() {
+    board.style.backgroundImage = "url('" + backgroundField.value + "')";
+    updateSerialization();
+});
 
 /* Board */
 board.addEventListener("mouseover", function(e){
