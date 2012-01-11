@@ -120,6 +120,8 @@ var Level = function(board) {
 			var style = this.dom.style;
 			style.top = this.y + "px";
 			style.left = this.x + "px";
+            style.width = this.w + "px";
+            style.height = this.h + "px";
 		},
 		/*
 		 * Update the position and direction of the ball based on its current speed and the delay since last update
@@ -270,13 +272,13 @@ var Level = function(board) {
             }
             
             // Serialize ball url
-            str += "&ballUrl=" + escape(ballUrl);
+            str += "&ballUrl=" + encodeURIComponent(ballUrl);
             
             // Serialize wall url
-            str += "&wallUrl=" + escape(wallUrl);
+            str += "&wallUrl=" + encodeURIComponent(wallUrl);
             
             // Serialize ball url
-            str += "&gumUrl=" + escape(gumUrl);
+            str += "&gumUrl=" + encodeURIComponent(gumUrl);
             
             return str;
         },

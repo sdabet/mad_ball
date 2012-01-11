@@ -1,10 +1,15 @@
+if(location.hash) {
+    // Redirect to use hash as query string
+    location.href = location.origin + location.pathname + "?" + location.hash.substring(1);
+}
+
 var board = document.getElementById("board");
 var level = new Level(board);
 level.unserialize(window.location.search.substring(1));
 updateSerialization();
 
 function absPath(url){
-    var Loc = location.href;	
+    var Loc = location.origin + location.pathname;	
 	Loc = Loc.substring(0, Loc.lastIndexOf('/'));
 	while (/^\.\./.test(url)){		 
 		Loc = Loc.substring(0, Loc.lastIndexOf('/'));
@@ -14,7 +19,9 @@ function absPath(url){
 }
 
 function updateSerialization() {
-    document.getElementById("serialized").innerHTML = absPath("editor.html?" + level.serialize());
+    var serialization = level.serialize();
+    document.getElementById("serialized").innerHTML = absPath("editor.html?" + serialization);
+    location.hash = level.serialize();
 }
 
 function openPlayUrl() {
@@ -45,9 +52,10 @@ var updateBallPreview = function() {
     var url = ballUrlField.value;
     level.setBallUrl(url);
     ballPreview.src = url;
+    updateSerialization();
 };
 ballUrlField.addEventListener("change", updateBallPreview);
-ballUrlField.value = absPath(ballUrl);
+ballUrlField.value = ballUrl;
 updateBallPreview();
 document.getElementById("ball_radio").addEventListener("change", radioChangeCallback);
 
@@ -58,9 +66,10 @@ var updateWallPreview = function() {
     var url = wallUrlField.value;
     level.setWallUrl(url);
     wallPreview.src = url;
+    updateSerialization();
 };
 wallUrlField.addEventListener("change", updateWallPreview);
-wallUrlField.value = absPath(wallUrl);
+wallUrlField.value = wallUrl;
 updateWallPreview();
 document.getElementById("wall_radio").addEventListener("change", radioChangeCallback);
 
@@ -71,9 +80,10 @@ var updateGumPreview = function() {
     var url = gumUrlField.value;
     level.setGumUrl(url);
     gumPreview.src = url;
+    updateSerialization();
 };
 gumUrlField.addEventListener("change", updateGumPreview);
-gumUrlField.value = absPath(gumUrl);
+gumUrlField.value = gumUrl;
 updateGumPreview();
 document.getElementById("gum_radio").addEventListener("change", radioChangeCallback);
 
