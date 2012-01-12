@@ -8,12 +8,12 @@ function getQueryVariable(query,variable) {
     }
 }
 
-var ballUrl = "ball.png";
-var wallUrl = "wall.png";
-var gumUrl = "smiley.png";
-
 /* Base height unit */
 var unitHeight = 30;
+
+var ballImg = new Image();
+var wallImg = new Image();
+var gumImg = new Image();
 
 var Level = function(board) {
     
@@ -102,9 +102,9 @@ var Level = function(board) {
 		ballImg.addEventListener("load", loadCallback, false);
 		wallImg.addEventListener("load", loadCallback, false);
 		gumImg.addEventListener("load", loadCallback, false);
-		ballImg.src = ballUrl;
-		wallImg.src = wallUrl;
-		gumImg.src = gumUrl;
+		ballImg.src = "ball.png";
+		wallImg.src = "wall.png";
+		gumImg.src = "smiley.png";
 	};
     
     /* 
@@ -164,9 +164,6 @@ var Level = function(board) {
         }
     };
 
-	var ballImg = new Image();
-	var wallImg = new Image();
-	var gumImg = new Image();
 	ballImg.style.position = "absolute";
 	ballImg.className = "ball";
 	gumImg.style.position = "absolute";
@@ -190,19 +187,16 @@ var Level = function(board) {
         },   
         
         setBallUrl: function(src) {
-            ballUrl = src;
             ballImg.src = src;
             setClassUrl("ball", src);
         },
         
         setWallUrl: function(src) {
-            wallUrl = src;
             wallImg.src = src;
             setClassUrl("wall", src);
         },
         
         setGumUrl: function(src) {
-            gumUrl = src;
             gumImg.src = src;
             setClassUrl("gum", src);
         },
@@ -280,13 +274,13 @@ var Level = function(board) {
             }
             
             // Serialize ball url
-            str += "&ballUrl=" + encodeURIComponent(ballUrl);
+            str += "&ballUrl=" + encodeURIComponent(ballImg.src);
             
             // Serialize wall url
-            str += "&wallUrl=" + encodeURIComponent(wallUrl);
+            str += "&wallUrl=" + encodeURIComponent(wallImg.src);
             
             // Serialize ball url
-            str += "&gumUrl=" + encodeURIComponent(gumUrl);
+            str += "&gumUrl=" + encodeURIComponent(gumImg.src);
             
             // Serialize background image (remove the url('...'))
             var url = this.backgroundUrl();

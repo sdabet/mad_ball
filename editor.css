@@ -52,3 +52,7 @@
     opacity: 0.5; 
     z-index: 100;
 }
+
+.gum, .wall, .ball {
+    -webkit-animation: anim 1s linear;
+}
