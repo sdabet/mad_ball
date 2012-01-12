@@ -102,14 +102,9 @@ backgroundField.addEventListener("change", function() {
 });
 
 /* Board */
-board.addEventListener("mousemove", function(e){
-    var x = e.offsetX + board.offsetLeft;
-    var y = e.offsetY + board.offsetTop;
-    y = y - (y % unitHeight);
-});
 board.addEventListener("click", function(e) {
-    var x = e.offsetX;
-    var y = e.offsetY - (e.offsetY % unitHeight);
+    var x = e.layerX;
+    var y = e.layerY - (e.offsetY % unitHeight);
     switch(selection) {
         case "wall":
             level.addWall({

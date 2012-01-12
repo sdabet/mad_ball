@@ -75,5 +75,6 @@
 }
 
 .gum, .wall, .ball {
+    -moz-animation: anim 1s linear;
     -webkit-animation: anim 1s linear;
 }
