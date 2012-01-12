@@ -4,6 +4,23 @@ if(location.hash) {
     exit();
 }
 
+// Util
+
+function hasClass(ele,cls) {
+    return ele.className.match(new RegExp('(\\s|^)'+cls+'(\\s|$)'));
+}
+function addClass(ele,cls) {
+	if (!this.hasClass(ele,cls)) ele.className += " "+cls;
+}
+function removeClass(ele,cls) {
+	if (hasClass(ele,cls)) {
+		var reg = new RegExp('(\\s|^)'+cls+'(\\s|$)');
+		ele.className=ele.className.replace(reg,' ');
+	}
+}
+
+//
+
 var board = document.getElementById("board");
 var level = new Level(board);
 level.unserialize(window.location.search.substring(1));
@@ -31,11 +48,17 @@ function openPlayUrl() {
 }
 
 var selection;
-var radioChangeCallback = function() {
-    if(this.checked) {
-        selection = this.value;
+var selectables = document.getElementsByClassName("selectable");
+for(var i=0; i<selectables.length; i++) {
+    selectables[i].addEventListener("click", select);
+}
+function select() {
+    for(var i=0; i<selectables.length; i++) {
+        removeClass(selectables[i], "down");
     }
-};
+    selection = this.getAttribute("type");
+    addClass(this, "down");
+}
 
 /* Ball editor */
 var ballUrlField = document.getElementById("ball_url_field");
@@ -47,7 +70,6 @@ var updateBallPreview = function() {
 ballUrlField.addEventListener("change", updateBallPreview);
 ballUrlField.value = ballImg.src;
 updateBallPreview();
-document.getElementById("ball_radio").addEventListener("change", radioChangeCallback);
 
 /* Wall editor */
 var wallUrlField = document.getElementById("wall_url_field");
@@ -59,7 +81,6 @@ var updateWallPreview = function() {
 wallUrlField.addEventListener("change", updateWallPreview);
 wallUrlField.value = wallImg.src;
 updateWallPreview();
-document.getElementById("wall_radio").addEventListener("change", radioChangeCallback);
 
 /* Gum editor */
 var gumUrlField = document.getElementById("gum_url_field");
@@ -71,7 +92,6 @@ var updateGumPreview = function() {
 gumUrlField.addEventListener("change", updateGumPreview);
 gumUrlField.value = gumImg.src;
 updateGumPreview();
-document.getElementById("gum_radio").addEventListener("change", radioChangeCallback);
 
 /* Background editor */
 var backgroundField = document.getElementById("background_field");

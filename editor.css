@@ -1,5 +1,5 @@
 #container {
-    width: 1200px;
+    width: 1250px;
 }
 #board {
     cursor: crosshair;
@@ -26,8 +26,29 @@
     vertical-align: middle;
     width: 30px;
     height: 30px;
-    border: 1px solid black;
+    padding: 7px 7px;           
 }
+
+.selectable {
+    width: 30px;
+    height: 30px;
+    background: #ccc;
+    cursor: pointer;
+    border-top: solid 2px #eaeaea;
+    border-left: solid 2px #eaeaea;
+    border-bottom: solid 2px #777;
+    border-right: solid 2px #777;
+    padding: 5px 5px;           
+}
+
+.selectable.down {
+    background: #bbb;
+    border-top: solid 2px #777;
+    border-left: solid 2px #777;
+    border-bottom:solid 2px  #eaeaea;
+    border-right: solid 2px #eaeaea;
+}
+
 .editor_button {
     padding-top: 10px;
     width: 100px;
