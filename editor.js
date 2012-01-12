@@ -1,6 +1,6 @@
 if(location.hash) {
     // Redirect to use hash as query string
-    location.href = location.origin + location.pathname + "?" + location.hash.substring(1);
+    location.href = "http://" + location.host + location.pathname + "?" + location.hash.substring(1);
     exit();
 }
 
@@ -104,7 +104,7 @@ backgroundField.addEventListener("change", function() {
 /* Board */
 board.addEventListener("click", function(e) {
     var x = e.layerX;
-    var y = e.layerY - (e.offsetY % unitHeight);
+    var y = e.layerY - (e.layerY % unitHeight);
     switch(selection) {
         case "wall":
             level.addWall({
