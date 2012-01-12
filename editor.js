@@ -34,19 +34,10 @@ function openPlayUrl() {
     window.open(url, "_blank");
 }
 
-var cursor = document.getElementById("cursor");
 var selection;
 var radioChangeCallback = function() {
     if(this.checked) {
         selection = this.value;
-        switch(selection) {
-            case "wall":
-                cursor.src = wallUrl;
-                break;
-            case "gum":
-                cursor.src = gumUrl;
-                break;
-        }
     }
 };
 
@@ -101,18 +92,10 @@ backgroundField.addEventListener("change", function() {
 });
 
 /* Board */
-board.addEventListener("mouseover", function(e){
-    cursor.style.display = "block";
-});
-board.addEventListener("mouseout", function(e){
-    cursor.style.display = "none";
-});
 board.addEventListener("mousemove", function(e){
     var x = e.offsetX + board.offsetLeft;
     var y = e.offsetY + board.offsetTop;
     y = y - (y % unitHeight);
-    cursor.style.left = x + "px";
-    cursor.style.top = y + "px";
 });
 board.addEventListener("click", function(e) {
     var x = e.offsetX;
