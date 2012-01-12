@@ -245,7 +245,7 @@ var Level = function(board) {
         
         backgroundUrl: function() {
             var backgroundAttr = window.getComputedStyle(board)["background-image"];
-            if(backgroundAttr !== "none") {
+            if(backgroundAttr && backgroundAttr !== "none") {
                 return backgroundAttr.substring(4, backgroundAttr.length-1);
             }
             return null;
