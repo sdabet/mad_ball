@@ -27,7 +27,7 @@ level.unserialize(window.location.search.substring(1));
 updateSerialization();
 
 function absPath(url){
-    var Loc = location.origin + location.pathname;	
+    var Loc = "http://" + location.host + location.pathname;	
 	Loc = Loc.substring(0, Loc.lastIndexOf('/'));
 	while (/^\.\./.test(url)){		 
 		Loc = Loc.substring(0, Loc.lastIndexOf('/'));
