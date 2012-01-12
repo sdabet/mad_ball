@@ -28,6 +28,7 @@
 				Press &lt;space&gt; to start,<br/>
 				&uarr; and &darr; to control the ball
 			</div>
+            
 			<div id="board" style="position:relative"></div>
             
             <div id="editor_panel">
@@ -47,21 +48,18 @@
                 </div>
                 <div class="editor_group">
                     <div id="ball_editor" class="editor">
-                        <input id="ball_radio" type="radio" name="selection" value="ball" disabled="disabled"/>
-                        <label for="ball_radio"><img id="ball_preview" class="preview" /></label>
+                        <img id="ball_preview" class="preview ball" />
                         <label class="url_label" for="ball_url_field">Ball</label>
                         <input id="ball_url_field" class="url_field" type="url" name="ball_url" value="" />
                     </div>
                     <div id="wall_editor" class="editor">
-                        <input id="wall_radio" type="radio" name="selection" value="wall" />
-                        <label for="wall_radio"><img id="wall_preview" class="preview" /></label>
+                        <img id="wall_preview" class="preview wall selectable" type="wall" />
                         <label class="url_label" for="wall_url_field">Wall</label>
                         <input id="wall_url_field" class="url_field" type="url" name="wall_url" value="" />
                     </div>
                     <div id="gum_editor" class="editor">
-                        <input id="gum_radio" type="radio" name="selection" value="gum" />
-                        <label for="gum_radio"><img id="gum_preview" class="preview" /></label>
-                        <label class="url_label" for="gum_url_field">Gum</label>
+                        <img id="gum_preview" class="preview gum selectable" type="gum"/>
+                        <label class="url_label" for="gum_url_field" >Gum</label>
                         <input id="gum_url_field" class="url_field" type="url" name="gum_url" value="" />
                     </div>
                     <div id="background_editor" class="editor">
