@@ -51,16 +51,19 @@
                         <img id="ball_preview" class="preview ball" />
                         <label class="url_label" for="ball_url_field">Ball</label>
                         <input id="ball_url_field" class="url_field" type="url" name="ball_url" value="" />
+                        <input id="ball_file_field" type="file" />
                     </div>
                     <div id="wall_editor" class="editor">
                         <img id="wall_preview" class="preview wall selectable" type="wall" />
                         <label class="url_label" for="wall_url_field">Wall</label>
                         <input id="wall_url_field" class="url_field" type="url" name="wall_url" value="" />
+                        <input id="wall_file_field" type="file" />
                     </div>
                     <div id="gum_editor" class="editor">
                         <img id="gum_preview" class="preview gum selectable" type="gum"/>
                         <label class="url_label" for="gum_url_field" >Gum</label>
                         <input id="gum_url_field" class="url_field" type="url" name="gum_url" value="" />
+                        <input id="gum_file_field" type="file" />
                     </div>
                     <div id="background_editor" class="editor">
                         <label for="background_field">Background-image</label>
@@ -89,6 +92,7 @@
 		</div>
 			
     	<script src="level.js"></script>
+        <script src="editor_resample.js"></script>
     	<script src="editor.js"></script>
 	</body>
 </html>

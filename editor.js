@@ -18,6 +18,32 @@ function removeClass(ele,cls) {
 		ele.className=ele.className.replace(reg,' ');
 	}
 }
+function handleFileSelect(evt, callback) {
+    var files = evt.target.files; // FileList object
+    
+    if(files.length > 0) {
+        var f = files[0];
+    
+        // Only process image files.
+        if (!f.type.match('image.*')) {
+            alert("This file is not an image");
+            return;
+        }
+        
+        var reader = new FileReader();
+        
+        // Closure to capture the file information.
+        reader.onload = 
+            function(e) {
+                Resample(e.target.result, 30, 30, function(data) {
+                    callback(data);
+                });
+            };
+        
+        // Read in the image file as a data URL.
+        reader.readAsDataURL(f);
+    }
+}
 
 //
 
@@ -70,6 +96,13 @@ var updateBallPreview = function() {
 ballUrlField.addEventListener("change", updateBallPreview);
 ballUrlField.value = ballImg.src;
 updateBallPreview();
+document.getElementById("ball_file_field").addEventListener('change', function(e) {
+    handleFileSelect(e, function(data) {
+        ballUrlField.value = data;
+        level.setBallUrl(data);
+        updateSerialization();
+    })
+}, false);
 
 /* Wall editor */
 var wallUrlField = document.getElementById("wall_url_field");
@@ -81,6 +114,13 @@ var updateWallPreview = function() {
 wallUrlField.addEventListener("change", updateWallPreview);
 wallUrlField.value = wallImg.src;
 updateWallPreview();
+document.getElementById("wall_file_field").addEventListener('change', function(e) {
+    handleFileSelect(e, function(data) {
+        wallUrlField.value = data;
+        level.setWallUrl(data);
+        updateSerialization();
+    })
+}, false);
 
 /* Gum editor */
 var gumUrlField = document.getElementById("gum_url_field");
@@ -92,6 +132,13 @@ var updateGumPreview = function() {
 gumUrlField.addEventListener("change", updateGumPreview);
 gumUrlField.value = gumImg.src;
 updateGumPreview();
+document.getElementById("gum_file_field").addEventListener('change', function(e) {
+    handleFileSelect(e, function(data) {
+        gumUrlField.value = data;
+        level.setGumUrl(data);
+        updateSerialization();
+    })
+}, false);
 
 /* Background editor */
 var backgroundField = document.getElementById("background_field");
