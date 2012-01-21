@@ -35,7 +35,7 @@ function handleFileSelect(evt, callback) {
         // Closure to capture the file information.
         reader.onload = 
             function(e) {
-                Resample(e.target.result, 30, 30, function(data) {
+                Resample(e.target.result, unitHeight, unitHeight, function(data) {
                     callback(data);
                 });
             };
@@ -85,6 +85,14 @@ function select() {
     selection = this.getAttribute("type");
     addClass(this, "down");
 }
+
+/* Dimension editor */
+var widthField = document.querySelector("#board_width_field");
+widthField.value = level.boardWidth();
+var heightField = document.querySelector("#board_height_field");
+heightField.value = level.boardHeight();
+var linesField = document.querySelector("#lines_field");
+linesField.value = parseInt(level.boardHeight() / unitHeight);
 
 /* Ball editor */
 var ballUrlField = document.getElementById("ball_url_field");
@@ -150,8 +158,10 @@ backgroundField.addEventListener("change", function() {
 
 /* Board */
 board.addEventListener("click", function(e) {
-    var x = e.layerX;
-    var y = e.layerY - (e.layerY % unitHeight);
+    var x = e.pageX - board.offsetLeft - container.offsetLeft;
+    var y = e.pageY - board.offsetTop - container.offsetTop;
+    y -= y % unitHeight;
+    console.log("Clic: (" + x + "," + y + ")");
     switch(selection) {
         case "wall":
             level.addWall({
@@ -168,6 +178,9 @@ board.addEventListener("click", function(e) {
 				w: unitHeight,
 				h: unitHeight
 			}, 0);
+            break;
+        case "erase":
+            level.removeItemsAtPosition(x,y);
             break;
     }
     updateSerialization();

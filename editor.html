@@ -22,15 +22,22 @@
 		</script>
 	</head>
 	<body>
+        <form id="dim_editor" class="editor" action="editor.html" >
+            <label for="board_width_field">Width</label>
+            <input type="number" name="boardWidth" id="board_width_field" />
+            <label for="board_height_field">Height</label>
+            <input type="number" name="boardHeight" id="board_height_field" />
+            <label for="lines_field">Number of lines</label>
+            <input type="number" name="lines" id="lines_field" />
+            <input type="submit" value="New game" />
+        </form>
 		<div id="container">
 			<div id="start_message">
 				Level <span id="level"></span><br/><br/>
 				Press &lt;space&gt; to start,<br/>
 				&uarr; and &darr; to control the ball
 			</div>
-            
-			<div id="board" style="position:relative"></div>
-            
+                        
             <div id="editor_panel">
                 <div class="editor_group">
                     <button class="editor_button" onclick="level.clear();updateSerialization();" title="Clear the board">
@@ -65,6 +72,9 @@
                         <input id="gum_url_field" class="url_field" type="url" name="gum_url" value="" />
                         <input id="gum_file_field" type="file" class="file_field" />
                     </div>
+                    <div id="erase_editor" class="editor">
+                        <img id="erase_preview" class="preview erase selectable" type="erase"/>
+                    </div>
                     <div id="background_editor" class="editor">
                         <label for="background_field">Background-image</label>
                         <input id="background_field" type="text" name="background" value="" />
@@ -73,6 +83,9 @@
                 <label for="serialized">Share URL:</label>
                 <textarea id="serialized"></textarea>
             </div>
+    
+    		<div id="board" style="position:relative"></div>
+
 		</div>
 		
 		<div id="modal_bg" class="modal"></div>

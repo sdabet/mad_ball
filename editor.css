@@ -1,8 +1,10 @@
 #container {
-    width: 1200px;
+    width: 1220px;
 }
 #board {
     cursor: crosshair;
+    width: 480px;
+    height: 320px;
 }
 #editor_panel {
     float: left;

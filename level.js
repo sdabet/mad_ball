@@ -1,3 +1,9 @@
+Array.prototype.remove = function(from, to) {
+    var rest = this.slice((to || from) + 1 || this.length);
+	this.length = from < 0 ? this.length + from : from;
+	return this.push.apply(this, rest);
+};
+
 function getQueryVariable(query,variable) {
     var vars = query.split("&");
     for (var i = 0; i < vars.length; i++) {
@@ -20,15 +26,9 @@ var Level = function(board) {
     var item_sep = ";";
     var coord_sep = ",";
         
-    var boardWidth = board.offsetWidth;
-	var boardHeight = board.offsetHeight;
-
     var gums = [];
 	var walls = [];
 
-    var wallNumber = 10;
-	var gumNumber = 10;
-    
     var drawWall = function(i) {
         var wallEl = wallImg.cloneNode(true);
     	wallEl.style.left = walls[i].x + "px";
@@ -50,10 +50,10 @@ var Level = function(board) {
     };
         
 	var randomX = function() {
-		return Math.floor(Math.random()*(boardWidth-unitHeight));
+		return Math.floor(Math.random()*(board.offsetWidth-unitHeight));
 	}
 	var randomY = function() {
-		return Math.floor(Math.random()*((boardHeight-unitHeight)/unitHeight)) * unitHeight;
+		return Math.floor(Math.random()*((board.offsetHeight-unitHeight)/unitHeight)) * unitHeight;
 	}
 
     var initBall = function() {
@@ -66,6 +66,8 @@ var Level = function(board) {
     	/* Init ball position */
 		boule.x = randomX();
 		boule.y = 0; // on the first line
+        boule.w = unitHeight;
+        boule.h = unitHeight;
 		boule.targetY = boule.y;
 		boule.dom = ballImg.cloneNode(true);
 		board.appendChild(boule.dom);
@@ -133,9 +135,9 @@ var Level = function(board) {
 				this.speed = -this.speed;
 				this.x = 0;
 			}
-			else if(this.x >= boardWidth-this.w) {
+			else if(this.x >= board.offsetWidth-this.w) {
 				this.speed = -this.speed;
-				this.x = boardWidth-this.w;
+				this.x = board.offsetWidth-this.w;
 			}
 			this.draw();
 		},
@@ -151,7 +153,7 @@ var Level = function(board) {
 		 * Ball goes down
 		 */
 		down: function() {
-			if(this.y <= boardHeight - 2*this.h) {
+			if(this.y <= board.offsetHeight - 2*this.h) {
 				this.y = this.y + this.h;
 			}
 		}
@@ -174,6 +176,14 @@ var Level = function(board) {
     loadImages(function() {});
 
     return {
+        
+        boardWidth: function() {
+            return board.offsetWidth;
+        },
+        
+        boardHeight: function() {
+            return board.offsetHeight;
+        },
         
         ready: function() {
     		container.className = "ready";
@@ -230,18 +240,44 @@ var Level = function(board) {
     		// Gum collision
     		var index = findCollision(boule.x, boule.y, boule.w, boule.h, gums);
     		if(index !== null) {
-    			var gum = gums[index];
-    			gum.dom.style.width = "0";
-    			gum.dom.style.marginLeft = "15px";
-    			gum.dom.style.marginTop = "15px";
-    			//gum.dom.parentNode.removeChild(gum.dom);
-    			gums.remove(index, index);
+                this.removeGum(index);
     			if(gums.length == 0) {
     				onFinished();
     			}
     			boule.speed = -boule.speed;
     		}
     	},
+        
+        removeGum: function(index) {
+    		var gum = gums[index];
+			gum.dom.style.width = "0";
+			gum.dom.style.marginLeft = "15px";
+			gum.dom.style.marginTop = "15px";
+			gum.dom.parentNode.removeChild(gum.dom);
+			gums.remove(index, index);
+        },
+        
+        removeWall: function(index) {
+        	var wall = walls[index];
+			wall.dom.style.width = "0";
+			wall.dom.style.marginLeft = "15px";
+			wall.dom.style.marginTop = "15px";
+			wall.dom.parentNode.removeChild(wall.dom);
+			walls.remove(index, index);
+        },
+
+        removeItemsAtPosition: function(x,y) {
+            var index = findCollision(x,y,10,10,gums);
+            if(index !== null) {
+                this.removeGum(index);
+            }
+            else {
+                var index = findCollision(x,y,10,10,walls);
+                if(index !== null) {
+                    this.removeWall(index);
+                }
+            }
+        },
         
         backgroundUrl: function() {
             var backgroundAttr = window.getComputedStyle(board)["background-image"];
@@ -254,8 +290,13 @@ var Level = function(board) {
         serialize: function() {
             var str = "";
             
+            // Serialize board dimensions
+            str += "boardWidth=" + board.offsetWidth;
+            str += "&boardHeight=" + board.offsetHeight;
+            str += "&lines=" + parseInt(this.boardHeight() / unitHeight);
+            
             // Serialize ball position
-            str += "ball=" + boule.x + coord_sep + boule.y;
+            str += "&ball=" + boule.x + coord_sep + boule.y;
             
             // Serialize walls position
             str += "&walls=";
@@ -293,6 +334,20 @@ var Level = function(board) {
         
         unserialize: function(query) {
             this.clear();
+            
+            // Unserialize board dimensions
+            var w = getQueryVariable(query, "boardWidth");
+            if(w) {
+                board.style.width = w + "px";
+            }
+            var h = getQueryVariable(query, "boardHeight");
+            if(h) {
+                board.style.height = h + "px";
+            }
+            var lines = getQueryVariable(query, "lines");
+            if(lines) {
+                unitHeight = parseInt(this.boardHeight() / lines);
+            }
             
             // Unserialize ball position
             var ballStr = getQueryVariable(query, "ball");
@@ -356,7 +411,7 @@ var Level = function(board) {
             var backgroundImage = getQueryVariable(query, "backgroundImage");
             if(backgroundImage) {
                 board.style.backgroundImage = "url('" + backgroundImage + "')";
-            }
+            }            
         },
     
         addWall: function(wall, timeout) {
@@ -377,28 +432,35 @@ var Level = function(board) {
         },
     
         generate: function() {
+            var gumNumber = parseInt(this.boardHeight() / (2*unitHeight));
+            var wallNumber = parseInt(gumNumber);
+            console.log("generate: " + gumNumber + " gums & " + wallNumber + " walls");
             this.clear();
             initBall();
             
             var margin = 2 * unitHeight;
     
     		/* Init gums */
+            var tries = 10;
     		for(var i=0; i < gumNumber; i++) {
     			do {
+                    tries--;
     				gum = {
     					x: randomX(),
     					y: randomY(),
     					w: unitHeight,
     					h: unitHeight
     				};
-    			} while(findCollision(gum.x - margin, gum.y - margin, gum.w + 2*margin, gum.h + 2*margin, gums) !== null);
+    			} while(tries > 0 && findCollision(gum.x - margin, gum.y - margin, gum.w + 2*margin, gum.h + 2*margin, gums) !== null);
     			this.addGum(gum, 100*i);
     		}
     
     		/* Init walls */
+            var tries = 10;
     		for(var i=0; i < wallNumber; i++) {
     			var wall;
     			do {
+                    tries--;
     				wall = {
     					x: randomX(),
     					y: randomY(),
@@ -406,6 +468,7 @@ var Level = function(board) {
     					h: unitHeight
     				};
     			} while(
+                    tries > 0 &&
     				findCollision(wall.x - margin, wall.y - margin, wall.w + 2*margin, wall.h + 2*margin, gums) !== null
     				|| findCollision(wall.x - margin, wall.y - margin, wall.w + 2*margin, wall.h + 2*margin, walls) !== null
     				|| (wall.y <= boule.y+boule.h && wall.y+wall.h >= boule.y) // no wall on the initial ball row
