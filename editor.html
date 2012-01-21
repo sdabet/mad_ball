@@ -31,13 +31,14 @@
             <input type="number" name="lines" id="lines_field" />
             <input type="submit" value="New game" />
         </form>
+
 		<div id="container">
 			<div id="start_message">
 				Level <span id="level"></span><br/><br/>
 				Press &lt;space&gt; to start,<br/>
 				&uarr; and &darr; to control the ball
 			</div>
-                        
+                                    
             <div class="editor_group">
                 <button class="editor_button" onclick="level.clear();updateSerialization();" title="Clear the board">
                     <img width="50px" src="editor_clear.png"/>
@@ -54,13 +55,15 @@
             </div>
     
             <div class="editor_group">
-                <div style="float:left">
-                    <img class="preview wall selectable" type="wall" />
-                    <img class="preview gum selectable" type="gum" />
-                    <img class="preview erase selectable" type="erase" src="editor_erase.png" />
+                <div class="editor_panel" style="float:left">
+                    <img class="preview wall selectable" type="wall" title="Add a wall" />
+                    <img class="preview gum selectable" type="gum" title="Add a gum" />
+                    <img class="preview erase selectable" type="erase" src="editor_erase.png" title="Clear an item" />
                 </div>
 
-        		<div id="board" style="position:relative; float: left;"></div>
+        		<div id="board" style="position:relative; float: left;">
+                    <img id="cursor" />
+                </div>
                 <div style="clear:both"></div>
             </div>
 

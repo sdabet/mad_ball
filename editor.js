@@ -84,6 +84,18 @@ function select() {
     }
     selection = this.getAttribute("type");
     addClass(this, "down");
+    
+    switch(selection) {
+        case "wall":
+            cursor.src = wallImg.src;
+            break;
+        case "gum":
+            cursor.src = gumImg.src;
+            break;
+        case "erase":
+            cursor.src = "editor_erase.png";
+            break;
+    }
 }
 
 /* Dimension editor */
@@ -157,7 +169,18 @@ backgroundField.addEventListener("change", function() {
 });
 
 /* Board */
-board.addEventListener("click", function(e) {
+var cursor = document.getElementById("cursor");
+cursor.width = level.unitHeight();
+cursor.height = level.unitHeight();
+board.onmousemove = function(e) {
+    var unitHeight = level.unitHeight();
+    var x = Math.max(0,Math.min(level.boardWidth()-unitHeight, parseInt(e.pageX - board.offsetLeft - container.offsetLeft - unitHeight/2)));
+    var y = parseInt(e.pageY - board.offsetTop - container.offsetTop);
+    y -= y % unitHeight;
+    cursor.style.left = x + "px";
+    cursor.style.top = y + "px";
+};
+board.onclick= function(e) {
     var unitHeight = level.unitHeight();
     var x = Math.max(0,Math.min(level.boardWidth()-unitHeight, parseInt(e.pageX - board.offsetLeft - container.offsetLeft - unitHeight/2)));
     var y = parseInt(e.pageY - board.offsetTop - container.offsetTop);
@@ -175,4 +198,4 @@ board.addEventListener("click", function(e) {
             break;
     }
     updateSerialization();
-});
+};

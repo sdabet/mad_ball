@@ -136,11 +136,11 @@ var Level = function(board) {
     };
 
 	ballImg.style.position = "absolute";
-	ballImg.className = "ball";
+	ballImg.className = "item ball";
 	gumImg.style.position = "absolute";
-	gumImg.className = "gum";
+	gumImg.className = "item gum";
 	wallImg.style.position = "absolute";
-	wallImg.className = "wall";
+	wallImg.className = "item wall";
 
     loadImages(function() {});
 
@@ -192,7 +192,9 @@ var Level = function(board) {
     	},
         
         clear: function() {
-            board.innerHTML = "";
+            [].forEach.call( board.querySelectorAll(".item"), function(el) {
+                board.removeChild(el);
+            });
         	gums = [];
         	walls = [];
         },   
