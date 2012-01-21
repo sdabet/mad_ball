@@ -1,5 +1,5 @@
 #container {
-    width: 1220px;
+    /*width: 1220px;*/
 }
 #board {
     cursor: crosshair;
@@ -41,6 +41,8 @@
     border-bottom: solid 2px #777;
     border-right: solid 2px #777;
     padding: 5px 5px;           
+    display: block;
+    margin: 5px;
 }
 
 .selectable.down {

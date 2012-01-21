@@ -49,10 +49,10 @@ h1 {
 	border-radius: 10px;
 	-webkit-border-radius: 10px;
 	-moz-border-radius: 10px;
-	float: left;
 	width: 800px;
 	height: 580px;
     background-size: 100%;
+    display: inline-block;
 }
 
 /*

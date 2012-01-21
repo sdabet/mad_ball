@@ -38,21 +38,32 @@
 				&uarr; and &darr; to control the ball
 			</div>
                         
-            <div id="editor_panel">
-                <div class="editor_group">
-                    <button class="editor_button" onclick="level.clear();updateSerialization();" title="Clear the board">
-                        <img width="50px" src="editor_clear.png"/>
-                        <div>Clear</div>
-                    </button>
-                    <button class="editor_button" onclick="level.generate();updateSerialization();" title="Generate a random level">
-                        <img width="50px" src="editor_generate.png"/>
-                        <div>Random</div>
-                    </button>
-                    <button class="editor_button" onclick="openPlayUrl();" title="Play this level">
-                        <img width="50px" src="editor_play.png"/>
-                        <div>Play it</div>
-                    </button>
+            <div class="editor_group">
+                <button class="editor_button" onclick="level.clear();updateSerialization();" title="Clear the board">
+                    <img width="50px" src="editor_clear.png"/>
+                    <div>Clear</div>
+                </button>
+                <button class="editor_button" onclick="level.generate();updateSerialization();" title="Generate a random level">
+                    <img width="50px" src="editor_generate.png"/>
+                    <div>Random</div>
+                </button>
+                <button class="editor_button" onclick="openPlayUrl();" title="Play this level">
+                    <img width="50px" src="editor_play.png"/>
+                    <div>Play it</div>
+                </button>
+            </div>
+    
+            <div class="editor_group">
+                <div style="float:left">
+                    <img class="preview wall selectable" type="wall" />
+                    <img class="preview gum selectable" type="gum" />
+                    <img class="preview erase selectable" type="erase" src="editor_erase.png" />
                 </div>
+
+        		<div id="board" style="position:relative; float: left;"></div>
+                <div style="clear:both"></div>
+            </div>
+
                 <div class="editor_group">
                     <div id="ball_editor" class="editor">
                         <img id="ball_preview" class="preview ball" />
@@ -61,28 +72,22 @@
                         <input id="ball_file_field" type="file" class="file_field" />
                     </div>
                     <div id="wall_editor" class="editor">
-                        <img id="wall_preview" class="preview wall selectable" type="wall" />
+                        <img id="wall_preview" class="preview wall" type="wall" />
                         <label class="url_label" for="wall_url_field">Wall</label>
                         <input id="wall_url_field" class="url_field" type="url" name="wall_url" value="" />
                         <input id="wall_file_field" type="file" class="file_field" />
                     </div>
                     <div id="gum_editor" class="editor">
-                        <img id="gum_preview" class="preview gum selectable" type="gum"/>
+                        <img id="gum_preview" class="preview gum" type="gum"/>
                         <label class="url_label" for="gum_url_field" >Gum</label>
                         <input id="gum_url_field" class="url_field" type="url" name="gum_url" value="" />
                         <input id="gum_file_field" type="file" class="file_field" />
-                    </div>
-                    <div id="erase_editor" class="editor">
-                        <img id="erase_preview" class="preview erase selectable" type="erase" src="editor_erase.png" />
                     </div>
                     <div id="background_editor" class="editor">
                         <label for="background_field">Background-image</label>
                         <input id="background_field" type="text" name="background" value="" />
                     </div>
                 </div>
-            </div>
-    
-    		<div id="board" style="position:relative"></div>
 
             <div style="clear:both; text-align: left;">
                 <label for="serialized">Share URL:</label>
