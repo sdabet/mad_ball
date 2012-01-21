@@ -22,7 +22,7 @@
 		</script>
 	</head>
 	<body>
-        <form id="dim_editor" class="editor" action="editor.html" >
+        <form id="dim_editor" class="editor" action="editor.html" style="text-align: center">
             <label for="board_width_field">Width</label>
             <input type="number" name="boardWidth" id="board_width_field" />
             <label for="board_height_field">Height</label>
@@ -80,12 +80,14 @@
                         <input id="background_field" type="text" name="background" value="" />
                     </div>
                 </div>
-                <label for="serialized">Share URL:</label>
-                <textarea id="serialized"></textarea>
             </div>
     
     		<div id="board" style="position:relative"></div>
 
+            <div style="clear:both; text-align: left;">
+                <label for="serialized">Share URL:</label>
+                <textarea id="serialized"></textarea>
+            </div>
 		</div>
 		
 		<div id="modal_bg" class="modal"></div>
