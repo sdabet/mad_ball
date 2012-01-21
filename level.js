@@ -172,10 +172,10 @@ var Level = function(board) {
     		boule.draw();
         },
 
-       lines: 10,
+       lines: 19,
         
         unitHeight: function() {
-            return this.boardHeight() / this.lines;
+            return parseInt(this.boardHeight() / this.lines);
         },
         
         boardWidth: function() {
