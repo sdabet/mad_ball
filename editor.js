@@ -35,7 +35,7 @@ function handleFileSelect(evt, callback) {
         // Closure to capture the file information.
         reader.onload = 
             function(e) {
-                Resample(e.target.result, unitHeight, unitHeight, function(data) {
+                Resample(e.target.result, level.unitHeight(), level.unitHeight(), function(data) {
                     callback(data);
                 });
             };
@@ -92,7 +92,7 @@ widthField.value = level.boardWidth();
 var heightField = document.querySelector("#board_height_field");
 heightField.value = level.boardHeight();
 var linesField = document.querySelector("#lines_field");
-linesField.value = parseInt(level.boardHeight() / unitHeight);
+linesField.value = level.lines;
 
 /* Ball editor */
 var ballUrlField = document.getElementById("ball_url_field");
@@ -158,26 +158,17 @@ backgroundField.addEventListener("change", function() {
 
 /* Board */
 board.addEventListener("click", function(e) {
-    var x = e.pageX - board.offsetLeft - container.offsetLeft;
-    var y = e.pageY - board.offsetTop - container.offsetTop;
+    var unitHeight = level.unitHeight();
+    var x = Math.max(0,Math.min(level.boardWidth()-unitHeight, parseInt(e.pageX - board.offsetLeft - container.offsetLeft - unitHeight/2)));
+    var y = parseInt(e.pageY - board.offsetTop - container.offsetTop);
     y -= y % unitHeight;
     console.log("Clic: (" + x + "," + y + ")");
     switch(selection) {
         case "wall":
-            level.addWall({
-				x: x,
-				y: y,
-				w: unitHeight,
-				h: unitHeight
-			}, 0);
+            level.addWall(x, y, 0);
             break;
         case "gum":
-            level.addGum({
-    			x: x,
-				y: y,
-				w: unitHeight,
-				h: unitHeight
-			}, 0);
+            level.addGum(x, y, 0);
             break;
         case "erase":
             level.removeItemsAtPosition(x,y);
