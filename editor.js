@@ -49,8 +49,8 @@ function handleFileSelect(evt, callback) {
 
 function updateSerialization() {
     var serialization = level.serialize();
-    document.getElementById("serialized").innerHTML = absPath("editor.html?" + serialization);
-    location.hash = level.serialize();
+    document.getElementById("serialized").innerHTML = serialization;
+    location.hash = serialization;
 }
 
 function absPath(url){
