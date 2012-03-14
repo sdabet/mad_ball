@@ -1,8 +1,8 @@
 if(location.hash) {
     // Redirect to use hash as query string
     location.href = "http://" + location.host + location.pathname + "?" + location.hash.substring(1);
-    return;
 }
+else {
 
 // Util
 
@@ -47,13 +47,14 @@ function handleFileSelect(evt, callback) {
 
 //
 
-var board = document.getElementById("board");
-var level = new Level(board);
-level.unserialize(window.location.search.substring(1));
-updateSerialization();
+function updateSerialization() {
+    var serialization = level.serialize();
+    document.getElementById("serialized").innerHTML = absPath("editor.html?" + serialization);
+    location.hash = level.serialize();
+}
 
 function absPath(url){
-    var Loc = "http://" + location.host + location.pathname;	
+    var Loc = "http://" + location.host + location.pathname;    
 	Loc = Loc.substring(0, Loc.lastIndexOf('/'));
 	while (/^\.\./.test(url)){		 
 		Loc = Loc.substring(0, Loc.lastIndexOf('/'));
@@ -62,22 +63,6 @@ function absPath(url){
 	return Loc + '/' + url;
 }
 
-function updateSerialization() {
-    var serialization = level.serialize();
-    document.getElementById("serialized").innerHTML = absPath("editor.html?" + serialization);
-    location.hash = level.serialize();
-}
-
-function openPlayUrl() {
-    var url = "index.html?" + level.serialize();
-    window.open(url, "_blank");
-}
-
-var selection;
-var selectables = document.getElementsByClassName("selectable");
-for(var i=0; i<selectables.length; i++) {
-    selectables[i].addEventListener("click", select);
-}
 function select() {
     for(var i=0; i<selectables.length; i++) {
         removeClass(selectables[i], "down");
@@ -96,6 +81,22 @@ function select() {
             cursor.src = "editor_erase.png";
             break;
     }
+}
+
+var board = document.getElementById("board");
+var level = new Level(board);
+level.unserialize(window.location.search.substring(1));
+updateSerialization();
+
+function openPlayUrl() {
+    var url = "index.html?" + level.serialize();
+    window.open(url, "_blank");
+}
+
+var selection;
+var selectables = document.getElementsByClassName("selectable");
+for(var i=0; i<selectables.length; i++) {
+    selectables[i].addEventListener("click", select);
 }
 
 /* Dimension editor */
@@ -199,3 +200,5 @@ board.onclick= function(e) {
     }
     updateSerialization();
 };
+
+}

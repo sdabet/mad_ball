@@ -14,6 +14,8 @@ function getQueryVariable(query,variable) {
     }
 }
 
+var container = document.getElementById("container");
+
 var ballImg = new Image();
 var wallImg = new Image();
 var gumImg = new Image();

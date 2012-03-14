@@ -30,8 +30,6 @@ window.requestAnimFrame = (function(){
 	// The container dom element. It can have the following classes:
 	//  - ready: game is initialized correctly, start message is displayed, waiting for spacebar pressed
 	//  - crash: when collision with wall (red background)
-	var container = document.getElementById("container");
-
 	var board = document.getElementById("board");
 
     var gameLevel = new Level(board);
