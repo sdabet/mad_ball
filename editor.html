@@ -23,13 +23,15 @@
 	</head>
 	<body>
         <form id="dim_editor" class="editor" action="editor.html" style="text-align: center">
-            <label for="board_width_field">Width</label>
-            <input type="number" name="boardWidth" id="board_width_field" />
-            <label for="board_height_field">Height</label>
-            <input type="number" name="boardHeight" id="board_height_field" />
+            <div style="display:none">
+                <label for="board_width_field">Width</label>
+                <input type="number" name="boardWidth" id="board_width_field" />
+                <label for="board_height_field">Height</label>
+                <input type="number" name="boardHeight" id="board_height_field" />
+            </div>
             <label for="lines_field">Number of lines</label>
             <input type="number" name="lines" id="lines_field" />
-            <input type="submit" value="New game" />
+            <input type="submit" value="Update" />
         </form>
 
 		<div id="container">

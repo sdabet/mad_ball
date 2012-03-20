@@ -112,6 +112,10 @@ heightField.value = level.boardHeight();
 var linesField = document.querySelector("#lines_field");
 linesField.value = level.lines;
 
+linesField.addEventListener('change', function() {
+    heightField.value = 32 * linesField.value;
+});
+
 /* Ball editor */
 var ballUrlField = document.getElementById("ball_url_field");
 var updateBallPreview = function() {
