@@ -19,6 +19,7 @@ var container = document.getElementById("container");
 var ballImg = new Image();
 var wallImg = new Image();
 var gumImg = new Image();
+var neutralImg = new Image();
 
 var Level = function(board) {
     
@@ -27,6 +28,7 @@ var Level = function(board) {
         
     var gums = [];
 	var walls = [];
+    var neutrals = [];
     
     var drawWall = function(i) {
         var wallEl = wallImg.cloneNode(true);
@@ -46,6 +48,16 @@ var Level = function(board) {
         gumEl.style.height = gums[i].h + "px";
 		board.appendChild(gumEl);
 		gums[i].dom = gumEl;
+    };
+        
+    var drawNeutral = function(i) {
+        var neutralEl = neutralImg.cloneNode(true);
+    	neutralEl.style.left = neutrals[i].x + "px";
+		neutralEl.style.top = neutrals[i].y + "px";
+        neutralEl.style.width = neutrals[i].w + "px";
+        neutralEl.style.height = neutrals[i].h + "px";
+		board.appendChild(neutralEl);
+		neutrals[i].dom = neutralEl;
     };
         
 	/*
@@ -80,6 +92,7 @@ var Level = function(board) {
 		ballImg.src = "ball.png";
 		wallImg.src = "wall.png";
 		gumImg.src = "smiley.png";
+        neutralImg.src = "http://cdn1.iconfinder.com/data/icons/developperss/PNG/Green%20Ball.png";
 	};
     
     /* 
@@ -143,6 +156,8 @@ var Level = function(board) {
 	gumImg.className = "item gum";
 	wallImg.style.position = "absolute";
 	wallImg.className = "item wall";
+    neutralImg.style.position = "absolute";
+	neutralImg.className = "item neutral";
 
     loadImages(function() {});
 
@@ -174,7 +189,7 @@ var Level = function(board) {
     		boule.draw();
         },
 
-       lines: 19,
+       lines: 10,
         
         unitHeight: function() {
             return parseInt(this.boardHeight() / this.lines);
@@ -214,6 +229,11 @@ var Level = function(board) {
         setGumUrl: function(src) {
             gumImg.src = src;
             setClassUrl("gum", src);
+        },
+        
+        setNeutralUrl: function(src) {
+            neutralImg.src = src;
+            setClassUrl("neutral", src);
         },
         
         setSpeed: function(speed) {
@@ -271,6 +291,15 @@ var Level = function(board) {
 			walls.remove(index, index);
         },
 
+        removeNeutral: function(index) {
+            var neutral = neutrals[index];
+			neutral.dom.style.width = "0";
+			neutral.dom.style.marginLeft = "15px";
+			neutral.dom.style.marginTop = "15px";
+			neutral.dom.parentNode.removeChild(neutral.dom);
+			neutrals.remove(index, index);
+        },
+
         removeItemsAtPosition: function(x,y) {
             var index = findCollision(x,y,10,10,gums);
             if(index !== null) {
@@ -280,6 +309,12 @@ var Level = function(board) {
                 var index = findCollision(x,y,10,10,walls);
                 if(index !== null) {
                     this.removeWall(index);
+                }
+                else {
+                    var index = findCollision(x,y,10,10,neutrals);
+                    if(index !== null) {
+                        this.removeNeutral(index);
+                    }
                 }
             }
         },
@@ -292,7 +327,7 @@ var Level = function(board) {
             return null;
         },
     
-        serialize: function() {
+        serialize: function(serialize_urls) {
             var str = "";
             
             // Serialize board dimensions
@@ -319,19 +354,29 @@ var Level = function(board) {
                 str += gum.x + coord_sep + gum.y;
             }
             
-            // Serialize ball url
-            str += "&ballUrl=" + encodeURIComponent(ballImg.src);
+            // Serialize neutrals position
+            str += "&neutrals=";
+            for(var i=0; i<neutrals.length; i++) {
+                if(i != 0) { str += item_sep; }
+                var neutral = neutrals[i];
+                str += neutral.x + coord_sep + neutral.y;
+            }
             
-            // Serialize wall url
-            str += "&wallUrl=" + encodeURIComponent(wallImg.src);
-            
-            // Serialize ball url
-            str += "&gumUrl=" + encodeURIComponent(gumImg.src);
-            
-            // Serialize background image (remove the url('...'))
-            var url = this.backgroundUrl();
-            if(url) {
-                str += "&backgroundImage=" + url;
+            if(serialize_urls) {
+                // Serialize ball url
+                str += "&ballUrl=" + encodeURIComponent(ballImg.src);
+                
+                // Serialize wall url
+                str += "&wallUrl=" + encodeURIComponent(wallImg.src);
+                
+                // Serialize ball url
+                str += "&gumUrl=" + encodeURIComponent(gumImg.src);
+                
+                // Serialize background image (remove the url('...'))
+                var url = this.backgroundUrl();
+                if(url) {
+                    str += "&backgroundImage=" + url;
+                }
             }
             
             return str;
@@ -383,7 +428,18 @@ var Level = function(board) {
                     this.addGum(parseInt(gumStrSplit[0]), parseInt(gumStrSplit[1]), 100*i);
                 }
             }
-            
+
+            // Unserialize neutrals
+            var neutralsStr = getQueryVariable(query, "neutrals");
+            if(neutralsStr) {
+                var neutralStrings = neutralsStr.split(item_sep);
+                for(var i=0; i<neutralStrings.length; i++) {
+                    var neutralStr = neutralStrings[i];
+                    var neutralStrSplit = neutralStr.split(coord_sep);
+                    this.addNeutral(parseInt(neutralStrSplit[0]), parseInt(neutralStrSplit[1]), 100*i);
+                }
+            }
+
             // Unserialize ball url
             var ballUrlString = getQueryVariable(query, "ballUrl");
             if(ballUrlString) {
@@ -435,6 +491,19 @@ var Level = function(board) {
                 drawGum(i)
             }, timeout || 0);
         },
+        
+        addNeutral: function(x, y, timeout) {
+            var i = neutrals.length;
+            neutrals[i] = {
+                x: x,
+                y: y,
+                w: this.unitHeight(),
+                h: this.unitHeight()
+            };
+            setTimeout(function() {
+                drawNeutral(i)
+            }, timeout || 0);
+        },        
     
         generate: function() {
             var unitHeight = this.unitHeight();

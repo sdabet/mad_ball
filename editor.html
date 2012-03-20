@@ -58,7 +58,11 @@
                 <div class="editor_panel" style="float:left">
                     <img class="preview wall selectable" type="wall" title="Add a wall" />
                     <img class="preview gum selectable" type="gum" title="Add a gum" />
-                    <img class="preview erase selectable" type="erase" src="editor_erase.png" title="Clear an item" />
+                    <img class="preview neutral selectable" type="neutral" title="Add a neutral item" />
+                    
+                    <div style="width:40px;height:2px;background-color:#555;display:inline-block;"></div>
+                    
+                    <img class="preview erase selectable" type="erase" src="editor_erase.png" title="Remove an item" />
                 </div>
 
         		<div id="board" style="position:relative; float: left;">
@@ -86,6 +90,12 @@
                         <input id="gum_url_field" class="url_field" type="url" name="gum_url" value="" />
                         <input id="gum_file_field" type="file" class="file_field" />
                     </div>
+                    <div id="neutral_editor" class="editor">
+                        <img id="neutral_preview" class="preview neutral" type="neutral"/>
+                        <label class="url_label" for="neutral_url_field" >Gum</label>
+                        <input id="neutral_url_field" class="url_field" type="url" name="neutral_url" value="" />
+                        <input id="neutral_file_field" type="file" class="file_field" />
+                    </div>
                     <div id="background_editor" class="editor">
                         <label for="background_field">Background-image</label>
                         <input id="background_field" type="text" name="background" value="" />
@@ -93,10 +103,15 @@
                 </div>
 
             <div style="clear:both; text-align: left;">
-                <label for="serialized">Level data:</label>
-                <textarea id="serialized"></textarea>
+                <label for="serialization_without_images">Level data (without images):</label>
+                <textarea id="serialization_without_images" class="serialization"></textarea>
             </div>
-		</div>
+
+            <div style="clear:both; text-align: left;">
+                <label for="serialization_with_images">Level data (with images):</label>
+                <textarea id="serialization_with_images" class="serialization"></textarea>
+            </div>
+        </div>
 		
 		<div id="modal_bg" class="modal"></div>
 		<div class="modal">

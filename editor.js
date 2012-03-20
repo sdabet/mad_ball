@@ -48,9 +48,11 @@ function handleFileSelect(evt, callback) {
 //
 
 function updateSerialization() {
-    var serialization = level.serialize();
-    document.getElementById("serialized").innerHTML = serialization;
-    location.hash = serialization;
+    var serialization_with_images = level.serialize(true);
+    var serialization_without_images = level.serialize(false);
+    document.getElementById("serialization_with_images").innerHTML = serialization_with_images;
+    document.getElementById("serialization_without_images").innerHTML = serialization_without_images;
+    location.hash = serialization_with_images;
 }
 
 function absPath(url){
@@ -76,6 +78,9 @@ function select() {
             break;
         case "gum":
             cursor.src = gumImg.src;
+            break;
+        case "neutral":
+            cursor.src = neutralImg.src;
             break;
         case "erase":
             cursor.src = "editor_erase.png";
@@ -161,6 +166,24 @@ document.getElementById("gum_file_field").addEventListener('change', function(e)
     })
 }, false);
 
+/* Neutral object */
+var neutralUrlField = document.getElementById("neutral_url_field");
+var updateNeutralPreview = function() {
+    var url = neutralUrlField.value;
+    level.setNeutralUrl(url);
+    updateSerialization();
+};
+neutralUrlField.addEventListener("change", updateNeutralPreview);
+neutralUrlField.value = neutralImg.src;
+updateNeutralPreview();
+document.getElementById("neutral_file_field").addEventListener('change', function(e) {
+    handleFileSelect(e, function(data) {
+        gumNeutralField.value = data;
+        level.setNeutralUrl(data);
+        updateSerialization();
+    })
+}, false);
+
 /* Background editor */
 var backgroundField = document.getElementById("background_field");
 backgroundField.value = level.backgroundUrl();
@@ -193,6 +216,9 @@ board.onclick= function(e) {
             break;
         case "gum":
             level.addGum(x, y, 0);
+            break;
+        case "neutral":
+            level.addNeutral(x, y, 0);
             break;
         case "erase":
             level.removeItemsAtPosition(x,y);
