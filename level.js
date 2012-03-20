@@ -21,49 +21,35 @@ var wallImg = new Image();
 var gumImg = new Image();
 var neutralImg = new Image();
 
+var imgStore = {
+    "ball": ballImg,
+    "wall": wallImg,
+    "gum": gumImg,
+    "neutral": neutralImg
+};
+
 var Level = function(board) {
     
     var item_sep = ";";
     var coord_sep = ",";
         
-    var gums = [];
-	var walls = [];
-    var neutrals = [];
+    var items = [];
     
-    var drawWall = function(i) {
-        var wallEl = wallImg.cloneNode(true);
-    	wallEl.style.left = walls[i].x + "px";
-		wallEl.style.top = walls[i].y + "px";
-        wallEl.style.width = walls[i].w + "px";
-        wallEl.style.height = walls[i].h + "px";
-		board.appendChild(wallEl);
-		walls[i].dom = wallEl;
+    var drawItem = function(i) {
+        var item = items[i];
+        var itemEl = imgStore[item.type].cloneNode(true);
+    	itemEl.style.left = item.x + "px";
+		itemEl.style.top = item.y + "px";
+        itemEl.style.width = item.w + "px";
+        itemEl.style.height = item.h + "px";
+		board.appendChild(itemEl);
+		item.dom = itemEl;
     };       
-
-    var drawGum = function(i) {
-        var gumEl = gumImg.cloneNode(true);
-		gumEl.style.left = gums[i].x + "px";
-		gumEl.style.top = gums[i].y + "px";
-        gumEl.style.width = gums[i].w + "px";
-        gumEl.style.height = gums[i].h + "px";
-		board.appendChild(gumEl);
-		gums[i].dom = gumEl;
-    };
-        
-    var drawNeutral = function(i) {
-        var neutralEl = neutralImg.cloneNode(true);
-    	neutralEl.style.left = neutrals[i].x + "px";
-		neutralEl.style.top = neutrals[i].y + "px";
-        neutralEl.style.width = neutrals[i].w + "px";
-        neutralEl.style.height = neutrals[i].h + "px";
-		board.appendChild(neutralEl);
-		neutrals[i].dom = neutralEl;
-    };
         
 	/*
 	 * Check if there is a collision between an area and a set of items
 	 */
-	var findCollision = function(x, y, w, h, items) {
+	var findCollision = function(x, y, w, h) {
 		for(var i = 0; i < items.length; i++) {
 			var item = items[i];
 			var collisionX = x + w > item.x && x < item.x + item.w;
@@ -256,66 +242,65 @@ var Level = function(board) {
         * Check if there is any collision between the ball and anything (wall or gum)
         */
         checkCollisions: function(onCrashed, onFinished) {
-            // Wall collision
-            if(findCollision(boule.x, boule.y, boule.w, boule.h, walls) !== null) {
-                onCrashed();
-    			return;
-    		}
-    
-    		// Gum collision
-    		var index = findCollision(boule.x, boule.y, boule.w, boule.h, gums);
-    		if(index !== null) {
-                this.removeGum(index);
-    			if(gums.length == 0) {
-    				onFinished();
-    			}
-    			boule.speed = -boule.speed;
+        	var index = findCollision(boule.x, boule.y, boule.w, boule.h);
+            if(index !== null) {
+                var item = items[index];
+                if(item.type == "wall") {
+                    onCrashed();
+        			return;
+    	    	}
+                else if(item.type == "gum") {
+            		// Gum collision
+                    this.removeItem(index);
+                    
+                    // Check if there are still gums
+                    var isFinished = true;
+                    for(var key in items) {
+                        if(items[key].type == "gum") {
+                            isFinished = false;
+                        }
+                    }
+        			if(isFinished) {
+        				onFinished();
+        			}
+                    
+                    // Bounce
+        			boule.speed = -boule.speed;
+                }
     		}
     	},
         
-        removeGum: function(index) {
-    		var gum = gums[index];
-			gum.dom.style.width = "0";
-			gum.dom.style.marginLeft = "15px";
-			gum.dom.style.marginTop = "15px";
-			gum.dom.parentNode.removeChild(gum.dom);
-			gums.remove(index, index);
+        addItem: function(type, x, y, timeout) {
+            console.log("addItem(" + type + ", " + x + ", " + y + ", " + timeout + ")");
+            var i = items.length;
+            items[i] = {
+                type: type,
+                x: x,
+                y: y,
+                w: this.unitHeight(),
+                h: this.unitHeight()
+            };
+            
+            setTimeout(function() {
+                drawItem(i)
+            }, timeout || 0);
         },
         
-        removeWall: function(index) {
-        	var wall = walls[index];
-			wall.dom.style.width = "0";
-			wall.dom.style.marginLeft = "15px";
-			wall.dom.style.marginTop = "15px";
-			wall.dom.parentNode.removeChild(wall.dom);
-			walls.remove(index, index);
-        },
-
-        removeNeutral: function(index) {
-            var neutral = neutrals[index];
-			neutral.dom.style.width = "0";
-			neutral.dom.style.marginLeft = "15px";
-			neutral.dom.style.marginTop = "15px";
-			neutral.dom.parentNode.removeChild(neutral.dom);
-			neutrals.remove(index, index);
+        removeItem: function(index) {
+            console.log("removeItem(" + index + ")");
+    		var item = items[index];
+			item.dom.style.width = "0";
+			item.dom.style.marginLeft = "15px";
+			item.dom.style.marginTop = "15px";
+			item.dom.parentNode.removeChild(item.dom);
+			items.remove(index, index);
         },
 
         removeItemsAtPosition: function(x,y) {
-            var index = findCollision(x,y,10,10,gums);
+            console.log("removeItemsAtPosition(" + x + ", " + y + ")");
+            var index = findCollision(x,y,10,10);
             if(index !== null) {
-                this.removeGum(index);
-            }
-            else {
-                var index = findCollision(x,y,10,10,walls);
-                if(index !== null) {
-                    this.removeWall(index);
-                }
-                else {
-                    var index = findCollision(x,y,10,10,neutrals);
-                    if(index !== null) {
-                        this.removeNeutral(index);
-                    }
-                }
+                this.removeItem(index);
             }
         },
         
@@ -337,29 +322,27 @@ var Level = function(board) {
             
             // Serialize ball position
             str += "&ball=" + boule.x + coord_sep + boule.y;
+
+            // Serialize items
+            var itemSerialization = {
+                "gum": "&gums=",
+                "wall": "&walls=",
+                "neutral": "&neutrals="
+            };
+            var firstItem = {
+                "gum": true,
+                "wall": true,
+                "neutral": true
+            };                
             
-            // Serialize walls position
-            str += "&walls=";
-            for(var i=0; i<walls.length; i++) {
-                if(i != 0) { str += item_sep; }
-                var wall = walls[i];
-                str += wall.x + coord_sep + wall.y;
+            for(var i=0; i<items.length; i++) {
+                var item = items[i];
+                itemSerialization[item.type] += (firstItem[item.type] ? "" : item_sep) + item.x + coord_sep + item.y;
+                firstItem[item.type] = false;
             }
             
-            // Serialize gums position
-            str += "&gums=";
-            for(var i=0; i<gums.length; i++) {
-                if(i != 0) { str += item_sep; }
-                var gum = gums[i];
-                str += gum.x + coord_sep + gum.y;
-            }
-            
-            // Serialize neutrals position
-            str += "&neutrals=";
-            for(var i=0; i<neutrals.length; i++) {
-                if(i != 0) { str += item_sep; }
-                var neutral = neutrals[i];
-                str += neutral.x + coord_sep + neutral.y;
+            for(var key in itemSerialization) {
+                str += itemSerialization[key];
             }
             
             if(serialize_urls) {
@@ -414,7 +397,7 @@ var Level = function(board) {
                 for(var i=0; i<wallStrings.length; i++) {
                     var wallStr = wallStrings[i];
                     var wallStrSplit = wallStr.split(coord_sep);
-                    this.addWall(parseInt(wallStrSplit[0]), parseInt(wallStrSplit[1]), 100*i);
+                    this.addItem("wall", parseInt(wallStrSplit[0]), parseInt(wallStrSplit[1]), 100*i);
                 }
             }
                     
@@ -425,7 +408,7 @@ var Level = function(board) {
                 for(var i=0; i<gumStrings.length; i++) {
                     var gumStr = gumStrings[i];
                     var gumStrSplit = gumStr.split(coord_sep);
-                    this.addGum(parseInt(gumStrSplit[0]), parseInt(gumStrSplit[1]), 100*i);
+                    this.addItem("gum", parseInt(gumStrSplit[0]), parseInt(gumStrSplit[1]), 100*i);
                 }
             }
 
@@ -436,7 +419,7 @@ var Level = function(board) {
                 for(var i=0; i<neutralStrings.length; i++) {
                     var neutralStr = neutralStrings[i];
                     var neutralStrSplit = neutralStr.split(coord_sep);
-                    this.addNeutral(parseInt(neutralStrSplit[0]), parseInt(neutralStrSplit[1]), 100*i);
+                    this.addItem("neutral", parseInt(neutralStrSplit[0]), parseInt(neutralStrSplit[1]), 100*i);
                 }
             }
 
@@ -465,46 +448,6 @@ var Level = function(board) {
             }            
         },
     
-        addWall: function(x, y, timeout) {
-            var i = walls.length;
-            walls[i] = {
-                x: x,
-                y: y,
-                w: this.unitHeight(),
-                h: this.unitHeight()
-            };
-            
-            setTimeout(function() {
-                drawWall(i)
-            }, timeout || 0);
-        },
-    
-        addGum: function(x, y, timeout) {
-            var i = gums.length;
-            gums[i] = {
-                x: x,
-                y: y,
-                w: this.unitHeight(),
-                h: this.unitHeight()
-            };
-            setTimeout(function() {
-                drawGum(i)
-            }, timeout || 0);
-        },
-        
-        addNeutral: function(x, y, timeout) {
-            var i = neutrals.length;
-            neutrals[i] = {
-                x: x,
-                y: y,
-                w: this.unitHeight(),
-                h: this.unitHeight()
-            };
-            setTimeout(function() {
-                drawNeutral(i)
-            }, timeout || 0);
-        },        
-    
         generate: function() {
             var unitHeight = this.unitHeight();
             var gumNumber = parseInt(this.boardHeight() / (2*unitHeight));
@@ -526,8 +469,8 @@ var Level = function(board) {
     					w: unitHeight,
     					h: unitHeight
     				};
-    			} while(tries > 0 && findCollision(gum.x - margin, gum.y - margin, gum.w + 2*margin, gum.h + 2*margin, gums) !== null);
-    			this.addGum(gum.x, gum.y, 100*i);
+    			} while(tries > 0 && findCollision(gum.x - margin, gum.y - margin, gum.w + 2*margin, gum.h + 2*margin) !== null);
+    			this.addItem("gum", gum.x, gum.y, 100*i);
     		}
     
     		/* Init walls */
@@ -544,11 +487,10 @@ var Level = function(board) {
     				};
     			} while(
                     tries > 0 &&
-    				findCollision(wall.x - margin, wall.y - margin, wall.w + 2*margin, wall.h + 2*margin, gums) !== null
-    				|| findCollision(wall.x - margin, wall.y - margin, wall.w + 2*margin, wall.h + 2*margin, walls) !== null
+    				findCollision(wall.x - margin, wall.y - margin, wall.w + 2*margin, wall.h + 2*margin) !== null
     				|| (wall.y <= boule.y+boule.h && wall.y+wall.h >= boule.y) // no wall on the initial ball row
     			);
-                this.addWall(wall.x, wall.y, 100*i);
+                this.addItem("wall", wall.x, wall.y, 100*i);
     		}
         }
     };

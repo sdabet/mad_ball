@@ -201,19 +201,14 @@ board.onclick= function(e) {
     var y = parseInt(e.pageY - board.offsetTop - container.offsetTop);
     y -= y % unitHeight;
     console.log("Clic: (" + x + "," + y + ")");
-    switch(selection) {
-        case "wall":
-            level.addWall(x, y, 0);
-            break;
-        case "gum":
-            level.addGum(x, y, 0);
-            break;
-        case "neutral":
-            level.addNeutral(x, y, 0);
-            break;
-        case "erase":
+
+    if(selection.length > 0) {
+        if(selection == "erase") {
             level.removeItemsAtPosition(x,y);
-            break;
+        }
+        else {
+            level.addItem(selection, x, y, 0);
+        }
     }
     updateSerialization();
 };
