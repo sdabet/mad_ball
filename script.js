@@ -33,6 +33,7 @@ window.requestAnimFrame = (function(){
 	var board = document.getElementById("board");
 
     var gameLevel = new Level(board);
+    gameLevel.lines = 19;
     
 	var initSpeed = 500; // pixel per second
 	var level = 1;

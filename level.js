@@ -20,12 +20,14 @@ var ballImg = new Image();
 var wallImg = new Image();
 var gumImg = new Image();
 var neutralImg = new Image();
+var teleporterImg = new Image();
 
 var imgStore = {
     "ball": ballImg,
     "wall": wallImg,
     "gum": gumImg,
-    "neutral": neutralImg
+    "neutral": neutralImg,
+    "teleporter": teleporterImg,
 };
 
 var Level = function(board) {
@@ -79,6 +81,7 @@ var Level = function(board) {
 		wallImg.src = "wall.png";
 		gumImg.src = "smiley.png";
         neutralImg.src = "http://cdn1.iconfinder.com/data/icons/developperss/PNG/Green%20Ball.png";
+        teleporterImg.src = "http://www.sidefx.com/docs/houdini10.0/icons/large/SOP/hole.png";
 	};
     
     /* 
@@ -144,6 +147,8 @@ var Level = function(board) {
 	wallImg.className = "item wall";
     neutralImg.style.position = "absolute";
 	neutralImg.className = "item neutral";
+    teleporterImg.style.position = "absolute";
+    teleporterImg.className = "item teleporter";
 
     loadImages(function() {});
 
@@ -198,23 +203,12 @@ var Level = function(board) {
             [].forEach.call( board.querySelectorAll(".item"), function(el) {
                 board.removeChild(el);
             });
-        	gums = [];
-        	walls = [];
+            items = [];
         },   
         
-        setBallUrl: function(src) {
-            ballImg.src = src;
-            setClassUrl("ball", src);
-        },
-        
-        setWallUrl: function(src) {
-            wallImg.src = src;
-            setClassUrl("wall", src);
-        },
-        
-        setGumUrl: function(src) {
-            gumImg.src = src;
-            setClassUrl("gum", src);
+        setTypeUrl: function(type,src) {
+            imgStore[type].src = src;
+            setClassUrl(type, src);
         },
         
         setNeutralUrl: function(src) {
@@ -327,12 +321,14 @@ var Level = function(board) {
             var itemSerialization = {
                 "gum": "&gums=",
                 "wall": "&walls=",
-                "neutral": "&neutrals="
+                "neutral": "&neutrals=",
+                "teleporter": "&teleporters="
             };
             var firstItem = {
                 "gum": true,
                 "wall": true,
-                "neutral": true
+                "neutral": true,
+                "teleporter": true
             };                
             
             for(var i=0; i<items.length; i++) {
@@ -423,22 +419,33 @@ var Level = function(board) {
                 }
             }
 
+            // Unserialize teleporters
+            var teleportersStr = getQueryVariable(query, "teleporters");
+            if(teleportersStr) {
+                var teleporterStrings = teleportersStr.split(item_sep);
+                for(var i=0; i<teleporterStrings.length; i++) {
+                    var teleporterStr = teleporterStrings[i];
+                    var teleporterStrSplit = teleporterStr.split(coord_sep);
+                    this.addItem("teleporter", parseInt(teleporterStrSplit[0]), parseInt(teleporterStrSplit[1]), 100*i);
+                }
+            }
+
             // Unserialize ball url
             var ballUrlString = getQueryVariable(query, "ballUrl");
             if(ballUrlString) {
-                this.setBallUrl(ballUrlString);
+                this.setTypeUrl("ball", ballUrlString);
             }
 
             // Unserialize wall url
             var wallUrlString = getQueryVariable(query, "wallUrl");
             if(wallUrlString) {
-                this.setWallUrl(wallUrlString);
+                this.setTypeUrl("wall", wallUrlString);
             }
             
             // Unserialize gum url
             var gumUrlString = getQueryVariable(query, "gumUrl");
             if(gumUrlString) {
-                this.setGumUrl(gumUrlString);
+                this.setTypeUrl("gum", gumUrlString);
             }
             
             // Unserialize background image

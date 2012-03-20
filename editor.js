@@ -69,6 +69,9 @@ function select() {
         case "neutral":
             cursor.src = neutralImg.src;
             break;
+        case "teleporter":
+            cursor.src = teleporterImg.src;
+            break;
         case "erase":
             cursor.src = "editor_erase.png";
             break;
@@ -107,7 +110,7 @@ linesField.addEventListener('change', function() {
 var ballUrlField = document.getElementById("ball_url_field");
 var updateBallPreview = function() {
     var url = ballUrlField.value;
-    level.setBallUrl(url);
+    level.setTypeUrl("ball", url);
     updateSerialization();
 };
 ballUrlField.addEventListener("change", updateBallPreview);
@@ -116,7 +119,7 @@ updateBallPreview();
 document.getElementById("ball_file_field").addEventListener('change', function(e) {
     handleFileSelect(e, function(data) {
         ballUrlField.value = data;
-        level.setBallUrl(data);
+        level.setTypeUrl("ball", data);
         updateSerialization();
     })
 }, false);
@@ -125,7 +128,7 @@ document.getElementById("ball_file_field").addEventListener('change', function(e
 var wallUrlField = document.getElementById("wall_url_field");
 var updateWallPreview = function() {
     var url = wallUrlField.value;
-    level.setWallUrl(url);
+    level.setTypeUrl("wall", url);
     updateSerialization();
 };
 wallUrlField.addEventListener("change", updateWallPreview);
@@ -134,7 +137,7 @@ updateWallPreview();
 document.getElementById("wall_file_field").addEventListener('change', function(e) {
     handleFileSelect(e, function(data) {
         wallUrlField.value = data;
-        level.setWallUrl(data);
+        level.setTypeUrl("wall", data);
         updateSerialization();
     })
 }, false);
@@ -143,7 +146,7 @@ document.getElementById("wall_file_field").addEventListener('change', function(e
 var gumUrlField = document.getElementById("gum_url_field");
 var updateGumPreview = function() {
     var url = gumUrlField.value;
-    level.setGumUrl(url);
+    level.setTypeUrl("gum", url);
     updateSerialization();
 };
 gumUrlField.addEventListener("change", updateGumPreview);
@@ -152,7 +155,7 @@ updateGumPreview();
 document.getElementById("gum_file_field").addEventListener('change', function(e) {
     handleFileSelect(e, function(data) {
         gumUrlField.value = data;
-        level.setGumUrl(data);
+        level.setTypeUrl("gum", data);
         updateSerialization();
     })
 }, false);
@@ -161,7 +164,7 @@ document.getElementById("gum_file_field").addEventListener('change', function(e)
 var neutralUrlField = document.getElementById("neutral_url_field");
 var updateNeutralPreview = function() {
     var url = neutralUrlField.value;
-    level.setNeutralUrl(url);
+    level.setTypeUrl("neutral", url);
     updateSerialization();
 };
 neutralUrlField.addEventListener("change", updateNeutralPreview);
@@ -169,8 +172,26 @@ neutralUrlField.value = neutralImg.src;
 updateNeutralPreview();
 document.getElementById("neutral_file_field").addEventListener('change', function(e) {
     handleFileSelect(e, function(data) {
-        gumNeutralField.value = data;
-        level.setNeutralUrl(data);
+        neutralUrlField.value = data;
+        level.setTypeUrl("neutral", data);
+        updateSerialization();
+    })
+}, false);
+
+/* Teleporter */
+var teleporterUrlField = document.getElementById("teleporter_url_field");
+var updateTeleporterPreview = function() {
+    var url = teleporterUrlField.value;
+    level.setTypeUrl("teleporter", url);
+    updateSerialization();
+};
+teleporterUrlField.addEventListener("change", updateTeleporterPreview);
+teleporterUrlField.value = teleporterImg.src;
+updateTeleporterPreview();
+document.getElementById("teleporter_file_field").addEventListener('change', function(e) {
+    handleFileSelect(e, function(data) {
+        teleporterUrlField.value = data;
+        level.setTypeUrl("teleporter", data);
         updateSerialization();
     })
 }, false);
