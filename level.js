@@ -16,16 +16,25 @@ function getQueryVariable(query,variable) {
 
 var container = document.getElementById("container");
 
-var itemTypes = [ "ball", "wall", "gum", "neutral", "teleporter" ];
+var itemTypes = [ "ball", "wall", "gum", "neutral", "teleporter", "invincible" ];
 
+// Initialize images
 var imgStore = {};
-
+var imgUrls = {
+    "ball": "ball.png",
+    "wall": "wall.png",
+    "gum": "smiley.png",
+    "neutral": "http://cdn1.iconfinder.com/data/icons/developperss/PNG/Green%20Ball.png",
+    "teleporter": "http://www.sidefx.com/docs/houdini10.0/icons/large/SOP/hole.png",
+    "invincible": "http://cdn1.iconfinder.com/data/icons/Toolbar_Icon_Set_by_shlyapnikova/32/star.png"
+};
 for(var i=0; i<itemTypes.length; i++) {
     var type = itemTypes[i];
     var img = new Image();
     img.style.position = "absolute";
     img.className = "item " + type;
     imgStore[itemTypes[i]] = img;
+    imgStore[type].src = imgUrls[type];
 }
 
 var Level = function(board) {
@@ -61,17 +70,6 @@ var Level = function(board) {
 		return null;
 	};
 
-    /*
-     * Start loading all the images and execute the provided callback function when they're all loaded
-	 */
-	var loadImages = function() {
-        imgStore["ball"].src = "ball.png";
-		imgStore["wall"].src = "wall.png";
-		imgStore["gum"].src = "smiley.png";
-        imgStore["neutral"].src = "http://cdn1.iconfinder.com/data/icons/developperss/PNG/Green%20Ball.png";
-        imgStore["teleporter"].src = "http://www.sidefx.com/docs/houdini10.0/icons/large/SOP/hole.png";
-	};
-    
     /* 
 	 * Ball implementation 
 	 */
@@ -126,8 +124,6 @@ var Level = function(board) {
             elements[i].src = url;
         }
     };
-
-    loadImages();
 
     return {
         
