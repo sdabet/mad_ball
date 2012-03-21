@@ -59,22 +59,11 @@ function select() {
     selection = this.getAttribute("type");
     this.classList.add("down");
     
-    switch(selection) {
-        case "wall":
-            cursor.src = wallImg.src;
-            break;
-        case "gum":
-            cursor.src = gumImg.src;
-            break;
-        case "neutral":
-            cursor.src = neutralImg.src;
-            break;
-        case "teleporter":
-            cursor.src = teleporterImg.src;
-            break;
-        case "erase":
-            cursor.src = "editor_erase.png";
-            break;
+    if(selection == "erase") {
+        cursor.src = "editor_erase.png";
+    }
+    else {
+        cursor.src = imgStore[selection].src;
     }
 }
 
@@ -106,95 +95,26 @@ linesField.addEventListener('change', function() {
     heightField.value = 32 * linesField.value;
 });
 
-/* Ball editor */
-var ballUrlField = document.getElementById("ball_url_field");
-var updateBallPreview = function() {
-    var url = ballUrlField.value;
-    level.setTypeUrl("ball", url);
-    updateSerialization();
-};
-ballUrlField.addEventListener("change", updateBallPreview);
-ballUrlField.value = ballImg.src;
-updateBallPreview();
-document.getElementById("ball_file_field").addEventListener('change', function(e) {
-    handleFileSelect(e, function(data) {
-        ballUrlField.value = data;
-        level.setTypeUrl("ball", data);
+/* Editors */
+for(var i=0; i<itemTypes.length; i++) {
+    var type = itemTypes[i];
+    var itemUrlField = document.getElementById(type + "_url_field");
+    var updateItemPreview = function() {
+        var url = itemUrlField.value;
+        level.setTypeUrl(type, url);
         updateSerialization();
-    })
-}, false);
-
-/* Wall editor */
-var wallUrlField = document.getElementById("wall_url_field");
-var updateWallPreview = function() {
-    var url = wallUrlField.value;
-    level.setTypeUrl("wall", url);
-    updateSerialization();
-};
-wallUrlField.addEventListener("change", updateWallPreview);
-wallUrlField.value = wallImg.src;
-updateWallPreview();
-document.getElementById("wall_file_field").addEventListener('change', function(e) {
-    handleFileSelect(e, function(data) {
-        wallUrlField.value = data;
-        level.setTypeUrl("wall", data);
-        updateSerialization();
-    })
-}, false);
-
-/* Gum editor */
-var gumUrlField = document.getElementById("gum_url_field");
-var updateGumPreview = function() {
-    var url = gumUrlField.value;
-    level.setTypeUrl("gum", url);
-    updateSerialization();
-};
-gumUrlField.addEventListener("change", updateGumPreview);
-gumUrlField.value = gumImg.src;
-updateGumPreview();
-document.getElementById("gum_file_field").addEventListener('change', function(e) {
-    handleFileSelect(e, function(data) {
-        gumUrlField.value = data;
-        level.setTypeUrl("gum", data);
-        updateSerialization();
-    })
-}, false);
-
-/* Neutral object */
-var neutralUrlField = document.getElementById("neutral_url_field");
-var updateNeutralPreview = function() {
-    var url = neutralUrlField.value;
-    level.setTypeUrl("neutral", url);
-    updateSerialization();
-};
-neutralUrlField.addEventListener("change", updateNeutralPreview);
-neutralUrlField.value = neutralImg.src;
-updateNeutralPreview();
-document.getElementById("neutral_file_field").addEventListener('change', function(e) {
-    handleFileSelect(e, function(data) {
-        neutralUrlField.value = data;
-        level.setTypeUrl("neutral", data);
-        updateSerialization();
-    })
-}, false);
-
-/* Teleporter */
-var teleporterUrlField = document.getElementById("teleporter_url_field");
-var updateTeleporterPreview = function() {
-    var url = teleporterUrlField.value;
-    level.setTypeUrl("teleporter", url);
-    updateSerialization();
-};
-teleporterUrlField.addEventListener("change", updateTeleporterPreview);
-teleporterUrlField.value = teleporterImg.src;
-updateTeleporterPreview();
-document.getElementById("teleporter_file_field").addEventListener('change', function(e) {
-    handleFileSelect(e, function(data) {
-        teleporterUrlField.value = data;
-        level.setTypeUrl("teleporter", data);
-        updateSerialization();
-    })
-}, false);
+    };
+    itemUrlField.addEventListener("change", updateItemPreview);
+    itemUrlField.value = imgStore[type].src;
+    updateItemPreview();
+    document.getElementById(type + "_file_field").addEventListener('change', function(e) {
+        handleFileSelect(e, function(data) {
+            itemUrlField.value = data;
+            level.setTypeUrl(type, data);
+            updateSerialization();
+        })
+    }, false);
+}
 
 /* Background editor */
 var backgroundField = document.getElementById("background_field");

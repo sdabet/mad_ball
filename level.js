@@ -16,19 +16,17 @@ function getQueryVariable(query,variable) {
 
 var container = document.getElementById("container");
 
-var ballImg = new Image();
-var wallImg = new Image();
-var gumImg = new Image();
-var neutralImg = new Image();
-var teleporterImg = new Image();
+var itemTypes = [ "ball", "wall", "gum", "neutral", "teleporter" ];
 
-var imgStore = {
-    "ball": ballImg,
-    "wall": wallImg,
-    "gum": gumImg,
-    "neutral": neutralImg,
-    "teleporter": teleporterImg,
-};
+var imgStore = {};
+
+for(var i=0; i<itemTypes.length; i++) {
+    var type = itemTypes[i];
+    var img = new Image();
+    img.style.position = "absolute";
+    img.className = "item " + type;
+    imgStore[itemTypes[i]] = img;
+}
 
 var Level = function(board) {
     
@@ -66,22 +64,12 @@ var Level = function(board) {
     /*
      * Start loading all the images and execute the provided callback function when they're all loaded
 	 */
-	var loadImages = function(callback) {
-		var nbLoaded = 0;
-		var loadCallback = function() {
-			nbLoaded++;
-			if(nbLoaded == 3) {
-				callback();
-			}
-		};
-		ballImg.addEventListener("load", loadCallback, false);
-		wallImg.addEventListener("load", loadCallback, false);
-		gumImg.addEventListener("load", loadCallback, false);
-		ballImg.src = "ball.png";
-		wallImg.src = "wall.png";
-		gumImg.src = "smiley.png";
-        neutralImg.src = "http://cdn1.iconfinder.com/data/icons/developperss/PNG/Green%20Ball.png";
-        teleporterImg.src = "http://www.sidefx.com/docs/houdini10.0/icons/large/SOP/hole.png";
+	var loadImages = function() {
+        imgStore["ball"].src = "ball.png";
+		imgStore["wall"].src = "wall.png";
+		imgStore["gum"].src = "smiley.png";
+        imgStore["neutral"].src = "http://cdn1.iconfinder.com/data/icons/developperss/PNG/Green%20Ball.png";
+        imgStore["teleporter"].src = "http://www.sidefx.com/docs/houdini10.0/icons/large/SOP/hole.png";
 	};
     
     /* 
@@ -139,18 +127,7 @@ var Level = function(board) {
         }
     };
 
-	ballImg.style.position = "absolute";
-	ballImg.className = "item ball";
-	gumImg.style.position = "absolute";
-	gumImg.className = "item gum";
-	wallImg.style.position = "absolute";
-	wallImg.className = "item wall";
-    neutralImg.style.position = "absolute";
-	neutralImg.className = "item neutral";
-    teleporterImg.style.position = "absolute";
-    teleporterImg.className = "item teleporter";
-
-    loadImages(function() {});
+    loadImages();
 
     return {
         
@@ -161,7 +138,7 @@ var Level = function(board) {
     		return Math.floor(Math.random()*((this.boardHeight()-this.unitHeight())/this.unitHeight())) * this.unitHeight();
     	},
         
-         initBall: function() {
+        initBall: function() {
             var unitHeight = this.unitHeight();
             // Remove current ball
             var balls = board.getElementsByClassName("ball");
@@ -175,7 +152,7 @@ var Level = function(board) {
             boule.w = unitHeight;
             boule.h = unitHeight;
     		boule.targetY = boule.y;
-    		boule.dom = ballImg.cloneNode(true);
+    		boule.dom = imgStore["ball"].cloneNode(true);
     		board.appendChild(boule.dom);
     		boule.draw();
         },
@@ -318,19 +295,13 @@ var Level = function(board) {
             str += "&ball=" + boule.x + coord_sep + boule.y;
 
             // Serialize items
-            var itemSerialization = {
-                "gum": "&gums=",
-                "wall": "&walls=",
-                "neutral": "&neutrals=",
-                "teleporter": "&teleporters="
+            var itemSerialization = {};
+            var firstItem = {};
+            for(var i=1; i<itemTypes.length; i++) { // Start at 1 : 'ball' is already serialized
+                var type = itemTypes[i];
+                itemSerialization[type] = "&" + type + "s=";
+                firstItem[type] = true;
             };
-            var firstItem = {
-                "gum": true,
-                "wall": true,
-                "neutral": true,
-                "teleporter": true
-            };                
-            
             for(var i=0; i<items.length; i++) {
                 var item = items[i];
                 itemSerialization[item.type] += (firstItem[item.type] ? "" : item_sep) + item.x + coord_sep + item.y;
@@ -342,14 +313,10 @@ var Level = function(board) {
             }
             
             if(serialize_urls) {
-                // Serialize ball url
-                str += "&ballUrl=" + encodeURIComponent(ballImg.src);
-                
-                // Serialize wall url
-                str += "&wallUrl=" + encodeURIComponent(wallImg.src);
-                
-                // Serialize ball url
-                str += "&gumUrl=" + encodeURIComponent(gumImg.src);
+                for(var i=0; i<itemTypes.length; i++) {
+                    var type = itemTypes[i];
+                    str += "&" + type + "Url" + encodeURIComponent(imgStore[type].src);
+                }
                 
                 // Serialize background image (remove the url('...'))
                 var url = this.backgroundUrl();
@@ -386,47 +353,17 @@ var Level = function(board) {
                 boule.y = parseInt(ballStrSplit[1]);        
             }
             
-            // Unserialize walls
-            var wallsStr = getQueryVariable(query, "walls");
-            if(wallsStr) {
-                var wallStrings = wallsStr.split(item_sep);
-                for(var i=0; i<wallStrings.length; i++) {
-                    var wallStr = wallStrings[i];
-                    var wallStrSplit = wallStr.split(coord_sep);
-                    this.addItem("wall", parseInt(wallStrSplit[0]), parseInt(wallStrSplit[1]), 100*i);
-                }
-            }
-                    
-            // Unserialize gums
-            var gumsStr = getQueryVariable(query, "gums");
-            if(gumsStr) {
-                var gumStrings = gumsStr.split(item_sep);
-                for(var i=0; i<gumStrings.length; i++) {
-                    var gumStr = gumStrings[i];
-                    var gumStrSplit = gumStr.split(coord_sep);
-                    this.addItem("gum", parseInt(gumStrSplit[0]), parseInt(gumStrSplit[1]), 100*i);
-                }
-            }
-
-            // Unserialize neutrals
-            var neutralsStr = getQueryVariable(query, "neutrals");
-            if(neutralsStr) {
-                var neutralStrings = neutralsStr.split(item_sep);
-                for(var i=0; i<neutralStrings.length; i++) {
-                    var neutralStr = neutralStrings[i];
-                    var neutralStrSplit = neutralStr.split(coord_sep);
-                    this.addItem("neutral", parseInt(neutralStrSplit[0]), parseInt(neutralStrSplit[1]), 100*i);
-                }
-            }
-
-            // Unserialize teleporters
-            var teleportersStr = getQueryVariable(query, "teleporters");
-            if(teleportersStr) {
-                var teleporterStrings = teleportersStr.split(item_sep);
-                for(var i=0; i<teleporterStrings.length; i++) {
-                    var teleporterStr = teleporterStrings[i];
-                    var teleporterStrSplit = teleporterStr.split(coord_sep);
-                    this.addItem("teleporter", parseInt(teleporterStrSplit[0]), parseInt(teleporterStrSplit[1]), 100*i);
+            // Unserialize items
+            for(var i=0; i<itemTypes.length; i++) {
+                var type = itemTypes[i];
+                var itemsStr = getQueryVariable(query, type + "s");
+                if(itemsStr) {
+                    var itemStrings = itemsStr.split(item_sep);
+                    for(var j=0; j<itemStrings.length; j++) {
+                        var itemStr = itemStrings[j];
+                        var itemStrSplit = itemStr.split(coord_sep);
+                        this.addItem(type, parseInt(itemStrSplit[0]), parseInt(itemStrSplit[1]), 100*j);
+                    }
                 }
             }
 
@@ -435,17 +372,14 @@ var Level = function(board) {
             if(ballUrlString) {
                 this.setTypeUrl("ball", ballUrlString);
             }
-
-            // Unserialize wall url
-            var wallUrlString = getQueryVariable(query, "wallUrl");
-            if(wallUrlString) {
-                this.setTypeUrl("wall", wallUrlString);
-            }
             
-            // Unserialize gum url
-            var gumUrlString = getQueryVariable(query, "gumUrl");
-            if(gumUrlString) {
-                this.setTypeUrl("gum", gumUrlString);
+            // Unserialize image urls
+            for(var i=0; i<itemTypes.length; i++) {
+                var type = itemTypes[i];
+                var itemUrlString = getQueryVariable(query, type + "Url");
+                if(itemUrlString) {
+                    this.setTypeUrl(type, itemUrlString);
+                }
             }
             
             // Unserialize background image
