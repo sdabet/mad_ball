@@ -116,6 +116,14 @@ for(var i=0; i<itemTypes.length; i++) {
     }, false);
 }
 
+/* Title */
+var titleField = document.getElementById("title_field");
+titleField.value = level.title;
+titleField.addEventListener("change", function() {
+    level.title = titleField.value;
+    updateSerialization();
+});
+
 /* Background editor */
 var backgroundField = document.getElementById("background_field");
 backgroundField.value = level.backgroundUrl();

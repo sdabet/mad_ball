@@ -41,7 +41,7 @@ var Level = function(board) {
     
     var item_sep = ";";
     var coord_sep = ",";
-        
+    
     var items = [];
     
     var drawItem = function(i) {
@@ -127,6 +127,8 @@ var Level = function(board) {
 
     return {
         
+        title: "",
+        
         randomX: function() {
     		return Math.floor(Math.random()*(this.boardWidth()-this.unitHeight()));
     	},
@@ -153,7 +155,7 @@ var Level = function(board) {
     		boule.draw();
         },
 
-       lines: 10,
+        lines: 10,
         
         unitHeight: function() {
             return parseInt(this.boardHeight() / this.lines);
@@ -308,6 +310,9 @@ var Level = function(board) {
                 str += itemSerialization[key];
             }
             
+            // Serialize title
+            str += "&title=" + this.title;
+            
             if(serialize_urls) {
                 for(var i=0; i<itemTypes.length; i++) {
                     var type = itemTypes[i];
@@ -348,6 +353,12 @@ var Level = function(board) {
                 boule.x = parseInt(ballStrSplit[0]);
                 boule.y = parseInt(ballStrSplit[1]);        
             }
+            
+            // Title
+            var title = getQueryVariable(query, "title");
+            if(title) {
+                this.title = title;
+            }            
             
             // Unserialize items
             for(var i=0; i<itemTypes.length; i++) {
