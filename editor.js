@@ -39,6 +39,7 @@ function updateSerialization() {
     var serialization_without_images = level.serialize(false);
     document.getElementById("serialization_with_images").innerHTML = serialization_with_images;
     document.getElementById("serialization_without_images").innerHTML = serialization_without_images;
+    document.getElementById("serialization_without_images_img").src = "http://qrcode.kaywa.com/img.php?s=4&d=" + serialization_without_images;
     location.hash = serialization_with_images;
 }
 
