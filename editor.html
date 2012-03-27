@@ -62,7 +62,8 @@
                     <img class="preview gum selectable" type="gum" title="Add a gum" />
                     <img class="preview left_bouncer selectable" type="left_bouncer" title="Add a left-oriented bouncer" />
                     <img class="preview right_bouncer selectable" type="right_bouncer" title="Add a right-oriented bouncer" />
-                    <img class="preview teleporter selectable" type="teleporter" title="Add a teleporter" />
+                    <img class="preview left_teleporter selectable" type="left_teleporter" title="Add a left-oriented teleporter" />
+                    <img class="preview right_teleporter selectable" type="right_teleporter" title="Add a right-oriented teleporter" />
                     <img class="preview invincible selectable" type="invincible" title="Add an invincible bonus" />
                     
                     <div style="width:40px;height:2px;background-color:#555;display:inline-block;"></div>
@@ -112,11 +113,17 @@
                         <input id="right_bouncer_url_field" class="url_field" type="url" name="right_bouncer_url" value="" />
                         <input id="right_bouncer_file_field" type="file" class="file_field" />
                     </div>
-                    <div id="teleporter_editor" class="editor">
-                        <img id="teleporter_preview" class="preview teleporter" type="teleporter"/>
-                        <label class="url_label" for="teleporter_url_field" >Gum</label>
-                        <input id="teleporter_url_field" class="url_field" type="url" name="teleporter_url" value="" />
-                        <input id="teleporter_file_field" type="file" class="file_field" />
+                    <div id="left_teleporter_editor" class="editor">
+                        <img id="left_teleporter_preview" class="preview left_teleporter" type="left_teleporter"/>
+                        <label class="url_label" for="left_teleporter_url_field" >Left teleporter</label>
+                        <input id="left_teleporter_url_field" class="url_field" type="url" name="left_teleporter_url" value="" />
+                        <input id="left_teleporter_file_field" type="file" class="file_field" />
+                    </div>
+                    <div id="right_teleporter_editor" class="editor">
+                        <img id="right_teleporter_preview" class="preview right_teleporter" type="right_teleporter"/>
+                        <label class="url_label" for="right_teleporter_url_field" >Right teleporter</label>
+                        <input id="right_teleporter_url_field" class="url_field" type="url" name="right_teleporter_url" value="" />
+                        <input id="right_teleporter_file_field" type="file" class="file_field" />
                     </div>
                     <div id="invincible_editor" class="editor">
                         <img id="invincible_preview" class="preview invincible" type="invincible"/>

@@ -16,7 +16,7 @@ function getQueryVariable(query,variable) {
 
 var container = document.getElementById("container");
 
-var itemTypes = [ "ball", "wall", "gum", "left_bouncer", "right_bouncer", "teleporter", "invincible" ];
+var itemTypes = [ "ball", "wall", "gum", "left_bouncer", "right_bouncer", "left_teleporter", "right_teleporter", "invincible" ];
 
 // Initialize images
 var imgStore = {};
@@ -26,7 +26,8 @@ var imgUrls = {
     "gum": "smiley.png",
     "left_bouncer": "left_bouncer.png",
     "right_bouncer": "right_bouncer.png",
-    "teleporter": "http://www.sidefx.com/docs/houdini10.0/icons/large/SOP/hole.png",
+    "left_teleporter": "left_teleporter.png",
+    "right_teleporter": "right_teleporter.png",
     "invincible": "http://cdn1.iconfinder.com/data/icons/Toolbar_Icon_Set_by_shlyapnikova/32/star.png"
 };
 for(var i=0; i<itemTypes.length; i++) {
