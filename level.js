@@ -303,12 +303,17 @@ var Level = function(board) {
                 firstItem[item.type] = false;
             }
             
-            for(var key in itemSerialization) {
-                str += itemSerialization[key];
+            for(var i=1; i<itemTypes.length; i++) { // Start at 1 : 'ball' is already serialized
+                var type = itemTypes[i];
+                if(!firstItem[type]) {
+                    str += itemSerialization[type];
+                }
             }
             
             // Serialize title
-            str += "&title=" + this.title;
+            if(this.title) {
+                str += "&title=" + this.title;
+            }
             
             if(serialize_urls) {
                 for(var i=0; i<itemTypes.length; i++) {
