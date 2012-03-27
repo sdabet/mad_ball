@@ -296,7 +296,7 @@ var Level = function(board) {
                 var type = itemTypes[i];
                 itemSerialization[type] = "&" + type + "s=";
                 firstItem[type] = true;
-            };
+            }
             for(var i=0; i<items.length; i++) {
                 var item = items[i];
                 itemSerialization[item.type] += (firstItem[item.type] ? "" : item_sep) + item.x + coord_sep + item.y;

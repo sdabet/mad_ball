@@ -5,11 +5,7 @@
     cursor: crosshair;
     width: 480px;
     height: 320px;
-}
-#editor_panel {
-    float: left;
-    padding: 10px;
-    width: 350px;
+    margin-top: 20px;
 }
 .editor {
     padding-top: 5px;
@@ -41,8 +37,7 @@
     border-bottom: solid 2px #777;
     border-right: solid 2px #777;
     padding: 5px 5px;           
-    display: block;
-    margin: 5px;
+    display: inline;
 }
 
 .selectable.down {
