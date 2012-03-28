@@ -61,7 +61,7 @@ function select() {
     this.classList.add("down");
     
     if(selection == "erase") {
-        cursor.src = "editor_erase.png";
+        cursor.src = "images/editor_erase.png";
     }
     else {
         cursor.src = imgStore[selection].src;

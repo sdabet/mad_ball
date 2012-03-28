@@ -21,13 +21,13 @@ var itemTypes = [ "ball", "wall", "gum", "left_bouncer", "right_bouncer", "left_
 // Initialize images
 var imgStore = {};
 var imgUrls = {
-    "ball": "ball.png",
-    "wall": "wall.png",
-    "gum": "smiley.png",
-    "left_bouncer": "left_bouncer.png",
-    "right_bouncer": "right_bouncer.png",
-    "left_teleporter": "left_teleporter.png",
-    "right_teleporter": "right_teleporter.png",
+    "ball": "images/ball.png",
+    "wall": "images/wall.png",
+    "gum": "images/smiley.png",
+    "left_bouncer": "images/left_bouncer.png",
+    "right_bouncer": "images/right_bouncer.png",
+    "left_teleporter": "images/left_teleporter.png",
+    "right_teleporter": "images/right_teleporter.png",
     "invincible": "http://cdn1.iconfinder.com/data/icons/Toolbar_Icon_Set_by_shlyapnikova/32/star.png"
 };
 for(var i=0; i<itemTypes.length; i++) {
