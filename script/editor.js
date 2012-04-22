@@ -7,6 +7,8 @@ else {
     var board = document.getElementById("board");
     var level = new Level(board);
     
+    var grid = false;
+
     var openPlayUrl = function() {
         console.log("openPlayUrl()");
         var url = "index.html?" + level.serialize();
@@ -57,6 +59,7 @@ else {
         var x = Math.max(0,Math.min(level.boardWidth()-unitHeight, parseInt(e.pageX - board.offsetLeft - container.offsetLeft - unitHeight/2)));
         var y = parseInt(e.pageY - board.offsetTop - container.offsetTop);
         y -= y % unitHeight;
+        if(grid) x-= x % unitHeight;
         cursor.style.left = x + "px";
         cursor.style.top = y + "px";
     };
@@ -65,6 +68,7 @@ else {
         var x = Math.max(0,Math.min(level.boardWidth()-unitHeight, parseInt(e.pageX - board.offsetLeft - container.offsetLeft - unitHeight/2)));
         var y = parseInt(e.pageY - board.offsetTop - container.offsetTop);
         y -= y % unitHeight;
+        if(grid) x-= x % unitHeight;
         console.log("Clic: (" + x + "," + y + ")");
     
         if(selection.length > 0) {
@@ -153,4 +157,10 @@ else {
         updateSerialization();
     });
     
+    /* Grid */
+    var gridField = document.getElementById("grid_field");
+    gridField.checked = grid;
+    gridField.addEventListener("click", function() {
+        grid = gridField.checked;
+    });
 }
