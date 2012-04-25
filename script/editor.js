@@ -23,6 +23,8 @@ else {
         document.getElementById("serialization_without_images").innerHTML = serialization_without_images;
         //document.getElementById("serialization_without_images_img").src = "http://qrcode.kaywa.com/img.php?s=4&d=" + serialization_without_images;
         location.hash = serialization_with_images;
+
+    	parent.window.postMessage(serialization_without_images, "*");
     }
     
     level.unserialize(window.location.search.substring(1));
@@ -40,6 +42,9 @@ else {
         if(selection == "erase") {
             cursor.src = "images/editor_erase.png";
         }
+        else if(selection == "move") {
+            cursor.src = "http://cdn1.iconfinder.com/data/icons/cc_mono_icon_set/blacks/32x32/cursor_hand.png";
+        }
         else {
             cursor.src = imgStore[selection].src;
         }
@@ -51,6 +56,7 @@ else {
     }
     
     /* Cursor management */
+    var movingItem = null;
     var cursor = document.getElementById("cursor");
     cursor.width = level.unitHeight();
     cursor.height = level.unitHeight();
@@ -62,24 +68,52 @@ else {
         if(grid) x-= x % unitHeight;
         cursor.style.left = x + "px";
         cursor.style.top = y + "px";
+        
+        if(movingItem) {
+            movingItem.x = x;
+            movingItem.y = y;
+            
+            var itemEl = movingItem.dom;
+            itemEl.style.left = movingItem.x + "px";
+    		itemEl.style.top = movingItem.y + "px";
+        }
     };
-    board.onclick= function(e) {
+    
+    board.onmouseup= function(e) {
         var unitHeight = level.unitHeight();
         var x = Math.max(0,Math.min(level.boardWidth()-unitHeight, parseInt(e.pageX - board.offsetLeft - container.offsetLeft - unitHeight/2)));
         var y = parseInt(e.pageY - board.offsetTop - container.offsetTop);
         y -= y % unitHeight;
         if(grid) x-= x % unitHeight;
-        console.log("Clic: (" + x + "," + y + ")");
+        console.log("onmouseup: (" + x + "," + y + ")");
     
         if(selection.length > 0) {
             if(selection == "erase") {
                 level.removeItemsAtPosition(x,y);
+            }
+            else if(selection =="move") {
+                movingItem = null;
             }
             else {
                 level.addItem(selection, x, y, 0);
             }
         }
         updateSerialization();
+    };
+    
+    board.onmousedown= function(e) {
+        var unitHeight = level.unitHeight();
+        var x = Math.max(0,Math.min(level.boardWidth()-unitHeight, parseInt(e.pageX - board.offsetLeft - container.offsetLeft - unitHeight/2)));
+        var y = parseInt(e.pageY - board.offsetTop - container.offsetTop);
+        y -= y % unitHeight;
+        if(grid) x-= x % unitHeight;
+        console.log("onmousedown: (" + x + "," + y + ")");
+        
+        if(selection == "move") {
+            movingItem = level.getItemAtPosition(x,y); 
+            e.preventDefault();
+            e.stopPropagation();
+        }
     };
     
     /* Dimension editor */

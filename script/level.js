@@ -270,6 +270,16 @@ var Level = function(board) {
             }
         },
         
+        getItemAtPosition: function(x,y) {
+            var index = findCollision(x,y,10,10);
+            if(index !== null) {
+                return items[index];
+            }
+            else {
+                return null;
+            }
+        },       
+        
         backgroundUrl: function() {
             var backgroundAttr = window.getComputedStyle(board)["background-image"];
             if(backgroundAttr && backgroundAttr !== "none") {
