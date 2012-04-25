@@ -43,7 +43,7 @@ else {
             cursor.src = "images/editor_erase.png";
         }
         else if(selection == "move") {
-            cursor.src = "http://cdn1.iconfinder.com/data/icons/cc_mono_icon_set/blacks/32x32/cursor_hand.png";
+            cursor.src = "images/hand.png";
         }
         else {
             cursor.src = imgStore[selection].src;
