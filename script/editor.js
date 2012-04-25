@@ -43,7 +43,7 @@ else {
             cursor.src = "images/editor_erase.png";
         }
         else if(selection == "move") {
-            cursor.src = "images/hand.png";
+            cursor.src = "images/editor_hand.png";
         }
         else {
             cursor.src = imgStore[selection].src;
