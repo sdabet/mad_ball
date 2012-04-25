@@ -55,6 +55,8 @@ else {
         selectables[i].addEventListener("click", onItemSelected);
     }
     
+    onItemSelected.apply(document.getElementById("default_selectable"));
+    
     /* Cursor management */
     var movingItem = null;
     var cursor = document.getElementById("cursor");

@@ -2,7 +2,7 @@
     /*width: 1220px;*/
 }
 #board {
-    cursor: crosshair;
+    cursor: none;
     width: 480px;
     height: 320px;
     margin-top: 20px;
@@ -25,6 +25,14 @@
     width: 30px;
     height: 30px;
     padding: 7px 7px;           
+}
+.preview_separator {
+    display:inline-block; 
+    height: 36px; 
+    width: 2px; 
+    background-color: #aba1ab; 
+    margin: 7px 7px; 
+    vertical-align: middle
 }
 
 .selectable {
