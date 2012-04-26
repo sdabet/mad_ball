@@ -4,6 +4,12 @@ Array.prototype.remove = function(from, to) {
 	return this.push.apply(this, rest);
 };
 
+if (typeof String.prototype.startsWith != 'function') {
+  String.prototype.startsWith = function (str){
+    return this.indexOf(str) == 0;
+  };
+}
+
 function getQueryVariable(query,variable) {
     var vars = query.split("&");
     for (var i = 0; i < vars.length; i++) {
@@ -20,14 +26,15 @@ var itemTypes = [ "ball", "wall", "gum", "left_bouncer", "right_bouncer", "left_
 
 // Initialize images
 var imgStore = {};
+var root = "http://sdabet.github.com/mad_ball/";
 var imgUrls = {
-    "ball": "images/ball.png",
-    "wall": "images/wall.png",
-    "gum": "images/smiley.png",
-    "left_bouncer": "images/left_bouncer.png",
-    "right_bouncer": "images/right_bouncer.png",
-    "left_teleporter": "images/left_teleporter.png",
-    "right_teleporter": "images/right_teleporter.png",
+    "ball": root + "images/ball.png",
+    "wall": root + "images/wall.png",
+    "gum": root + "images/smiley.png",
+    "left_bouncer": root + "images/left_bouncer.png",
+    "right_bouncer": root + "images/right_bouncer.png",
+    "left_teleporter": root + "images/left_teleporter.png",
+    "right_teleporter": root + "images/right_teleporter.png",
     "invincible": "http://cdn1.iconfinder.com/data/icons/Toolbar_Icon_Set_by_shlyapnikova/32/star.png"
 };
 for(var i=0; i<itemTypes.length; i++) {
@@ -36,6 +43,7 @@ for(var i=0; i<itemTypes.length; i++) {
     img.style.position = "absolute";
     img.className = "item " + type;
     imgStore[itemTypes[i]] = img;
+    
     imgStore[type].src = imgUrls[type];
 }
 
