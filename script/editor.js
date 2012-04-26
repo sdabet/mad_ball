@@ -55,8 +55,6 @@ else {
         selectables[i].addEventListener("click", onItemSelected);
     }
     
-    onItemSelected.apply(document.getElementById("default_selectable"));
-    
     /* Cursor management */
     var movingItem = null;
     var cursor = document.getElementById("cursor");
@@ -80,7 +78,9 @@ else {
     		itemEl.style.top = movingItem.y + "px";
         }
     };
-    
+
+    onItemSelected.apply(document.getElementById("default_selectable"));
+
     board.onmouseup= function(e) {
         var unitHeight = level.unitHeight();
         var x = Math.max(0,Math.min(level.boardWidth()-unitHeight, parseInt(e.pageX - board.offsetLeft - container.offsetLeft - unitHeight/2)));
