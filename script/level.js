@@ -35,7 +35,7 @@ var imgUrls = {
     "right_bouncer": root + "images/right_bouncer.png",
     "left_teleporter": root + "images/left_teleporter.png",
     "right_teleporter": root + "images/right_teleporter.png",
-    "invincible": "http://cdn1.iconfinder.com/data/icons/Toolbar_Icon_Set_by_shlyapnikova/32/star.png",
+    "invincible": root + "images/invincible.png",
     "wall_xmoving": root + "images/wall_xmoving.png",
     "wall_ymoving": root + "images/wall_ymoving.png",
     "ghost": root + "images/ghost.png"
