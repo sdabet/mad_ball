@@ -76,6 +76,7 @@
                     <img class="preview left_teleporter selectable" type="left_teleporter" title="Left-oriented teleporter" />
                     <img class="preview right_teleporter selectable" type="right_teleporter" title="Right-oriented teleporter" />
                     <img class="preview invincible selectable" type="invincible" title="Invincible bonus" />
+                    <img class="preview ghost selectable" type="ghost" title="Ghost bonus" />
                 </div>
                 
                 <div style="clear:both; padding-top: 10px;">
@@ -144,10 +145,6 @@
                         <input id="invincible_url_field" class="url_field" type="url" name="invincible_url" value="" />
                         <input id="invincible_file_field" type="file" class="file_field" />
                     </div>
-                    <div id="background_editor" class="editor">
-                        <label for="background_field">Background-image</label>
-                        <input id="background_field" type="text" name="background" value="" />
-                    </div>
                     <div id="wall_xmoving_editor" class="editor">
                         <img id="wall_xmoving_preview" class="preview wall_xmoving" type="wall_xmoving" />
                         <label class="url_label" for="wall_xmoving_url_field">Wall</label>
@@ -159,6 +156,16 @@
                         <label class="url_label" for="wall_ymoving_url_field">Wall</label>
                         <input id="wall_ymoving_url_field" class="url_field" type="url" name="wall_ymoving_url" value="" />
                         <input id="wall_ymoving_file_field" type="file" class="file_field" />
+                    </div>
+                    <div id="ghost_editor" class="editor">
+                        <img id="ghost_preview" class="preview ghost" type="invincghostible"/>
+                        <label class="url_label" for="ghost_url_field" >Invincible</label>
+                        <input id="ghost_url_field" class="url_field" type="url" name="ghost_url" value="" />
+                        <input id="ghost_file_field" type="file" class="file_field" />
+                    </div>
+                    <div id="background_editor" class="editor">
+                        <label for="background_field">Background-image</label>
+                        <input id="background_field" type="text" name="background" value="" />
                     </div>
                 </details>
             </div>
