@@ -22,7 +22,7 @@ function getQueryVariable(query,variable) {
 
 var container = document.getElementById("container");
 
-var itemTypes = [ "ball", "wall", "gum", "left_bouncer", "right_bouncer", "left_teleporter", "right_teleporter", "invincible" ];
+var itemTypes = [ "ball", "wall", "gum", "left_bouncer", "right_bouncer", "left_teleporter", "right_teleporter", "invincible", "wall_xmoving", "wall_ymoving" ];
 
 // Initialize images
 var imgStore = {};
@@ -35,7 +35,9 @@ var imgUrls = {
     "right_bouncer": root + "images/right_bouncer.png",
     "left_teleporter": root + "images/left_teleporter.png",
     "right_teleporter": root + "images/right_teleporter.png",
-    "invincible": "http://cdn1.iconfinder.com/data/icons/Toolbar_Icon_Set_by_shlyapnikova/32/star.png"
+    "invincible": "http://cdn1.iconfinder.com/data/icons/Toolbar_Icon_Set_by_shlyapnikova/32/star.png",
+    "wall_xmoving": "images/wall_xmoving.png",
+    "wall_ymoving": "images/wall_ymoving.png"
 };
 for(var i=0; i<itemTypes.length; i++) {
     var type = itemTypes[i];
