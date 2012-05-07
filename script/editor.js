@@ -7,7 +7,7 @@ else {
     var board = document.getElementById("board");
     var level = new Level(board);
     
-    var grid = false;
+    var grid = true;
 
     var openPlayUrl = function() {
         console.log("openPlayUrl()");
