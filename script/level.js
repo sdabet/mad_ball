@@ -22,7 +22,7 @@ function getQueryVariable(query,variable) {
 
 var container = document.getElementById("container");
 
-var itemTypes = [ "ball", "wall", "gum", "left_bouncer", "right_bouncer", "left_teleporter", "right_teleporter", "invincible", "wall_xmoving", "wall_ymoving", "ghost" ];
+var itemTypes = [ "ball", "wall", "gum", "left_bouncer", "right_bouncer", "left_teleporter", "right_teleporter", "invincible", "wall_xmoving", "wall_ymoving", "ghost", "iron_wall" ];
 
 // Initialize images
 var imgStore = {};
@@ -38,7 +38,8 @@ var imgUrls = {
     "invincible": root + "images/invincible.png",
     "wall_xmoving": root + "images/wall_xmoving.png",
     "wall_ymoving": root + "images/wall_ymoving.png",
-    "ghost": root + "images/ghost.png"
+    "ghost": root + "images/ghost.png",
+    "iron_wall": root + "images/iron_wall.png"
 };
 for(var i=0; i<itemTypes.length; i++) {
     var type = itemTypes[i];
