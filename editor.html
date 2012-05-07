@@ -70,6 +70,7 @@
                     <img class="preview wall selectable" type="wall" title="Wall" />
                     <img class="preview wall_xmoving selectable" type="wall_xmoving" title="Wall moving horizontally" />
                     <img class="preview wall_ymoving selectable" type="wall_ymoving" title="Wall moving vertically" />
+                    <img class="preview iron_wall selectable" type="iron_wall" title="Iron wall (undestructible)" />
                     <img class="preview gum selectable" type="gum" title="Gum" />
                     <img class="preview left_bouncer selectable" type="left_bouncer" title="Left-oriented bouncer" />
                     <img class="preview right_bouncer selectable" type="right_bouncer" title="Right-oriented bouncer" />
@@ -108,6 +109,12 @@
                         <label class="url_label" for="wall_url_field">Wall</label>
                         <input id="wall_url_field" class="url_field" type="url" name="wall_url" value="" />
                         <input id="wall_file_field" type="file" class="file_field" />
+                    </div>
+                    <div id="iron_wall_editor" class="editor">
+                        <img id="iron_wall_preview" class="preview iron_wall" type="iron_wall" />
+                        <label class="url_label" for="iron_wall_url_field">Iron wall</label>
+                        <input id="iron_wall_url_field" class="url_field" type="url" name="iron_wall_url" value="" />
+                        <input id="iron_wall_file_field" type="file" class="file_field" />
                     </div>
                     <div id="gum_editor" class="editor">
                         <img id="gum_preview" class="preview gum" type="gum"/>
