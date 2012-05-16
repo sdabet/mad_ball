@@ -97,7 +97,12 @@ else {
                 movingItem = null;
             }
             else {
-                level.addItem(selection, x, y, 0);
+                if(level.getItemAtPosition(x,y) == null) {
+                    level.addItem(selection, x, y, 0);
+                }
+                else {
+                    alert("Sorry, there is already an item on this position!");
+                }
             }
         }
         updateSerialization();
