@@ -36,8 +36,8 @@ else {
     var onAnimationChanged = function() {
         var animation = selectedAnimation();
         if(selection != "erase" && selection != "move") {
-            if(animation == "h") cursor.src = "http://aux.iconpedia.net/uploads/1005809329870571349.png";
-            else if(animation == "v") cursor.src = "http://aux.iconpedia.net/uploads/15795768421009848151.png";
+            if(animation == "h") cursor.src = imgUrls["horizontal"];
+            else if(animation == "v") cursor.src = imgUrls["vertical"];
             else cursor.src = imgStore[selection].src;
         }
     };
