@@ -22,7 +22,7 @@ function getQueryVariable(query,variable) {
 
 var container = document.getElementById("container");
 
-var itemTypes = [ "ball", "wall", "gum", "left_bouncer", "right_bouncer", "left_teleporter", "right_teleporter", "invincible", "wall_xmoving", "wall_ymoving", "ghost", "iron_wall" ];
+var itemTypes = [ "ball", "wall", "gum", "left_bouncer", "right_bouncer", "left_teleporter", "right_teleporter", "invincible", "ghost", "iron_wall" ];
 
 // Initialize images
 var imgStore = {};
@@ -36,8 +36,6 @@ var imgUrls = {
     "left_teleporter": root + "images/left_teleporter.png",
     "right_teleporter": root + "images/right_teleporter.png",
     "invincible": root + "images/invincible.png",
-    "wall_xmoving": root + "images/wall_xmoving.png",
-    "wall_ymoving": root + "images/wall_ymoving.png",
     "ghost": root + "images/ghost.png",
     "iron_wall": root + "images/iron_wall.png"
 };
@@ -49,6 +47,7 @@ for(var i=0; i<itemTypes.length; i++) {
     imgStore[itemTypes[i]] = img;
     
     imgStore[type].src = imgUrls[type];
+    imgStore[type].style.backgroundImage = "url('" + imgUrls[type] + "')";
 }
 
 var Level = function(board) {
@@ -66,6 +65,8 @@ var Level = function(board) {
         itemEl.style.width = item.w + "px";
         itemEl.style.height = item.h + "px";
 		board.appendChild(itemEl);
+        if(item.animation == "h") itemEl.src = "http://aux.iconpedia.net/uploads/1005809329870571349.png";
+        if(item.animation == "v") itemEl.src = "http://aux.iconpedia.net/uploads/15795768421009848151.png";
 		item.dom = itemEl;
     };       
         
@@ -248,7 +249,7 @@ var Level = function(board) {
     		}
     	},
         
-        addItem: function(type, x, y, timeout) {
+        addItem: function(type, x, y, animation, timeout) {
             console.log("addItem(" + type + ", " + x + ", " + y + ", " + timeout + ")");
             var i = items.length;
             items[i] = {
@@ -256,7 +257,8 @@ var Level = function(board) {
                 x: x,
                 y: y,
                 w: this.unitHeight(),
-                h: this.unitHeight()
+                h: this.unitHeight(),
+                animation: animation
             };
             
             setTimeout(function() {
@@ -321,7 +323,7 @@ var Level = function(board) {
             }
             for(var i=0; i<items.length; i++) {
                 var item = items[i];
-                itemSerialization[item.type] += (firstItem[item.type] ? "" : item_sep) + item.x + coord_sep + item.y;
+                itemSerialization[item.type] += (firstItem[item.type] ? "" : item_sep) + item.x + coord_sep + item.y + coord_sep + item.animation;
                 firstItem[item.type] = false;
             }
             
@@ -385,15 +387,25 @@ var Level = function(board) {
             }            
             
             // Unserialize items
-            for(var i=0; i<itemTypes.length; i++) {
-                var type = itemTypes[i];
+            var legacyTypes = itemTypes.concat(["wall_xmoving", "wall_ymoving"]); // legacy compatibility for moving walls
+            for(var i=0; i<legacyTypes.length; i++) {
+                var type = legacyTypes[i];
                 var itemsStr = getQueryVariable(query, type + "s");
                 if(itemsStr) {
                     var itemStrings = itemsStr.split(item_sep);
                     for(var j=0; j<itemStrings.length; j++) {
                         var itemStr = itemStrings[j];
                         var itemStrSplit = itemStr.split(coord_sep);
-                        this.addItem(type, parseInt(itemStrSplit[0]), parseInt(itemStrSplit[1]), 100*j);
+                        var animation = itemStrSplit.length > 2 ? itemStrSplit[2] : "";
+                        if(type == "wall_xmoving") {
+                            type = "wall";
+                            animation = "h";
+                        }
+                        if(type == "wall_ymoving") {
+                            type = "wall";
+                            animation = "v";
+                        }
+                        this.addItem(type, parseInt(itemStrSplit[0]), parseInt(itemStrSplit[1]), animation, 100*j);
                     }
                 }
             }
@@ -442,7 +454,7 @@ var Level = function(board) {
     					h: unitHeight
     				};
     			} while(tries > 0 && findCollision(gum.x - margin, gum.y - margin, gum.w + 2*margin, gum.h + 2*margin) !== null);
-    			this.addItem("gum", gum.x, gum.y, 100*i);
+    			this.addItem("gum", gum.x, gum.y, "none", 100*i);
     		}
     
     		/* Init walls */
@@ -462,7 +474,7 @@ var Level = function(board) {
     				findCollision(wall.x - margin, wall.y - margin, wall.w + 2*margin, wall.h + 2*margin) !== null
     				|| (wall.y <= boule.y+boule.h && wall.y+wall.h >= boule.y) // no wall on the initial ball row
     			);
-                this.addItem("wall", wall.x, wall.y, 100*i);
+                this.addItem("wall", wall.x, wall.y, "none", 100*i);
     		}
         }
     };

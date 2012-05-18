@@ -67,9 +67,14 @@
                 </div>
                 
                 <div>
+                    <form id="animation_form">
+                        <input id="static_animation" type="radio" name="animation" value="" checked="checked" /><label for="static_animation">Static</label>
+                        <input id="horizontal_animation" type="radio" name="animation" value="h" /><label for="horizontal_animation">Horizontal</label>
+                        <input id="vertical_animation" type="radio" name="animation" value="v" /><label for="vertical_animation">Vertical</label>
+                    </form>
+                </div>
+                <div>
                     <img class="preview wall selectable" type="wall" title="Wall" />
-                    <img class="preview wall_xmoving selectable" type="wall_xmoving" title="Wall moving horizontally" />
-                    <img class="preview wall_ymoving selectable" type="wall_ymoving" title="Wall moving vertically" />
                     <img class="preview iron_wall selectable" type="iron_wall" title="Iron wall (undestructible)" />
                     <img class="preview gum selectable" type="gum" title="Gum" />
                     <img class="preview left_bouncer selectable" type="left_bouncer" title="Left-oriented bouncer" />
@@ -79,7 +84,6 @@
                     <img class="preview invincible selectable" type="invincible" title="Invincible bonus" />
                     <img class="preview ghost selectable" type="ghost" title="Ghost bonus" />
                 </div>
-                
                 <div style="clear:both; padding-top: 10px;">
                     <label for="grid_field">Horizontal grid:</label>
                     <input id="grid_field" type="checkbox" name="Horizontal grid"/>
@@ -90,7 +94,7 @@
                 </div>
             </div>
 
-            <img id="serialization_without_images_img" style="position:absolute; top: 270px; left: -250px;"/>
+            <img id="serialization_without_images_img" style=""/>
 
             <div class="editor_group" style="clear:both; text-align: left;">
                 <label for="serialization_without_images">Level data (without images):</label>
@@ -153,18 +157,6 @@
                         <label class="url_label" for="invincible" >Invincible</label>
                         <input id="invincible_url_field" class="url_field" type="url" name="invincible_url" value="" />
                         <input id="invincible_file_field" type="file" class="file_field" />
-                    </div>
-                    <div id="wall_xmoving_editor" class="editor">
-                        <img id="wall_xmoving_preview" class="preview wall_xmoving" type="wall_xmoving" />
-                        <label class="url_label" for="wall_xmoving_url_field">Wall</label>
-                        <input id="wall_xmoving_url_field" class="url_field" type="url" name="wall_xmoving_url" value="" />
-                        <input id="wall_xmoving_file_field" type="file" class="file_field" />
-                    </div>
-                    <div id="wall_ymoving_editor" class="editor">
-                        <img id="wall_ymoving_preview" class="preview wall_ymoving" type="wall_ymoving" />
-                        <label class="url_label" for="wall_ymoving_url_field">Wall</label>
-                        <input id="wall_ymoving_url_field" class="url_field" type="url" name="wall_ymoving_url" value="" />
-                        <input id="wall_ymoving_file_field" type="file" class="file_field" />
                     </div>
                     <div id="ghost_editor" class="editor">
                         <img id="ghost_preview" class="preview ghost" type="invincghostible"/>
