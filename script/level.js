@@ -399,15 +399,16 @@ var Level = function(board) {
                         var itemStr = itemStrings[j];
                         var itemStrSplit = itemStr.split(coord_sep);
                         var animation = itemStrSplit.length > 2 ? itemStrSplit[2] : "";
+                        var newType = type;
                         if(type == "wall_xmoving") {
-                            type = "wall";
+                            newType = "wall";
                             animation = "h";
                         }
                         if(type == "wall_ymoving") {
-                            type = "wall";
+                            newType = "wall";
                             animation = "v";
                         }
-                        this.addItem(type, parseInt(itemStrSplit[0]), parseInt(itemStrSplit[1]), animation, 100*j);
+                        this.addItem(newType, parseInt(itemStrSplit[0]), parseInt(itemStrSplit[1]), animation, 100*j);
                     }
                 }
             }
