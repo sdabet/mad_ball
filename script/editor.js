@@ -27,6 +27,22 @@ else {
     	parent.window.postMessage(serialization_without_images, "*");
     }
     
+    var selectedAnimation = function() {
+        var buttons = document.getElementById("animation_form").animation;
+        for(var i=0; i<buttons.length; i++) { 
+            if(buttons[i].checked) return buttons[i].value;
+        }
+    };
+    var onAnimationChanged = function() {
+        var animation = selectedAnimation();
+        if(selection != "erase" && selection != "move") {
+            if(animation == "h") cursor.src = "http://aux.iconpedia.net/uploads/1005809329870571349.png";
+            else if(animation == "v") cursor.src = "http://aux.iconpedia.net/uploads/15795768421009848151.png";
+            else cursor.src = imgStore[selection].src;
+        }
+    };
+    document.getElementById("animation_form").addEventListener("change", onAnimationChanged);
+    
     level.unserialize(window.location.search.substring(1));
     updateSerialization();
     
@@ -47,6 +63,8 @@ else {
         }
         else {
             cursor.src = imgStore[selection].src;
+            cursor.style.backgroundImage = "url('" + imgStore[selection].src + "')";
+            onAnimationChanged();
         }
     }
     var selection;
@@ -98,7 +116,7 @@ else {
             }
             else {
                 if(level.getItemAtPosition(x,y) == null) {
-                    level.addItem(selection, x, y, 0);
+                    level.addItem(selection, x, y, selectedAnimation(), 0);
                 }
                 else {
                     alert("Sorry, there is already an item on this position!");
