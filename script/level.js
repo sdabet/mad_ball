@@ -37,7 +37,9 @@ var imgUrls = {
     "right_teleporter": root + "images/right_teleporter.png",
     "invincible": root + "images/invincible.png",
     "ghost": root + "images/ghost.png",
-    "iron_wall": root + "images/iron_wall.png"
+    "iron_wall": root + "images/iron_wall.png",
+    "horizontal": root + "images/horizontal.png",
+    "vertical": root + "images/vertical.png"
 };
 for(var i=0; i<itemTypes.length; i++) {
     var type = itemTypes[i];
@@ -65,8 +67,8 @@ var Level = function(board) {
         itemEl.style.width = item.w + "px";
         itemEl.style.height = item.h + "px";
 		board.appendChild(itemEl);
-        if(item.animation == "h") itemEl.src = "http://aux.iconpedia.net/uploads/1005809329870571349.png";
-        if(item.animation == "v") itemEl.src = "http://aux.iconpedia.net/uploads/15795768421009848151.png";
+        if(item.animation == "h") itemEl.src = imgUrls["horizontal"];
+        if(item.animation == "v") itemEl.src = imgUrls["vertical"];
 		item.dom = itemEl;
     };       
         
