@@ -78,22 +78,31 @@ else {
     var cursor = document.getElementById("cursor");
     cursor.width = level.unitHeight();
     cursor.height = level.unitHeight();
+    board.onmouseover = function() {
+        cursor.style.visibility = "visible";
+    }
+    board.onmouseout = function() {
+        cursor.style.visibility = "hidden";
+    }
     board.onmousemove = function(e) {
         var unitHeight = level.unitHeight();
         var x = Math.max(0,Math.min(level.boardWidth()-unitHeight, parseInt(e.pageX - board.offsetLeft - container.offsetLeft - unitHeight/2)));
         var y = parseInt(e.pageY - board.offsetTop - container.offsetTop);
         y -= y % unitHeight;
         if(grid) x-= x % unitHeight;
-        cursor.style.left = x + "px";
-        cursor.style.top = y + "px";
         
-        if(movingItem) {
-            movingItem.x = x;
-            movingItem.y = y;
+        if(y < level.lines * unitHeight) {
+            cursor.style.left = x + "px";
+            cursor.style.top = y + "px";
             
-            var itemEl = movingItem.dom;
-            itemEl.style.left = movingItem.x + "px";
-    		itemEl.style.top = movingItem.y + "px";
+            if(movingItem) {
+                movingItem.x = x;
+                movingItem.y = y;
+                
+                var itemEl = movingItem.dom;
+                itemEl.style.left = movingItem.x + "px";
+        		itemEl.style.top = movingItem.y + "px";
+            }
         }
     };
 
