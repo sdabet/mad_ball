@@ -22,7 +22,7 @@ function getQueryVariable(query,variable) {
 
 var container = document.getElementById("container");
 
-var itemTypes = [ "ball", "wall", "gum", "left_bouncer", "right_bouncer", "left_teleporter", "right_teleporter", "invincible", "ghost", "iron_wall" ];
+var itemTypes = [ "ball", "wall", "gum", "left_bouncer", "right_bouncer", "left_teleporter", "right_teleporter", "invincible", "ghost", "iron_wall", "bomb" ];
 
 // Initialize images
 var imgStore = {};
@@ -39,7 +39,8 @@ var imgUrls = {
     "ghost": root + "images/ghost.png",
     "iron_wall": root + "images/iron_wall.png",
     "horizontal": root + "images/horizontal.png",
-    "vertical": root + "images/vertical.png"
+    "vertical": root + "images/vertical.png",
+    "bomb": root + "images/bomb.png"
 };
 for(var i=0; i<itemTypes.length; i++) {
     var type = itemTypes[i];
@@ -325,7 +326,10 @@ var Level = function(board) {
             }
             for(var i=0; i<items.length; i++) {
                 var item = items[i];
-                itemSerialization[item.type] += (firstItem[item.type] ? "" : item_sep) + item.x + coord_sep + item.y + coord_sep + item.animation;
+                itemSerialization[item.type] += (firstItem[item.type] ? "" : item_sep) + item.x + coord_sep + item.y;
+                if(item.animation.length > 0) {
+                    itemSerialization[item.type] += coord_sep + item.animation;
+                }
                 firstItem[item.type] = false;
             }
             
