@@ -326,7 +326,10 @@ var Level = function(board) {
             }
             for(var i=0; i<items.length; i++) {
                 var item = items[i];
-                itemSerialization[item.type] += (firstItem[item.type] ? "" : item_sep) + item.x + coord_sep + item.y + coord_sep + item.animation;
+                itemSerialization[item.type] += (firstItem[item.type] ? "" : item_sep) + item.x + coord_sep + item.y;
+                if(item.animation.length > 0) {
+                    itemSerialization[item.type] += coord_sep + item.animation;
+                }
                 firstItem[item.type] = false;
             }
             
