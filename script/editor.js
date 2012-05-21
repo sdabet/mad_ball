@@ -28,10 +28,7 @@ else {
     }
     
     var selectedAnimation = function() {
-        var buttons = document.getElementById("animation_form").animation;
-        for(var i=0; i<buttons.length; i++) { 
-            if(buttons[i].checked) return buttons[i].value;
-        }
+        return document.getElementById("animation_field").value;
     };
     var onAnimationChanged = function() {
         var animation = selectedAnimation();
@@ -41,7 +38,7 @@ else {
             else cursor.src = imgStore[selection].src;
         }
     };
-    document.getElementById("animation_form").addEventListener("change", onAnimationChanged);
+    document.getElementById("animation_field").addEventListener("change", onAnimationChanged);
     
     level.unserialize(window.location.search.substring(1));
     updateSerialization();
