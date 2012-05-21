@@ -54,9 +54,11 @@ else {
         
         if(selection == "erase") {
             cursor.src = "images/editor_erase.png";
+            cursor.style.backgroundImage = "url('images/editor_erase.png')";
         }
         else if(selection == "move") {
             cursor.src = "images/editor_hand.png";
+            cursor.style.backgroundImage = "url('images/editor_hand.png')";
         }
         else {
             cursor.src = imgStore[selection].src;
