@@ -67,11 +67,12 @@
                 </div>
                 
                 <div>
-                    <form id="animation_form">
-                        <input id="static_animation" type="radio" name="animation" value="" checked="checked" /><label for="static_animation">Static</label>
-                        <input id="horizontal_animation" type="radio" name="animation" value="h" /><label for="horizontal_animation">Horizontal</label>
-                        <input id="vertical_animation" type="radio" name="animation" value="v" /><label for="vertical_animation">Vertical</label>
-                    </form>
+                    <label for="animation_field">Animation:</label>
+                    <select id="animation_field" name="animation">
+                        <option value="">Static</option>
+                        <option value="h">Horizontal</option>
+                        <option value="v">Vertical</option>
+                    </select>
                 </div>
                 <div>
                     <img class="preview wall selectable" type="wall" title="Wall" />
