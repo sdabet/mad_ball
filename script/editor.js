@@ -216,6 +216,26 @@ else {
         updateSerialization();
     });
     
+    /* Time editors */
+    var time1Field = document.getElementById("time1_field");
+    time1Field.value = level.time1;
+    time1Field.addEventListener("change", function() {
+        level.time1 = time1Field.value;
+        updateSerialization();
+    });
+    var time2Field = document.getElementById("time2_field");
+    time2Field.value = level.time2;
+    time2Field.addEventListener("change", function() {
+        level.time2 = time2Field.value;
+        updateSerialization();
+    });
+    var time3Field = document.getElementById("time3_field");
+    time3Field.value = level.time3;
+    time3Field.addEventListener("change", function() {
+        level.time3 = time3Field.value;
+        updateSerialization();
+    });
+    
     /* Background editor */
     var backgroundField = document.getElementById("background_field");
     backgroundField.value = level.backgroundUrl();

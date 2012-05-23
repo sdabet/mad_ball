@@ -146,6 +146,7 @@ var Level = function(board) {
     return {
         
         title: "",
+        time1: 0.0, time2: 0.0, time3: 0.0,
         
         randomX: function() {
     		return Math.floor(Math.random()*(this.boardWidth()-this.unitHeight()));
@@ -345,6 +346,17 @@ var Level = function(board) {
                 str += "&title=" + this.title;
             }
             
+            // Serialize times
+            if(this.time1 > 0) {
+                str += "&time1=" + this.time1;
+            }
+            if(this.time2 > 0) {
+                str += "&time2=" + this.time2;
+            }
+            if(this.time3 > 0) {
+                str += "&time3=" + this.time3;
+            }
+            
             if(serialize_urls) {
                 for(var i=0; i<itemTypes.length; i++) {
                     var type = itemTypes[i];
@@ -391,7 +403,21 @@ var Level = function(board) {
             if(title) {
                 this.title = title;
             }            
-            
+
+            // Times
+            var time1 = getQueryVariable(query, "time1");
+            if(time1) {
+                this.time1 = time1;
+            }            
+            var time2 = getQueryVariable(query, "time2");
+            if(time2) {
+                this.time2 = time2;
+            }            
+            var time3 = getQueryVariable(query, "time3");
+            if(time3) {
+                this.time3 = time3;
+            }            
+
             // Unserialize items
             var legacyTypes = itemTypes.concat(["wall_xmoving", "wall_ymoving"]); // legacy compatibility for moving walls
             for(var i=0; i<legacyTypes.length; i++) {
