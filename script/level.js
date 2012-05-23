@@ -341,11 +341,6 @@ var Level = function(board) {
                 }
             }
             
-            // Serialize title
-            if(this.title) {
-                str += "&title=" + this.title;
-            }
-            
             // Serialize times
             if(this.time1 > 0) {
                 str += "&time1=" + this.time1;
@@ -355,6 +350,11 @@ var Level = function(board) {
             }
             if(this.time3 > 0) {
                 str += "&time3=" + this.time3;
+            }
+            
+            // Serialize title
+            if(this.title) {
+                str += "&title=" + this.title;
             }
             
             if(serialize_urls) {
