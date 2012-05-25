@@ -146,7 +146,7 @@ var Level = function(board) {
     return {
         
         title: "",
-        time1: 0.0, time2: 0.0, time3: 0.0,
+        time1: 0.0, time2: 0.0,
         
         randomX: function() {
     		return Math.floor(Math.random()*(this.boardWidth()-this.unitHeight()));
@@ -348,9 +348,6 @@ var Level = function(board) {
             if(this.time2 > 0) {
                 str += "&time2=" + this.time2;
             }
-            if(this.time3 > 0) {
-                str += "&time3=" + this.time3;
-            }
             
             // Serialize title
             if(this.title) {
@@ -412,10 +409,6 @@ var Level = function(board) {
             var time2 = getQueryVariable(query, "time2");
             if(time2) {
                 this.time2 = time2;
-            }            
-            var time3 = getQueryVariable(query, "time3");
-            if(time3) {
-                this.time3 = time3;
             }            
 
             // Unserialize items
