@@ -229,12 +229,6 @@ else {
         level.time2 = time2Field.value;
         updateSerialization();
     });
-    var time3Field = document.getElementById("time3_field");
-    time3Field.value = level.time3;
-    time3Field.addEventListener("change", function() {
-        level.time3 = time3Field.value;
-        updateSerialization();
-    });
     
     /* Background editor */
     var backgroundField = document.getElementById("background_field");
