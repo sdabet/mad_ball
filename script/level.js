@@ -22,7 +22,7 @@ function getQueryVariable(query,variable) {
 
 var container = document.getElementById("container");
 
-var itemTypes = [ "ball", "wall", "gum", "left_bouncer", "right_bouncer", "left_teleporter", "right_teleporter", "invincible", "ghost", "iron_wall", "bomb" ];
+var itemTypes = [ "ball", "wall", "gum", "left_bouncer", "right_bouncer", "teleporter", "invincible", "ghost", "iron_wall", "bomb" ];
 
 // Initialize images
 var imgStore = {};
@@ -33,8 +33,7 @@ var imgUrls = {
     "gum": root + "images/smiley.png",
     "left_bouncer": root + "images/left_bouncer.png",
     "right_bouncer": root + "images/right_bouncer.png",
-    "left_teleporter": root + "images/left_teleporter.png",
-    "right_teleporter": root + "images/right_teleporter.png",
+    "teleporter": root + "images/hole.png",
     "invincible": root + "images/invincible.png",
     "ghost": root + "images/ghost.png",
     "iron_wall": root + "images/iron_wall.png",
