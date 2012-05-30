@@ -27,6 +27,14 @@ else {
     	parent.window.postMessage(serialization_without_images, "*");
     }
     
+    document.getElementById("dim_editor").addEventListener("submit", function(e) {
+        e.preventDefault();
+        level.lines = document.getElementById("lines_field").value;
+        board.style.height = document.getElementById("board_height_field").value + "px";
+        location.href = "editor.html?" + level.serialize(false);
+        return false;
+    });
+    
     var selectedAnimation = function() {
         return document.getElementById("animation_field").value;
     };
