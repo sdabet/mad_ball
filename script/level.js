@@ -411,7 +411,7 @@ var Level = function(board) {
             }            
 
             // Unserialize items
-            var legacyTypes = itemTypes.concat(["wall_xmoving", "wall_ymoving"]); // legacy compatibility for moving walls
+            var legacyTypes = itemTypes.concat(["wall_xmoving", "wall_ymoving", "left_teleporter", "right_teleporter"]); // legacy compatibility for moving walls
             for(var i=0; i<legacyTypes.length; i++) {
                 var type = legacyTypes[i];
                 var itemsStr = getQueryVariable(query, type + "s");
@@ -429,6 +429,9 @@ var Level = function(board) {
                         if(type == "wall_ymoving") {
                             newType = "wall";
                             animation = "v";
+                        }
+                        if(type == "left_teleporter" || type == "right_teleporter") {
+                            newType = "teleporter";
                         }
                         this.addItem(newType, parseInt(itemStrSplit[0]), parseInt(itemStrSplit[1]), animation, 100*j);
                     }
