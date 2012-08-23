@@ -21,7 +21,7 @@ else {
         var serialization_without_images = level.serialize(false);
         document.getElementById("serialization_with_images").innerHTML = serialization_with_images;
         document.getElementById("serialization_without_images").innerHTML = serialization_without_images;
-        document.getElementById("serialization_without_images_img").src = "http://qrcode.kaywa.com/img.php?s=4&d=" + encodeURIComponent(serialization_without_images);
+        //document.getElementById("serialization_without_images_img").src = "http://qrcode.kaywa.com/img.php?s=4&d=" + encodeURIComponent(serialization_without_images);
         location.hash = serialization_with_images;
 
     	parent.window.postMessage(serialization_without_images, "*");
@@ -192,21 +192,30 @@ else {
             reader.readAsDataURL(f);
         }
     }
+    var templateEditor = document.getElementById("item_editor");
+    var editors = document.getElementById("item_editors");
     for(var i=0; i<itemTypes.length; i++) {
         var type = itemTypes[i];
-        var itemUrlField = document.getElementById(type + "_url_field");
+        var editor = templateEditor.cloneNode(true);
+        editor.id = type + "_editor";
+        editor.type = type;
+        editor.querySelector(".preview").classList.add(type);
+        editor.querySelector(".url_label").innerHTML = type;
+        editors.appendChild(editor);
+        var itemUrlField = editor.querySelector(".url_field");
         var updateItemPreview = function() {
-            var url = itemUrlField.value;
-            level.setTypeUrl(type, url);
+            var url = this.value;
+            level.setTypeUrl(this.parentNode.type, url);
             updateSerialization();
         };
         itemUrlField.addEventListener("change", updateItemPreview);
         itemUrlField.value = imgStore[type].src;
-        updateItemPreview();
-        document.getElementById(type + "_file_field").addEventListener('change', function(e) {
+        updateItemPreview.apply(itemUrlField);
+        editor.querySelector(".file_field").addEventListener('change', function(e) {
+            var parent = this.parentNode;
             handleFileSelect(e, function(data) {
-                itemUrlField.value = data;
-                level.setTypeUrl(type, data);
+                parent.querySelector(".url_field").value = data;
+                level.setTypeUrl(parent.type, data);
                 updateSerialization();
             })
         }, false);
