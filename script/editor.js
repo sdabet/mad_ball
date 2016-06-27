@@ -1,6 +1,6 @@
 if(location.hash) {
     // Redirect to use hash as query string
-    location.href = "http://" + location.host + location.pathname + "?" + location.hash.substring(1);
+    location.href = "https://" + location.host + location.pathname + "?" + location.hash.substring(1);
 }
 else {
 
