@@ -26,7 +26,7 @@ var itemTypes = [ "ball", "wall", "gum", "left_bouncer", "right_bouncer", "telep
 
 // Initialize images
 var imgStore = {};
-var root = "http://sdabet.github.com/mad_ball/";
+var root = "http://sdabet.github.io/mad_ball/";
 var imgUrls = {
     "ball": root + "images/ball.png",
     "wall": root + "images/wall.png",
